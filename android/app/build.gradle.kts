@@ -22,20 +22,32 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file("ci-release.jks")
+            storePassword = System.getenv("BDS_KEYSTORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("BDS_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("BDS_KEY_PASSWORD") ?: ""
+        }
+    }
+
     buildTypes {
         debug {
             isMinifyEnabled = false
         }
-        signingConfigs {
-            create("release") {
-                storeFile = rootProject.file("ci-release.jks")
-                storePassword = System.getenv("BDS_KEYSTORE_PASSWORD") ?: ""
-                keyAlias = System.getenv("BDS_KEY_ALIAS") ?: ""
-                keyPassword = System.getenv("BDS_KEY_PASSWORD") ?: ""
-            }
-        }
         release {
-            signingConfig = signingConfigs.getByName("release")
+            val hasReleaseSigning = rootProject.file("ci-release.jks").exists() &&
+                !System.getenv("BDS_KEYSTORE_PASSWORD").isNullOrBlank() &&
+                !System.getenv("BDS_KEY_ALIAS").isNullOrBlank() &&
+                !System.getenv("BDS_KEY_PASSWORD").isNullOrBlank()
+
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                // Allows CI to produce an APK even when release signing secrets are not configured.
+                // The APK is debug-signed and suitable for testing/output, not Play Store release.
+                signingConfigs.getByName("debug")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
