@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -27,10 +28,10 @@ android {
         }
         signingConfigs {
             create("release") {
-                storeFile = file("release.jks")
-                storePassword = "bds123456"
-                keyAlias = "release"
-                keyPassword = "bds123456"
+                storeFile = rootProject.file("ci-release.jks")
+                storePassword = System.getenv("BDS_KEYSTORE_PASSWORD") ?: ""
+                keyAlias = System.getenv("BDS_KEY_ALIAS") ?: ""
+                keyPassword = System.getenv("BDS_KEY_PASSWORD") ?: ""
             }
         }
         release {
@@ -64,6 +65,24 @@ android {
             isIncludeAndroidResources = true
         }
     }
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = false
+        }
+    }
+
+    applicationVariants.all {
+        val releaseTag = project.findProperty("releaseTag") as? String ?: "latest"
+        outputs.all {
+            val outputImpl = this as BaseVariantOutputImpl
+            val abi = outputImpl.filters.firstOrNull { it.filterType == com.android.build.VariantOutput.ABI }?.identifier ?: "universal"
+            outputImpl.outputFileName = "BetterDeepSeek-${releaseTag}-${abi}.apk"
+        }
+    }
+
 }
 
 dependencies {
