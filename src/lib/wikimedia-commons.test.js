@@ -226,6 +226,6 @@ describe("searchImages", () => {
 
     await searchImages({ query: "test" });
 
-    expect(vi.mocked(fetch).mock.calls[0][1].headers["User-Agent"]).toBe("BetterDeepSeek/1.0");
+    expect(vi.mocked(fetch).mock.calls[0][1].headers["User-Agent"]).toBe("Deepsick/1.0");
   });
 });

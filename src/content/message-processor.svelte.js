@@ -222,7 +222,7 @@ export function processMessageNode(node, nodeIndex = -1, nodes = null, context =
   processMessageTimestamp(node, role, nodeIndex, nodes);
   const stateData = getNodeState(node);
 
-  // --- USER MESSAGE: strip <BetterDeepSeek> system prompt from view ---
+  // --- USER MESSAGE: strip <Deepsick> system prompt from view ---
   if (role === "user") {
     const rawUserText = rawText;
     stripBdsTagsFromUserMessage(node);
@@ -321,7 +321,7 @@ export function processMessageNode(node, nodeIndex = -1, nodes = null, context =
 
     // --- CODE RUNNER RESULT CARD (USER) ---
     if (rawUserText.includes("[BDS:AUTO] Code Runner Result")) {
-      const match = rawUserText.match(/\[BDS:AUTO\] Code Runner Result \(([^)]+)\)\s+Status: ([^\n]+)\s+Output:\s+(?:```text\n|```)?([\s\S]*?)(?:\n```)?\s*(?:<\/BetterDeepSeek>|$)/i);
+      const match = rawUserText.match(/\[BDS:AUTO\] Code Runner Result \(([^)]+)\)\s+Status: ([^\n]+)\s+Output:\s+(?:```text\n|```)?([\s\S]*?)(?:\n```)?\s*(?:<\/Deepsick>|$)/i);
       if (match) {
         stateData.hasControlTags = true;
         const language = match[1];
@@ -604,7 +604,7 @@ export function processMessageNode(node, nodeIndex = -1, nodes = null, context =
       
       // Predict if we have a pending injection that isn't in the DOM yet
       let totalUserText = rawUserText;
-      if (!totalUserText.includes("<BetterDeepSeek>")) {
+      if (!totalUserText.includes("<Deepsick>")) {
         const convId = getCurrentConversationIdInline();
         const pending = state.pricing.pendingInjections.get(convId);
         
@@ -1373,7 +1373,7 @@ function playVoiceResponse(text) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
   // Clean the text: remove BDS tags
-  const cleanText = text.replace(/<(BDS|BetterDeepSeek):[\s\S]*?<\/(BDS|BetterDeepSeek):[\s\S]*?>/gi, '')
+  const cleanText = text.replace(/<(BDS|Deepsick):[\s\S]*?<\/(BDS|Deepsick):[\s\S]*?>/gi, '')
                         .replace(/<[^>]*>?/gm, '') // Remove any other HTML-like tags
                         .trim();
 
@@ -1441,7 +1441,7 @@ function toggleNodeHidden(el, hidden) {
 }
 
 /**
- * Strip <BetterDeepSeek>...</BetterDeepSeek> blocks from user message DOM.
+ * Strip <Deepsick>...</Deepsick> blocks from user message DOM.
  * Operates on the actual DOM text so the user never sees the injected system prompt.
  * Uses non-destructive in-place TextNode updates so React reconciler node references remain intact.
  */
@@ -1458,7 +1458,7 @@ function stripBdsTagsFromUserMessage(node) {
 
   // Use textContent for detection
   const plainText = textContainer.textContent || "";
-  if (!/BetterDeepSeek|BDS:/i.test(plainText)) return;
+  if (!/Deepsick|BDS:/i.test(plainText)) return;
 
   // Mark as processed before modifying to prevent re-entry
   userMsgCleaned.add(node);
@@ -1483,7 +1483,7 @@ function stripBdsTagsFromUserMessage(node) {
   // First attempt: clean each TextNode individually to preserve DOM and paragraph structure
   withObserverPaused(() => {
     for (const tNode of textNodes) {
-      if (/BetterDeepSeek|BDS:/i.test(tNode.nodeValue || "")) {
+      if (/Deepsick|BDS:/i.test(tNode.nodeValue || "")) {
         tNode.nodeValue = cleanBdsString(tNode.nodeValue || "");
       }
     }
@@ -1491,7 +1491,7 @@ function stripBdsTagsFromUserMessage(node) {
 
   // If tags spanned across text node boundaries, fall back to combined cleaning
   const remainingText = textContainer.textContent || "";
-  if (/BetterDeepSeek|BDS:/i.test(remainingText)) {
+  if (/Deepsick|BDS:/i.test(remainingText)) {
     const fullText = textNodes.map((t) => t.nodeValue || "").join("");
     const cleanedText = cleanBdsString(fullText);
     withObserverPaused(() => {

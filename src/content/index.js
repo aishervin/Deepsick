@@ -41,7 +41,7 @@ const CONTENT_BOOTSTRAP_KEY = "__bdsContentBootstrapped";
 if (!window[CONTENT_BOOTSTRAP_KEY]) {
   window[CONTENT_BOOTSTRAP_KEY] = true;
   init().catch((error) => {
-    console.error("[BetterDeepSeek] Init error:", error);
+    console.error("[Deepsick] Init error:", error);
   });
 }
 

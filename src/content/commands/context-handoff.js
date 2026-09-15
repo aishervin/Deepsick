@@ -37,7 +37,7 @@ File paths, repo names, key code structure, function/class/module names, schemas
 Project-specific terms, abbreviations, or naming conventions introduced in this conversation that wouldn't be obvious out of context.
 
 Output only the handoff document itself, formatted in Markdown, ready to be copy-pasted as the opening message of a new conversation. No preamble before it, no commentary after it.
-Do not mention or include Better DeepSeek (BDS) instructions, custom BDS tools, or BDS tags in the summary or handoff document.
+Do not mention or include Deepsick (BDS) instructions, custom BDS tools, or BDS tags in the summary or handoff document.
 `
 
 const PROMPT_B_PREAMBLE = `The following is a handoff document from a previous conversation. Treat everything in it as established, already-decided context. Do not re-derive, re-ask, or re-litigate anything marked as a decision in section 3, and do not re-suggest anything listed in section 4 (Rejected Approaches) unless something has materially changed and you flag it explicitly. Read the Objective and Current State first, then continue directly from Next Steps. If anything in the document is ambiguous or seems inconsistent, ask one targeted question before proceeding — don't guess silently.

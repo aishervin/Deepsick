@@ -19,7 +19,7 @@
       "working": "Working..."
     },
     "drawer": {
-      "title": "Better DeepSeek",
+      "title": "Deepsick",
       "close": "Close",
       "github": "GitHub",
       "version": "v{{version}}",
@@ -538,7 +538,7 @@
       "reportTitle": "Final Task Report",
       "reportCopy": "Copy",
       "reportInsert": "Insert into Chat",
-      "autoInjectNotice": "This final report will be automatically added to your next message inside a <code>&lt;BetterDeepSeek&gt;</code> block.",
+      "autoInjectNotice": "This final report will be automatically added to your next message inside a <code>&lt;Deepsick&gt;</code> block.",
       "copyFeedback": "Report copied to clipboard!",
       "copyPromptFeedback": "Prompt copied to clipboard!",
       "copyFailed": "Failed to copy.",
@@ -586,8 +586,8 @@
       "title": "Welcome to DeepCode",
       "harnessIntro": "DeepCode works together with the official <strong>DeepSeek Harness</strong>. You need to have <strong>DeepSeek Harness</strong> installed on your device for this feature to work.",
       "harnessLink": "Download DeepSeek Harness on GitHub",
-      "pluginLink": "Get the Better DeepSeek Bridge plugin (GitHub)",
-      "pluginInfo": "To connect Better DeepSeek to DeepSeek Harness, a <strong>plugin</strong> is required. If the plugin is installed, everything happens fully automatically. If it is not installed, you will need to perform manual steps.",
+      "pluginLink": "Get the Deepsick Bridge plugin (GitHub)",
+      "pluginInfo": "To connect Deepsick to DeepSeek Harness, a <strong>plugin</strong> is required. If the plugin is installed, everything happens fully automatically. If it is not installed, you will need to perform manual steps.",
       "gotIt": "Got it",
       "closeAria": "Close"
     },
@@ -907,19 +907,19 @@
       }
     },
     "exporter": {
-      "branding": "Better DeepSeek",
+      "branding": "Deepsick",
       "archiveReport": "Archive Report",
       "userQuery": "User Query",
       "aiResponse": "AI Response",
-      "pdfFooter": "Document generated via Better DeepSeek Browser Extension",
+      "pdfFooter": "Document generated via Deepsick Browser Extension",
       "imageHeader": "Long Capture",
       "imageDate": "Captured on {{date}}",
       "userLabel": "User",
       "assistantLabel": "Assistant",
-      "imageFooter": "Generated via Better DeepSeek",
-      "htmlLogo": "Better DeepSeek Export",
+      "imageFooter": "Generated via Deepsick",
+      "htmlLogo": "Deepsick Export",
       "htmlToggleTheme": "Toggle Theme",
-      "htmlFooter": "Exported via Better DeepSeek Browser Extension",
+      "htmlFooter": "Exported via Deepsick Browser Extension",
       "copy": "Copy",
       "copied": "Copied!",
       "powerpoint": "PowerPoint",
@@ -955,7 +955,7 @@
       "dismiss": "Got it, thanks!",
       "reportBug": "Report Bug",
       "requestFeature": "Request Feature",
-      "brandingNote": "Better DeepSeek is an open-source community project.",
+      "brandingNote": "Deepsick is developed by ☬SHΞN™.",
       "seeAllChanges": "See all changes in v{{version}} on GitHub",
       "seeDetailed": "See detailed release notes on GitHub",
       "features": {
@@ -977,7 +977,7 @@
           "features": {
             "feat_0": {
               "title": "DeepCode (Experimental)",
-              "description": "Collaborative coding mode powered by DeepSeek Harness. Plan tasks in DeepSeek and send them directly to Harness using the <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> plugin."
+              "description": "Collaborative coding mode powered by DeepSeek Harness. Plan tasks in DeepSeek and send them directly to Harness using the <a href='https://github.com/aishervin/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> plugin."
             },
             "feat_1": {
               "title": "Queued Prompts",
@@ -1082,7 +1082,7 @@
           "features": {
             "feat_0": {
               "title": "Localization System",
-              "description": "Better DeepSeek now supports multiple languages. Help us improve translations or add your language on <a href='https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a>."
+              "description": "Deepsick now supports multiple languages. Help us improve translations or add your language on <a href='https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a>."
             },
             "feat_1": {
               "title": "Custom Prompts",
@@ -1107,7 +1107,7 @@
           "features": {
             "feat_0": {
               "title": "Android Version",
-              "description": "Better DeepSeek is now available on <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>."
+              "description": "Deepsick is now available on <a href='https://github.com/aishervin/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>."
             },
             "feat_1": {
               "title": "Chat Filtering & Tags",
@@ -1386,11 +1386,11 @@
       "3": "Save your frequently used prompts as snippets and easily send them again later. You can even assign snippets to a \"/\" command to speed things up. Visit the Snippets tab in the BDS drawer for details.",
       "4": "Did you know you can activate Multi-System Prompt mode to use multiple system prompts at the same time, with various schedules and conditions to create your own custom workflow?",
       "5": "You can import your memories from another AI into BDS. Click \"Import memory from Another AI\" at the bottom of the Memory section.",
-      "6": "Did you know Better DeepSeek also has an <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android app</a>?",
-      "7": "If you like the extension, share it with your friends! To request a feature, let us know on our <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub page</a>.",
-      "8": "Did you know you can connect MCP servers to Better DeepSeek? Check the Advanced Settings.",
+      "6": "Did you know Deepsick also has an <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android app</a>?",
+      "7": "If you like the extension, share it with your friends! To request a feature, let us know on our <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub page</a>.",
+      "8": "Did you know you can connect MCP servers to Deepsick? Check the Advanced Settings.",
       "9": "You can customize the interface however you like with Custom CSS.",
-      "10": "We want to add more language support to Better DeepSeek. If you want to add your own language, check it out <a href=\"https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">here</a>. Also, if you notice any translation errors, you can fix them.",
+      "10": "We want to add more language support to Deepsick. If you want to add your own language, check it out <a href=\"https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">here</a>. Also, if you notice any translation errors, you can fix them.",
       "11": "You can assign tags to any chat session by clicking the ... button in the session history. Then use those tags to quickly search or filter your conversations.",
       "12": "You can create new skills or characters just by asking DeepSeek. Simply tell it what you need."
     }

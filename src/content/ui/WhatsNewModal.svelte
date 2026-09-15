@@ -118,7 +118,7 @@
             {/each}
           </div>
           
-          <a href="https://github.com/EdgeTypE/better-deepseek#changelog" target="_blank" class="bds-and-more-link">
+          <a href="https://github.com/aishervin/Deepsick#changelog" target="_blank" class="bds-and-more-link">
             {t('whatsnew.seeAllChanges').replace('{{version}}', LATEST_VERSION.version)}
           </a>
         </div>
@@ -144,7 +144,7 @@
             </div>
           {/each}
 
-          <a href="https://github.com/EdgeTypE/better-deepseek#changelog" target="_blank" class="bds-see-more-link">
+          <a href="https://github.com/aishervin/Deepsick#changelog" target="_blank" class="bds-see-more-link">
             {t('whatsnew.seeDetailed')}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>
@@ -156,9 +156,9 @@
       <button class="bds-primary-btn" onclick={dismiss}>{t('whatsnew.dismiss')}</button>
       
       <div class="bds-footer-links">
-        <a href="https://github.com/EdgeTypE/better-deepseek/issues/new" target="_blank" class="bds-link">{t('whatsnew.reportBug')}</a>
+        <a href="https://github.com/aishervin/Deepsick/issues/new" target="_blank" class="bds-link">{t('whatsnew.reportBug')}</a>
         <span class="bds-link-sep">•</span>
-        <a href="https://github.com/EdgeTypE/better-deepseek/issues/new" target="_blank" class="bds-link">{t('whatsnew.requestFeature')}</a>
+        <a href="https://github.com/aishervin/Deepsick/issues/new" target="_blank" class="bds-link">{t('whatsnew.requestFeature')}</a>
       </div>
       <div class="bds-branding-note">{t('whatsnew.brandingNote')}</div>
     </div>

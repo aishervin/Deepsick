@@ -19,7 +19,7 @@
       "working": "Çalışıyor..."
     },
     "drawer": {
-      "title": "Better DeepSeek",
+      "title": "Deepsick",
       "close": "Kapat",
       "github": "GitHub",
       "version": "v{{version}}",
@@ -535,7 +535,7 @@
       "reportTitle": "Nihai Görev Raporu",
       "reportCopy": "Kopyala",
       "reportInsert": "Chat'e Yapıştır",
-      "autoInjectNotice": "Bu nihai rapor, göndereceğiniz bir sonraki mesaja otomatik olarak <code>&lt;BetterDeepSeek&gt;</code> bloğu içinde eklenecektir.",
+      "autoInjectNotice": "Bu nihai rapor, göndereceğiniz bir sonraki mesaja otomatik olarak <code>&lt;Deepsick&gt;</code> bloğu içinde eklenecektir.",
       "copyFeedback": "Rapor panoya kopyalandı!",
       "copyPromptFeedback": "Prompt panoya kopyalandı!",
       "copyFailed": "Kopyalanamadı.",
@@ -583,8 +583,8 @@
       "title": "DeepCode'a Hoş Geldiniz",
       "harnessIntro": "DeepCode, resmi <strong>DeepSeek Harness</strong> ile entegre çalışır. Bu özelliğin çalışması için cihazınızda <strong>DeepSeek Harness</strong> yüklü olmalıdır.",
       "harnessLink": "DeepSeek Harness'ı GitHub'dan indirin",
-      "pluginLink": "Better DeepSeek Bridge eklentisini edinin (GitHub)",
-      "pluginInfo": "Better DeepSeek'in DeepSeek Harness'a bağlanabilmesi için bir <strong>eklenti</strong> gerekir. Eklenti yüklüyse her şey tamamen otomatik gerçekleşir. Yüklü değilse manuel adımlar uygulamanız gerekir.",
+      "pluginLink": "Deepsick Bridge eklentisini edinin (GitHub)",
+      "pluginInfo": "Deepsick'in DeepSeek Harness'a bağlanabilmesi için bir <strong>eklenti</strong> gerekir. Eklenti yüklüyse her şey tamamen otomatik gerçekleşir. Yüklü değilse manuel adımlar uygulamanız gerekir.",
       "gotIt": "Anladım",
       "closeAria": "Kapat"
     },
@@ -904,19 +904,19 @@
       }
     },
     "exporter": {
-      "branding": "Better DeepSeek",
+      "branding": "Deepsick",
       "archiveReport": "Arşiv Raporu",
       "userQuery": "Kullanıcı Sorusu",
       "aiResponse": "Yapay Zeka Yanıtı",
-      "pdfFooter": "Better DeepSeek Tarayıcı Eklentisi ile oluşturulmuştur",
+      "pdfFooter": "Deepsick Tarayıcı Eklentisi ile oluşturulmuştur",
       "imageHeader": "Uzun Görsel Yakalama",
       "imageDate": "{{date}} tarihinde yakalandı",
       "userLabel": "Kullanıcı",
       "assistantLabel": "Asistan",
-      "imageFooter": "Better DeepSeek aracılığıyla oluşturulmuştur",
-      "htmlLogo": "Better DeepSeek Dışa Aktarım",
+      "imageFooter": "Deepsick aracılığıyla oluşturulmuştur",
+      "htmlLogo": "Deepsick Dışa Aktarım",
       "htmlToggleTheme": "Temayı Değiştir",
-      "htmlFooter": "Better DeepSeek Tarayıcı Eklentisi ile dışa aktarılmıştır",
+      "htmlFooter": "Deepsick Tarayıcı Eklentisi ile dışa aktarılmıştır",
       "copy": "Kopyala",
       "copied": "Kopyalandı!",
       "powerpoint": "PowerPoint",
@@ -952,7 +952,7 @@
       "dismiss": "Anladım, teşekkürler!",
       "reportBug": "Hata Bildir",
       "requestFeature": "Özellik Öner",
-      "brandingNote": "Better DeepSeek açık kaynaklı bir topluluk projesidir.",
+      "brandingNote": "Deepsick açık kaynaklı bir topluluk projesidir.",
       "seeAllChanges": "v{{version}} sürümündeki tüm değişiklikleri GitHub'da gör",
       "seeDetailed": "Detaylı sürüm notlarını GitHub'da gör",
       "features": {
@@ -974,7 +974,7 @@
           "features": {
             "feat_0": {
               "title": "DeepCode (Deneysel)",
-              "description": "DeepSeek Harness ile birlikte çalışan kodlama modu. Görevleri planlayın ve <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> eklentisiyle doğrudan Harness'a gönderin."
+              "description": "DeepSeek Harness ile birlikte çalışan kodlama modu. Görevleri planlayın ve <a href='https://github.com/aishervin/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> eklentisiyle doğrudan Harness'a gönderin."
             },
             "feat_1": {
               "title": "Kuyruğa Alınan İstekler (Queued Prompts)",
@@ -1079,7 +1079,7 @@
           "features": {
             "feat_0": {
               "title": "Lokalizasyon Sistemi",
-              "description": "Better DeepSeek artık birden fazla dili destekliyor. Çevirileri iyileştirmek veya kendi dilinizi eklemek için <a href='https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a> repo'muzu ziyaret edin."
+              "description": "Deepsick artık birden fazla dili destekliyor. Çevirileri iyileştirmek veya kendi dilinizi eklemek için <a href='https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a> repo'muzu ziyaret edin."
             },
             "feat_1": {
               "title": "Özel Yönergeler",
@@ -1104,7 +1104,7 @@
           "features": {
             "feat_0": {
               "title": "Android Sürümü",
-              "description": "Better DeepSeek artık <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a> cihazlarda kullanılabilir."
+              "description": "Deepsick artık <a href='https://github.com/aishervin/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a> cihazlarda kullanılabilir."
             },
             "feat_1": {
               "title": "Sohbet Filtreleme ve Etiketler",
@@ -1383,11 +1383,11 @@
       "3": "S\u0131k kulland\u0131\u011F\u0131n prompt'lar\u0131 snippet olarak atay\u0131p daha sonra kolayca tekrardan g\u00F6nderebilirsin. Dilersen snippet'lar\u0131 bir \"/\" komutuna atayarak i\u015Fleri h\u0131zland\u0131rabilirsin. Detayl\u0131 bilgi i\u00E7in BDS drawer'\u0131ndaki snippet sekmesini ziyaret et.",
       "4": "Multi system prompt'u aktif ederek ayn\u0131 anda birden fazla system prompt kullanabilece\u011Fini, ve dilersen bunlar\u0131 \u00E7e\u015Fitli s\u0131ralar ve ko\u015Fullarla kullanarak kendine \u00F6zel bir workflow olu\u015Fturabilece\u011Fini biliyor muydun?",
       "5": "Ba\u015Fka bir AI'daki memory'ni BDS'e aktarabilirsin. Bunun i\u00E7in haf\u0131za men\u00FCs\u00FCn\u00FCn en alt\u0131ndaki \"Import memory from Another AI\" yaz\u0131s\u0131na t\u0131klaman yeterli.",
-      "6": "Better DeepSeek'in bir <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android uygulamas\u0131</a> da oldu\u011Funu biliyor muydun?",
-      "7": "Eklentiden memnunsan arkada\u015Flar\u0131nla payla\u015F\u0131rsan \u00E7ok seviniriz. Ayr\u0131ca eklentide olmas\u0131n\u0131 istedi\u011Fin bir \u00F6zellik var ise <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a> sayfam\u0131zdan bildirebilirsin.",
-      "8": "Better DeepSeek'e MCP serverlar\u0131 ba\u011Flayabilece\u011Finizi biliyor muydunuz? Geli\u015Fmi\u015F ayarlar\u0131 ziyaret edin.",
+      "6": "Deepsick'in bir <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android uygulamas\u0131</a> da oldu\u011Funu biliyor muydun?",
+      "7": "Eklentiden memnunsan arkada\u015Flar\u0131nla payla\u015F\u0131rsan \u00E7ok seviniriz. Ayr\u0131ca eklentide olmas\u0131n\u0131 istedi\u011Fin bir \u00F6zellik var ise <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a> sayfam\u0131zdan bildirebilirsin.",
+      "8": "Deepsick'e MCP serverlar\u0131 ba\u011Flayabilece\u011Finizi biliyor muydunuz? Geli\u015Fmi\u015F ayarlar\u0131 ziyaret edin.",
       "9": "Custom CSS'ler ile aray\u00FCz\u00FC diledi\u011Fin gibi \u00F6zelle\u015Ftirebilirsin.",
-      "10": "Better DeepSeek'e daha fazla dil deste\u011Fi eklemek istiyoruz. Sen de kendi dilini eklemek istersen <a href=\"https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">buraya</a> g\u00F6z atabilirsin. Ayr\u0131ca \u00E7eviri hatalar\u0131n\u0131n oldu\u011Funu d\u00FC\u015F\u00FCn\u00FCyorsan d\u00FCzeltebilirsin.",
+      "10": "Deepsick'e daha fazla dil deste\u011Fi eklemek istiyoruz. Sen de kendi dilini eklemek istersen <a href=\"https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">buraya</a> g\u00F6z atabilirsin. Ayr\u0131ca \u00E7eviri hatalar\u0131n\u0131n oldu\u011Funu d\u00FC\u015F\u00FCn\u00FCyorsan d\u00FCzeltebilirsin.",
       "11": "Sohbet ge\u00E7mi\u015Finde ... butonuna t\u0131klayarak herhangi bir sohbet oturumuna etiket atayabilirsin. Ard\u0131ndan bu etiketleri kullanarak konu\u015Fmalar\u0131n\u0131 h\u0131zl\u0131ca arayabilir veya filtreleyebilirsin.",
       "12": "Yeni bir skill ya da karakter olu\u015Furmak i\u00E7in DeepSeek'i kullanabilirsin. \u0130stemen/sorman yeter."
     }

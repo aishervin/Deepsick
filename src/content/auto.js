@@ -63,7 +63,7 @@ export async function handleAutoFileRead(filePath) {
     });
     await injectFileAndSend(
       fileObj,
-      `<BetterDeepSeek>\n[BDS:AUTO_FILE_READ_RESULT]\n${payload}\n[/BDS:AUTO_FILE_READ_RESULT]\n[BDS:AUTO] File Read Result for path: "${cleanPath}"\n</BetterDeepSeek>`
+      `<Deepsick>\n[BDS:AUTO_FILE_READ_RESULT]\n${payload}\n[/BDS:AUTO_FILE_READ_RESULT]\n[BDS:AUTO] File Read Result for path: "${cleanPath}"\n</Deepsick>`
     );
   } else {
     devLog("Auto", `File not found in active codebase: ${cleanPath}`);
@@ -75,7 +75,7 @@ export async function handleAutoFileRead(filePath) {
       error: "File was not found in the active codebase directory."
     });
     await sendPromptToChat(
-      `<BetterDeepSeek>\n[BDS:AUTO_FILE_READ_RESULT]\n${payload}\n[/BDS:AUTO_FILE_READ_RESULT]\n[BDS:AUTO] File read requested for "${cleanPath}", but file was not found in the active codebase directory.\n</BetterDeepSeek>`,
+      `<Deepsick>\n[BDS:AUTO_FILE_READ_RESULT]\n${payload}\n[/BDS:AUTO_FILE_READ_RESULT]\n[BDS:AUTO] File read requested for "${cleanPath}", but file was not found in the active codebase directory.\n</Deepsick>`,
       "File read error"
     );
   }
@@ -99,7 +99,7 @@ export async function handleAutoSearchInDirectory(queries) {
       error: "No active directory is linked in DeepCode."
     });
     await sendPromptToChat(
-      `<BetterDeepSeek>\n[BDS:AUTO_DIR_SEARCH_RESULT]\n${payload}\n[/BDS:AUTO_DIR_SEARCH_RESULT]\n[BDS:AUTO] Directory search requested for "${cleanQueries}", but no active directory is linked in DeepCode.\n</BetterDeepSeek>`,
+      `<Deepsick>\n[BDS:AUTO_DIR_SEARCH_RESULT]\n${payload}\n[/BDS:AUTO_DIR_SEARCH_RESULT]\n[BDS:AUTO] Directory search requested for "${cleanQueries}", but no active directory is linked in DeepCode.\n</Deepsick>`,
       "Directory search error"
     );
     return;
@@ -160,13 +160,13 @@ export async function handleAutoSearchInDirectory(queries) {
     }
   }
 
-  const autoMessage = `<BetterDeepSeek>\n[BDS:AUTO_DIR_SEARCH_RESULT]\n${payload}\n[/BDS:AUTO_DIR_SEARCH_RESULT]\n[BDS:AUTO] Codebase Search Results for: "${cleanQueries}"\n\n${reportMarkdown}\n</BetterDeepSeek>`;
+  const autoMessage = `<Deepsick>\n[BDS:AUTO_DIR_SEARCH_RESULT]\n${payload}\n[/BDS:AUTO_DIR_SEARCH_RESULT]\n[BDS:AUTO] Codebase Search Results for: "${cleanQueries}"\n\n${reportMarkdown}\n</Deepsick>`;
 
   // If results are large, attach as a markdown file so it never overflows composer limits, otherwise send inline
   if (reportMarkdown.length > 3000) {
     const blob = new Blob([reportMarkdown], { type: "text/markdown" });
     const searchFile = new File([blob], `codebase_search_${Date.now()}.md`, { type: "text/markdown" });
-    const shortAutoMessage = `<BetterDeepSeek>\n[BDS:AUTO_DIR_SEARCH_RESULT]\n${payload}\n[/BDS:AUTO_DIR_SEARCH_RESULT]\n[BDS:AUTO] Codebase Search Results for: "${cleanQueries}" (Found ${allResults.length} matches across ${subQueries.length} query terms)\n</BetterDeepSeek>`;
+    const shortAutoMessage = `<Deepsick>\n[BDS:AUTO_DIR_SEARCH_RESULT]\n${payload}\n[/BDS:AUTO_DIR_SEARCH_RESULT]\n[BDS:AUTO] Codebase Search Results for: "${cleanQueries}" (Found ${allResults.length} matches across ${subQueries.length} query terms)\n</Deepsick>`;
     await injectFileAndSend(searchFile, shortAutoMessage);
   } else {
     await sendPromptToChat(autoMessage, "Codebase search results");
@@ -195,7 +195,7 @@ export async function handleAutoListDir(path) {
       error: "No active directory is linked in DeepCode.",
     });
     await sendPromptToChat(
-      `<BetterDeepSeek>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing requested for "${cleanPath || "/"}", but no active directory is linked in DeepCode.\n</BetterDeepSeek>`,
+      `<Deepsick>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing requested for "${cleanPath || "/"}", but no active directory is linked in DeepCode.\n</Deepsick>`,
       "Directory listing error"
     );
     return;
@@ -211,7 +211,7 @@ export async function handleAutoListDir(path) {
       error: `"${cleanPath}" is a file, not a directory.`,
     });
     await sendPromptToChat(
-      `<BetterDeepSeek>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing requested for "${cleanPath}", but it is a file, not a directory.\n</BetterDeepSeek>`,
+      `<Deepsick>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing requested for "${cleanPath}", but it is a file, not a directory.\n</Deepsick>`,
       "Directory listing error"
     );
     return;
@@ -228,7 +228,7 @@ export async function handleAutoListDir(path) {
       error: `Directory "${cleanPath}" was not found in the active codebase.`,
     });
     await sendPromptToChat(
-      `<BetterDeepSeek>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing requested for "${cleanPath}", but it was not found in the active codebase.\n</BetterDeepSeek>`,
+      `<Deepsick>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing requested for "${cleanPath}", but it was not found in the active codebase.\n</Deepsick>`,
       "Directory listing error"
     );
     return;
@@ -271,7 +271,7 @@ export async function handleAutoListDir(path) {
     listing,
   });
 
-  const autoMessage = `<BetterDeepSeek>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing for path: "${cleanPath || "/"}"\n\n${listing}\n</BetterDeepSeek>`;
+  const autoMessage = `<Deepsick>\n[BDS:AUTO_DIR_LIST_RESULT]\n${payload}\n[/BDS:AUTO_DIR_LIST_RESULT]\n[BDS:AUTO] Directory listing for path: "${cleanPath || "/"}"\n\n${listing}\n</Deepsick>`;
   await sendPromptToChat(autoMessage, "Directory listing");
 }
 
@@ -329,14 +329,14 @@ export async function handleAutoWebFetch(url) {
     });
 
     if (file) {
-      injectFileAndSend(file, `<BetterDeepSeek>\n[BDS:AUTO] Web Fetch Result for: ${targetUrl}\n</BetterDeepSeek>`);
+      injectFileAndSend(file, `<Deepsick>\n[BDS:AUTO] Web Fetch Result for: ${targetUrl}\n</Deepsick>`);
     }
   } catch (err) {
     console.error("[BDS:AUTO] Web Fetch Failed:", err);
     // Optionally create a text file with the error so DeepSeek knows it failed
     const errorBlob = new Blob([`Failed to fetch ${targetUrl}:\n\n${err.message}`], { type: "text/plain" });
     const errorFile = new File([errorBlob], `error_${targetUrl.replace(/[^a-zA-Z0-9]/g, "_")}.txt`, { type: "text/plain" });
-    injectFileAndSend(errorFile, `<BetterDeepSeek>\n[BDS:AUTO] Web fetch failed for ${targetUrl}\n</BetterDeepSeek>`);
+    injectFileAndSend(errorFile, `<Deepsick>\n[BDS:AUTO] Web fetch failed for ${targetUrl}\n</Deepsick>`);
   }
 }
 
@@ -360,13 +360,13 @@ export async function handleAutoGitHubFetch(repoUrl) {
     );
 
     if (file) {
-      injectFileAndSend(file, `<BetterDeepSeek>\n[BDS:AUTO] GitHub Fetch Result for: ${targetRepoUrl}\n</BetterDeepSeek>`);
+      injectFileAndSend(file, `<Deepsick>\n[BDS:AUTO] GitHub Fetch Result for: ${targetRepoUrl}\n</Deepsick>`);
     }
   } catch (err) {
     console.error("[BDS:AUTO] GitHub Fetch Failed:", err);
     const errorBlob = new Blob([`Failed to fetch GitHub repo ${targetRepoUrl}:\n\n${err.message}`], { type: "text/plain" });
     const errorFile = new File([errorBlob], `github_error_${targetRepoUrl.replace(/[^a-zA-Z0-9]/g, "_")}.txt`, { type: "text/plain" });
-    injectFileAndSend(errorFile, `<BetterDeepSeek>\n[BDS:AUTO] GitHub fetch failed for ${targetRepoUrl}\n</BetterDeepSeek>`);
+    injectFileAndSend(errorFile, `<Deepsick>\n[BDS:AUTO] GitHub fetch failed for ${targetRepoUrl}\n</Deepsick>`);
   }
 }
 
@@ -387,13 +387,13 @@ export async function handleAutoTwitterFetch(url) {
   try {
     const file = await fetchTwitterTweet(targetUrl);
     if (file) {
-      injectFileAndSend(file, `<BetterDeepSeek>\n[BDS:AUTO] Twitter Fetch Result for: ${targetUrl}\n</BetterDeepSeek>`);
+      injectFileAndSend(file, `<Deepsick>\n[BDS:AUTO] Twitter Fetch Result for: ${targetUrl}\n</Deepsick>`);
     }
   } catch (err) {
     console.error("[BDS:AUTO] Twitter Fetch Failed:", err);
     const errorBlob = new Blob([`Failed to fetch tweet ${targetUrl}:\n\n${err.message}`], { type: "text/plain" });
     const errorFile = new File([errorBlob], `twitter_error_${targetUrl.replace(/[^a-zA-Z0-9]/g, "_")}.md`, { type: "text/plain" });
-    injectFileAndSend(errorFile, `<BetterDeepSeek>\n[BDS:AUTO] Twitter fetch failed for ${targetUrl}\n</BetterDeepSeek>`);
+    injectFileAndSend(errorFile, `<Deepsick>\n[BDS:AUTO] Twitter fetch failed for ${targetUrl}\n</Deepsick>`);
   }
 }
 
@@ -414,13 +414,13 @@ export async function handleAutoYouTubeFetch(url) {
   try {
     const file = await fetchYouTubeData(targetUrl);
     if (file) {
-      injectFileAndSend(file, `<BetterDeepSeek>\n[BDS:AUTO] YouTube Fetch Result for: ${targetUrl}\n</BetterDeepSeek>`);
+      injectFileAndSend(file, `<Deepsick>\n[BDS:AUTO] YouTube Fetch Result for: ${targetUrl}\n</Deepsick>`);
     }
   } catch (err) {
     console.error("[BDS:AUTO] YouTube Fetch Failed:", err);
     const errorBlob = new Blob([`Failed to fetch YouTube video ${targetUrl}:\n\n${err.message}`], { type: "text/plain" });
     const errorFile = new File([errorBlob], `youtube_error_${targetUrl.replace(/[^a-zA-Z0-9]/g, "_")}.txt`, { type: "text/plain" });
-    injectFileAndSend(errorFile, `<BetterDeepSeek>\n[BDS:AUTO] YouTube fetch failed for ${targetUrl}\n</BetterDeepSeek>`);
+    injectFileAndSend(errorFile, `<Deepsick>\n[BDS:AUTO] YouTube fetch failed for ${targetUrl}\n</Deepsick>`);
   }
 }
 
@@ -476,12 +476,12 @@ export async function handleAutoSearch(query, deepFetch = 0, options = {}) {
       sourceType: options.sourceType,
     });
     const autoMessage = [
-      `<BetterDeepSeek>`,
+      `<Deepsick>`,
       `[BDS:AUTO] Search Result for: ${result.query}`,
       `[BDS:AUTO_SEARCH_RESULT]`,
       payload,
       `[/BDS:AUTO_SEARCH_RESULT]`,
-      `</BetterDeepSeek>`
+      `</Deepsick>`
     ].join("\n");
     releaseSearchDedupeOnSendFailure(
       injectFileAndSend(result.file, autoMessage),
@@ -493,7 +493,7 @@ export async function handleAutoSearch(query, deepFetch = 0, options = {}) {
     processedSearchQueries.delete(dedupeKey);
     const errorBlob = new Blob([`Failed to search "${q}":\n\n${err.message}`], { type: "text/plain" });
     const errorFile = new File([errorBlob], `search_error_${q.replace(/[^a-zA-Z0-9]/g, "_")}.txt`, { type: "text/plain" });
-    injectFileAndSend(errorFile, `<BetterDeepSeek>\n[BDS:AUTO] Search failed for: ${q}\n</BetterDeepSeek>`);
+    injectFileAndSend(errorFile, `<Deepsick>\n[BDS:AUTO] Search failed for: ${q}\n</Deepsick>`);
   }
 }
 
@@ -549,12 +549,12 @@ export async function handleAutoSearchForRun(query, deepFetch = 0, runId = "", o
       runId,
     });
     const autoMessage = [
-      `<BetterDeepSeek>`,
+      `<Deepsick>`,
       `[BDS:AUTO] Search Result for: ${result.query} (runId=${runId})`,
       `[BDS:AUTO_SEARCH_RESULT]`,
       payload,
       `[/BDS:AUTO_SEARCH_RESULT]`,
-      `</BetterDeepSeek>`
+      `</Deepsick>`
     ].join("\n");
     releaseSearchDedupeOnSendFailure(
       injectFileAndSend(result.file, autoMessage),
@@ -566,7 +566,7 @@ export async function handleAutoSearchForRun(query, deepFetch = 0, runId = "", o
     releaseRunSearchDedupe(runId, dedupeKey);
     const errorBlob = new Blob([`Failed to search "${q}":\n\n${err.message}`], { type: "text/plain" });
     const errorFile = new File([errorBlob], `search_error_${q.replace(/[^a-zA-Z0-9]/g, "_")}.txt`, { type: "text/plain" });
-    injectFileAndSend(errorFile, `<BetterDeepSeek>\n[BDS:AUTO] Search failed for: ${q} (runId=${runId})\n</BetterDeepSeek>`);
+    injectFileAndSend(errorFile, `<Deepsick>\n[BDS:AUTO] Search failed for: ${q} (runId=${runId})\n</Deepsick>`);
   }
 }
 
@@ -598,14 +598,14 @@ export async function handleAutoCodeRunnerResult(language, status, output) {
   };
 
   const autoMessage = [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:AUTO] Code Runner Result (${language.toUpperCase()})`,
     `Status: ${statusLabels[status] || status.toUpperCase()}`,
     `Output:`,
     "```text",
     output.map(o => (typeof o === 'string' ? o : o.text)).join("\n") || "(No output)",
     "```",
-    `</BetterDeepSeek>`
+    `</Deepsick>`
   ].join("\n");
 
   devLog("Auto", `Sending code runner result (${status})...`);
@@ -625,7 +625,7 @@ export async function handleAutoErrorReport(toolName, error, originalCode) {
   const skillRef = entry ? entry.skill : "";
 
   const autoMessage = [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:AUTO] ERROR during ${toolName} generation.`,
     `Error Message: ${error}`,
     `Original Code Snippet:`,
@@ -635,7 +635,7 @@ export async function handleAutoErrorReport(toolName, error, originalCode) {
     skillRef ? `\nLibrary API Reference (use this to fix the code):\n${skillRef}\n` : "",
     `Please analyze the error above, study the Library API Reference, then fix the code and provide the corrected version within the appropriate <BDS:${tagName}> tag.`,
     `Pay close attention to: correct API method names, proper arguments, and the required save/output call at the end.`,
-    `</BetterDeepSeek>`
+    `</Deepsick>`
   ].join("\n");
 
   devLog("Auto", `Sending error report for ${toolName}...`);
@@ -710,12 +710,12 @@ export async function handleAutoMcpCall(serverUrl, toolName, args = {}) {
     const mcpFile = new File([mcpBlob], `mcp_result_${toolName}.txt`, { type: "text/plain" });
 
     const autoMessage = [
-      `<BetterDeepSeek>`,
+      `<Deepsick>`,
       `[BDS:AUTO] MCP Result for ${toolName} @ ${serverUrl}`,
       `[BDS:AUTO_MCP_RESULT]`,
       payload,
       `[/BDS:AUTO_MCP_RESULT]`,
-      `</BetterDeepSeek>`
+      `</Deepsick>`
     ].join("\n");
 
     await injectFileAndSend(mcpFile, autoMessage);
@@ -729,12 +729,12 @@ export async function handleAutoMcpCall(serverUrl, toolName, args = {}) {
       error: err.message
     });
     const errorMessage = [
-      `<BetterDeepSeek>`,
+      `<Deepsick>`,
       `[BDS:AUTO] MCP call failed for ${toolName} @ ${serverUrl}`,
       `[BDS:AUTO_MCP_ERROR]`,
       errorPayload,
       `[/BDS:AUTO_MCP_ERROR]`,
-      `</BetterDeepSeek>`
+      `</Deepsick>`
     ].join("\n");
     await injectPureTextAndSend(errorMessage, `MCP error ${toolName}`);
   }

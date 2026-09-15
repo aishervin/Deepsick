@@ -42,7 +42,7 @@ export function detectOfficeSkillNames(userPrompt) {
 }
 
 /**
- * Build a `<BetterDeepSeek>` block containing the relevant office library
+ * Build a `<Deepsick>` block containing the relevant office library
  * skill documentation based on the user's prompt.
  */
 export function buildOfficeSkillsBlock(userPrompt) {
@@ -60,10 +60,10 @@ export function buildOfficeSkillsBlock(userPrompt) {
   if (!blocks.length) return "";
 
   return [
-    "<BetterDeepSeek>",
+    "<Deepsick>",
     "[OFFICE SKILL] The user wants to create an office document. Below is the API reference for the required library:",
     "",
     blocks.join("\n\n"),
-    "</BetterDeepSeek>",
+    "</Deepsick>",
   ].join("\n");
 }

@@ -54,7 +54,7 @@ function parseNodeWithBestTextSource(node) {
   }
 
   const tagCandidates = candidates.filter((c) =>
-    /<BDS:|<BetterDeepSeek>/i.test(c.value)
+    /<BDS:|<Deepsick>/i.test(c.value)
   );
   const pool = tagCandidates.length ? tagCandidates : candidates;
 
@@ -157,7 +157,7 @@ function decodeNodeHtmlText(html) {
 function scoreRawTextCandidate(candidate) {
   const text = String(candidate.value || "");
   const lineBreakCount = (text.match(/\n/g) || []).length;
-  const tagCount = (text.match(/<BDS:|<BetterDeepSeek>/gi) || []).length;
+  const tagCount = (text.match(/<BDS:|<Deepsick>/gi) || []).length;
 
   // Bonus points for structured markdown syntax to ensure markdownReconstructed wins
   // matches headings (# ), bullets (- , * , 1. ), and table pipes (|...|), blockquotes (> ), horizontal rules (---)

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Better DeepSeek",
+  "name": "Deepsick",
   "version": "0.1.13",
   "description": "Enhanced UX layer for DeepSeek with hidden prompts, tools, memory, document generation, and long-work packaging.",
   "permissions": [
@@ -49,7 +49,7 @@
     ]
   },
   "action": {
-    "default_title": "Better DeepSeek"
+    "default_title": "Deepsick"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'",

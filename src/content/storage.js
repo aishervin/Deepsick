@@ -151,20 +151,20 @@ function shouldUpgradeSystemPrompt(storedSettings) {
 
   if (
     prompt.includes(
-      "You are Better DeepSeek, an output-focused assistant with tool tags."
+      "You are Deepsick, an output-focused assistant with tool tags."
     )
   ) {
     return true;
   }
 
   if (
-    prompt.includes("You are Better DeepSeek inside a tool-enabled extension.")
+    prompt.includes("You are Deepsick inside a tool-enabled extension.")
   ) {
     return true;
   }
 
   if (
-    prompt.includes("You are now Better DeepSeek.") &&
+    prompt.includes("You are now Deepsick.") &&
     prompt.includes("When using <BDS:LONG_WORK>...</BDS:LONG_WORK>:")
   ) {
     return true;

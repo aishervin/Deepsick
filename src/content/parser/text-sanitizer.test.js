@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { sanitizeVisibleText } from "./text-sanitizer.js";
 
 describe("sanitizeVisibleText", () => {
-  it("removes BetterDeepSeek and BDS control blocks", () => {
+  it("removes Deepsick and BDS control blocks", () => {
     const text = [
       "Visible before",
-      "<BetterDeepSeek>hidden</BetterDeepSeek>",
+      "<Deepsick>hidden</Deepsick>",
       "<BDS:VISUALIZER>secret</BDS:VISUALIZER>",
       "Visible after",
     ].join("\n");

@@ -1,5 +1,5 @@
 /**
- * Queue Manager Module for Better DeepSeek
+ * Queue Manager Module for Deepsick
  * 
  * Manages queued prompt messages and automatically sends them sequentially
  * as soon as AI response generation completes.

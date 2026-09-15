@@ -86,7 +86,7 @@ describe("rag-engine", () => {
       {
         name: "README.md",
         content: [
-          "# Better DeepSeek Extension",
+          "# Deepsick Extension",
           "This is a premium browser extension designed to enhance the DeepSeek experience.",
           "It supports features like Custom Prompts, Saved Skills, Local Memories, and more."
         ].join("\n")

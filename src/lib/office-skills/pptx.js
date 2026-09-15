@@ -12,7 +12,7 @@ export const PPTX_SKILL = `
    const pptx = new PptxGenJS();
 
 2. CONFIGURE (optional):
-   pptx.author = "Better DeepSeek";
+   pptx.author = "Deepsick";
    pptx.title = "Presentation Title";
    pptx.layout = "LAYOUT_WIDE"; // 16:9
 
@@ -58,7 +58,7 @@ pptx.layout = "LAYOUT_WIDE";
 
 const slide1 = pptx.addSlide();
 slide1.addText("Project Plan 2026", { x: 1, y: 1.5, w: 8, h: 1.5, fontSize: 36, bold: true, color: "1e3a8a", align: "center" });
-slide1.addText("Prepared by Better DeepSeek", { x: 1, y: 3.5, w: 8, h: 0.8, fontSize: 16, align: "center" });
+slide1.addText("Prepared by Deepsick", { x: 1, y: 3.5, w: 8, h: 0.8, fontSize: 16, align: "center" });
 
 const slide2 = pptx.addSlide();
 slide2.addText("Timeline", { x: 0.5, y: 0.3, w: 9, h: 0.8, fontSize: 28, bold: true });

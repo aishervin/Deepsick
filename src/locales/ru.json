@@ -19,7 +19,7 @@
       "working": "Работаю..."
     },
     "drawer": {
-      "title": "Better DeepSeek",
+      "title": "Deepsick",
       "close": "Закрыть",
       "github": "GitHub",
       "version": "v{{version}}",
@@ -535,7 +535,7 @@
       "reportTitle": "Итоговый отчёт",
       "reportCopy": "Копировать",
       "reportInsert": "Вставить в чат",
-      "autoInjectNotice": "Этот итоговый отчёт будет автоматически добавлен в ваше следующее сообщение внутри блока <code>&lt;BetterDeepSeek&gt;</code>.",
+      "autoInjectNotice": "Этот итоговый отчёт будет автоматически добавлен в ваше следующее сообщение внутри блока <code>&lt;Deepsick&gt;</code>.",
       "copyFeedback": "Отчёт скопирован в буфер обмена!",
       "copyPromptFeedback": "Текст задачи скопирован в буфер обмена!",
       "copyFailed": "Не удалось скопировать.",
@@ -583,8 +583,8 @@
       "title": "Добро пожаловать в DeepCode",
       "harnessIntro": "DeepCode работает в связке с официальным <strong>DeepSeek Harness</strong>. Для работы этой функции на вашем устройстве должен быть установлен <strong>DeepSeek Harness</strong>.",
       "harnessLink": "Скачать DeepSeek Harness на GitHub",
-      "pluginLink": "Получить Bridge Plugin Better DeepSeek (GitHub)",
-      "pluginInfo": "Для подключения Better DeepSeek к DeepSeek Harness требуется <strong>плагин</strong>. Если плагин установлен, всё происходит полностью автоматически. Если он не установлен, потребуются ручные действия.",
+      "pluginLink": "Получить Bridge Plugin Deepsick (GitHub)",
+      "pluginInfo": "Для подключения Deepsick к DeepSeek Harness требуется <strong>плагин</strong>. Если плагин установлен, всё происходит полностью автоматически. Если он не установлен, потребуются ручные действия.",
       "gotIt": "Понятно",
       "closeAria": "Закрыть"
     },
@@ -904,19 +904,19 @@
       }
     },
     "exporter": {
-      "branding": "Better DeepSeek",
+      "branding": "Deepsick",
       "archiveReport": "Архивный отчёт",
       "userQuery": "Запрос пользователя",
       "aiResponse": "Ответ ИИ",
-      "pdfFooter": "Документ создан через Better DeepSeek Browser Extension",
+      "pdfFooter": "Документ создан через Deepsick Browser Extension",
       "imageHeader": "Длинный снимок",
       "imageDate": "Снято {{date}}",
       "userLabel": "Пользователь",
       "assistantLabel": "Ассистент",
-      "imageFooter": "Создано через Better DeepSeek",
-      "htmlLogo": "Экспорт Better DeepSeek",
+      "imageFooter": "Создано через Deepsick",
+      "htmlLogo": "Экспорт Deepsick",
       "htmlToggleTheme": "Переключить тему",
-      "htmlFooter": "Экспортировано через Better DeepSeek Browser Extension",
+      "htmlFooter": "Экспортировано через Deepsick Browser Extension",
       "copy": "Копировать",
       "copied": "Скопировано!",
       "powerpoint": "PowerPoint",
@@ -952,7 +952,7 @@
       "dismiss": "Понятно, спасибо!",
       "reportBug": "Сообщить об ошибке",
       "requestFeature": "Предложить функцию",
-      "brandingNote": "Better DeepSeek — это проект сообщества с открытым исходным кодом.",
+      "brandingNote": "Deepsick — это проект сообщества с открытым исходным кодом.",
       "seeAllChanges": "Посмотреть все изменения в v{{version}} на GitHub",
       "seeDetailed": "Посмотреть подробные примечания к выпуску на GitHub",
       "features": {
@@ -974,7 +974,7 @@
           "features": {
             "feat_0": {
               "title": "DeepCode (Экспериментально)",
-              "description": "Режим совместной разработки с DeepSeek Harness. Планируйте задачи и отправляйте их напрямую в Harness с помощью плагина <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a>."
+              "description": "Режим совместной разработки с DeepSeek Harness. Планируйте задачи и отправляйте их напрямую в Harness с помощью плагина <a href='https://github.com/aishervin/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a>."
             },
             "feat_1": {
               "title": "Очередь сообщений (Queued Prompts)",
@@ -1079,7 +1079,7 @@
           "features": {
             "feat_0": {
               "title": "Система локализации",
-              "description": "Better DeepSeek теперь поддерживает несколько языков. Помогите нам улучшить переводы или добавить свой язык на <a href='https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a>."
+              "description": "Deepsick теперь поддерживает несколько языков. Помогите нам улучшить переводы или добавить свой язык на <a href='https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a>."
             },
             "feat_1": {
               "title": "Кастомные промпты",
@@ -1104,7 +1104,7 @@
           "features": {
             "feat_0": {
               "title": "Версия для Android",
-              "description": "Better DeepSeek теперь доступен на <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>."
+              "description": "Deepsick теперь доступен на <a href='https://github.com/aishervin/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>."
             },
             "feat_1": {
               "title": "Фильтрация чатов и теги",
@@ -1383,11 +1383,11 @@
       "3": "\u0421\u043E\u0445\u0440\u0430\u043D\u044F\u0439\u0442\u0435 \u0447\u0430\u0441\u0442\u043E \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u043C\u044B\u0435 \u043F\u0440\u043E\u043C\u043F\u0442\u044B \u043A\u0430\u043A \u0441\u043D\u0438\u043F\u043F\u0435\u0442\u044B \u0438 \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0439\u0442\u0435 \u0438\u0445 \u0441\u043D\u043E\u0432\u0430 \u043E\u0434\u043D\u0438\u043C \u043A\u043B\u0438\u043A\u043E\u043C. \u0412\u044B \u0434\u0430\u0436\u0435 \u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u0437\u043D\u0430\u0447\u0438\u0442\u044C \u0441\u043D\u0438\u043F\u043F\u0435\u0442\u0443 \u043A\u043E\u043C\u0430\u043D\u0434\u0443 \"/\" \u0434\u043B\u044F \u0431\u044B\u0441\u0442\u0440\u043E\u0433\u043E \u0434\u043E\u0441\u0442\u0443\u043F\u0430. \u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0435\u0435 \u0432 \u0440\u0430\u0437\u0434\u0435\u043B\u0435 \u0421\u043D\u0438\u043F\u043F\u0435\u0442\u044B \u0432 \u043F\u0430\u043D\u0435\u043B\u0438 BDS.",
       "4": "\u0417\u043D\u0430\u0435\u0442\u0435 \u043B\u0438 \u0432\u044B, \u0447\u0442\u043E \u043C\u043E\u0436\u043D\u043E \u0432\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0440\u0435\u0436\u0438\u043C \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u0438\u0445 \u0441\u0438\u0441\u0442\u0435\u043C\u043D\u044B\u0445 \u043F\u0440\u043E\u043C\u043F\u0442\u043E\u0432, \u0447\u0442\u043E\u0431\u044B \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0441\u0438\u0441\u0442\u0435\u043C\u043D\u044B\u0445 \u043F\u0440\u043E\u043C\u043F\u0442\u043E\u0432 \u043E\u0434\u043D\u043E\u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E \u0441 \u0440\u0430\u0437\u043B\u0438\u0447\u043D\u044B\u043C\u0438 \u0440\u0430\u0441\u043F\u0438\u0441\u0430\u043D\u0438\u044F\u043C\u0438 \u0438 \u0443\u0441\u043B\u043E\u0432\u0438\u044F\u043C\u0438 \u0434\u043B\u044F \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u044F \u0441\u043E\u0431\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0433\u043E \u0440\u0430\u0431\u043E\u0447\u0435\u0433\u043E \u043F\u0440\u043E\u0446\u0435\u0441\u0441\u0430?",
       "5": "\u0412\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0438\u043C\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0441\u0432\u043E\u0438 \u0432\u043E\u0441\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u044F \u0438\u0437 \u0434\u0440\u0443\u0433\u043E\u0433\u043E \u0418\u0418 \u0432 BDS. \u041D\u0430\u0436\u043C\u0438\u0442\u0435 \u00AB\u0418\u043C\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0432\u043E\u0441\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u044F \u0438\u0437 \u0434\u0440\u0443\u0433\u043E\u0433\u043E \u0418\u0418\u00BB \u0432\u043D\u0438\u0437\u0443 \u0440\u0430\u0437\u0434\u0435\u043B\u0430 \u041F\u0430\u043C\u044F\u0442\u044C.",
-      "6": "\u0417\u043D\u0430\u0435\u0442\u0435 \u043B\u0438 \u0432\u044B, \u0447\u0442\u043E \u0443 Better DeepSeek \u0442\u0430\u043A\u0436\u0435 \u0435\u0441\u0442\u044C <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435</a>?",
-      "7": "\u0415\u0441\u043B\u0438 \u0432\u0430\u043C \u043D\u0440\u0430\u0432\u0438\u0442\u0441\u044F \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435, \u043F\u043E\u0434\u0435\u043B\u0438\u0442\u0435\u0441\u044C \u0438\u043C \u0441 \u0434\u0440\u0443\u0437\u044C\u044F\u043C\u0438! \u0427\u0442\u043E\u0431\u044B \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438\u0442\u044C \u0444\u0443\u043D\u043A\u0446\u0438\u044E, \u0441\u043E\u043E\u0431\u0449\u0438\u0442\u0435 \u043D\u0430\u043C \u043D\u0430 \u043D\u0430\u0448\u0435\u0439 <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">\u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 GitHub</a>.",
-      "8": "\u0417\u043D\u0430\u0435\u0442\u0435 \u043B\u0438 \u0432\u044B, \u0447\u0442\u043E \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0430\u0442\u044C MCP \u0441\u0435\u0440\u0432\u0435\u0440\u044B \u043A Better DeepSeek? \u0417\u0430\u0433\u043B\u044F\u043D\u0438\u0442\u0435 \u0432 \u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u043D\u044B\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438.",
+      "6": "\u0417\u043D\u0430\u0435\u0442\u0435 \u043B\u0438 \u0432\u044B, \u0447\u0442\u043E \u0443 Deepsick \u0442\u0430\u043A\u0436\u0435 \u0435\u0441\u0442\u044C <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435</a>?",
+      "7": "\u0415\u0441\u043B\u0438 \u0432\u0430\u043C \u043D\u0440\u0430\u0432\u0438\u0442\u0441\u044F \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435, \u043F\u043E\u0434\u0435\u043B\u0438\u0442\u0435\u0441\u044C \u0438\u043C \u0441 \u0434\u0440\u0443\u0437\u044C\u044F\u043C\u0438! \u0427\u0442\u043E\u0431\u044B \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438\u0442\u044C \u0444\u0443\u043D\u043A\u0446\u0438\u044E, \u0441\u043E\u043E\u0431\u0449\u0438\u0442\u0435 \u043D\u0430\u043C \u043D\u0430 \u043D\u0430\u0448\u0435\u0439 <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">\u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 GitHub</a>.",
+      "8": "\u0417\u043D\u0430\u0435\u0442\u0435 \u043B\u0438 \u0432\u044B, \u0447\u0442\u043E \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0430\u0442\u044C MCP \u0441\u0435\u0440\u0432\u0435\u0440\u044B \u043A Deepsick? \u0417\u0430\u0433\u043B\u044F\u043D\u0438\u0442\u0435 \u0432 \u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u043D\u044B\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438.",
       "9": "\u0412\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0438\u0442\u044C \u0438\u043D\u0442\u0435\u0440\u0444\u0435\u0439\u0441 \u043F\u043E \u0441\u0432\u043E\u0435\u043C\u0443 \u0432\u043A\u0443\u0441\u0443 \u0441 \u043F\u043E\u043C\u043E\u0449\u044C\u044E Custom CSS.",
-      "10": "\u041C\u044B \u0445\u043E\u0442\u0438\u043C \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0431\u043E\u043B\u044C\u0448\u0435 \u044F\u0437\u044B\u043A\u043E\u0432 \u0432 Better DeepSeek. \u0415\u0441\u043B\u0438 \u0432\u044B \u0445\u043E\u0442\u0438\u0442\u0435 \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0441\u0432\u043E\u0439 \u044F\u0437\u044B\u043A, \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0439\u0442\u0435 <a href=\"https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">\u0437\u0434\u0435\u0441\u044C</a>. \u0422\u0430\u043A\u0436\u0435, \u0435\u0441\u043B\u0438 \u0432\u044B \u0437\u0430\u043C\u0435\u0442\u0438\u043B\u0438 \u043E\u0448\u0438\u0431\u043A\u0438 \u043F\u0435\u0440\u0435\u0432\u043E\u0434\u0430, \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0438\u0445 \u0438\u0441\u043F\u0440\u0430\u0432\u0438\u0442\u044C.",
+      "10": "\u041C\u044B \u0445\u043E\u0442\u0438\u043C \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0431\u043E\u043B\u044C\u0448\u0435 \u044F\u0437\u044B\u043A\u043E\u0432 \u0432 Deepsick. \u0415\u0441\u043B\u0438 \u0432\u044B \u0445\u043E\u0442\u0438\u0442\u0435 \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0441\u0432\u043E\u0439 \u044F\u0437\u044B\u043A, \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0439\u0442\u0435 <a href=\"https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">\u0437\u0434\u0435\u0441\u044C</a>. \u0422\u0430\u043A\u0436\u0435, \u0435\u0441\u043B\u0438 \u0432\u044B \u0437\u0430\u043C\u0435\u0442\u0438\u043B\u0438 \u043E\u0448\u0438\u0431\u043A\u0438 \u043F\u0435\u0440\u0435\u0432\u043E\u0434\u0430, \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0438\u0445 \u0438\u0441\u043F\u0440\u0430\u0432\u0438\u0442\u044C.",
 "11": "Вы можете назначать теги любой сессии чата, нажав на кнопку ... в истории сессий. Затем используйте эти теги для быстрого поиска или фильтрации разговоров.",
       "12": "Вы можете создавать новые навыки или персонажей, просто попросив DeepSeek. Просто скажите, что вам нужно."
     }

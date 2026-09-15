@@ -24,7 +24,7 @@ export const VERSION_HISTORY = [
       {
         type: "developer",
         title: "DeepCode (Experimental)",
-        description: "Collaborative coding mode powered by DeepSeek Harness. Plan tasks in DeepSeek and send them directly to Harness using the <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> plugin."
+        description: "Collaborative coding mode powered by DeepSeek Harness. Plan tasks in DeepSeek and send them directly to Harness using the <a href='https://github.com/aishervin/Deepsick' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> plugin."
       },
       {
         type: "feature",
@@ -159,7 +159,7 @@ export const VERSION_HISTORY = [
       {
         type: "feature",
         title: "Localization System",
-        description: "Better DeepSeek now supports multiple languages. Help us improve translations or add your language on <a href='https://github.com/EdgeTypE/better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a>."
+        description: "Deepsick now supports multiple languages. Help us improve translations or add your language on <a href='https://github.com/aishervin/Deepsick' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a>."
       },
       {
         type: "feature",
@@ -191,7 +191,7 @@ export const VERSION_HISTORY = [
       {
         type: "platform",
         title: "Android Version",
-        description: "Better DeepSeek is now available on <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>."
+        description: "Deepsick is now available on <a href='https://github.com/aishervin/Deepsick/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>."
       },
       {
         type: "organization",

@@ -19,7 +19,7 @@
       "working": "处理中…"
     },
     "drawer": {
-      "title": "Better DeepSeek",
+      "title": "Deepsick",
       "close": "关闭",
       "github": "GitHub",
       "version": "v{{version}}",
@@ -534,7 +534,7 @@
       "reportTitle": "最终任务报告",
       "reportCopy": "复制",
       "reportInsert": "粘贴到聊天",
-      "autoInjectNotice": "此最终报告将自动添加到您的下一条消息的 <code>&lt;BetterDeepSeek&gt;</code> 块中。",
+      "autoInjectNotice": "此最终报告将自动添加到您的下一条消息的 <code>&lt;Deepsick&gt;</code> 块中。",
       "copyFeedback": "报告已复制到剪贴板！",
       "copyPromptFeedback": "提示词已复制到剪贴板！",
       "copyFailed": "复制失败。",
@@ -582,8 +582,8 @@
       "title": "欢迎使用 DeepCode",
       "harnessIntro": "DeepCode 与官方的 <strong>DeepSeek Harness</strong> 协同工作。要在您的设备上使用此功能，必须安装 <strong>DeepSeek Harness</strong>。",
       "harnessLink": "在 GitHub 下载 DeepSeek Harness",
-      "pluginLink": "获取 Better DeepSeek Bridge 插件（GitHub）",
-      "pluginInfo": "要将 Better DeepSeek 连接到 DeepSeek Harness，需要一个 <strong>插件</strong>。如果已安装插件，一切都会完全自动进行。如果未安装，则需要手动操作。",
+      "pluginLink": "获取 Deepsick Bridge 插件（GitHub）",
+      "pluginInfo": "要将 Deepsick 连接到 DeepSeek Harness，需要一个 <strong>插件</strong>。如果已安装插件，一切都会完全自动进行。如果未安装，则需要手动操作。",
       "gotIt": "明白了",
       "closeAria": "关闭"
     },
@@ -903,19 +903,19 @@
       }
     },
     "exporter": {
-      "branding": "Better DeepSeek",
+      "branding": "Deepsick",
       "archiveReport": "导出报告",
       "userQuery": "用户提问",
       "aiResponse": "AI 回复",
-      "pdfFooter": "由 Better DeepSeek 浏览器扩展生成",
+      "pdfFooter": "由 Deepsick 浏览器扩展生成",
       "imageHeader": "长截图",
       "imageDate": "截取时间：{{date}}",
       "userLabel": "用户",
       "assistantLabel": "助手",
-      "imageFooter": "由 Better DeepSeek 生成",
-      "htmlLogo": "Better DeepSeek 导出",
+      "imageFooter": "由 Deepsick 生成",
+      "htmlLogo": "Deepsick 导出",
       "htmlToggleTheme": "切换主题",
-      "htmlFooter": "由 Better DeepSeek 浏览器扩展导出",
+      "htmlFooter": "由 Deepsick 浏览器扩展导出",
       "copy": "复制",
       "copied": "已复制！",
       "powerpoint": "PowerPoint",
@@ -951,7 +951,7 @@
       "dismiss": "知道了",
       "reportBug": "报告问题",
       "requestFeature": "功能建议",
-      "brandingNote": "Better DeepSeek 是一个开源社区项目。",
+      "brandingNote": "Deepsick 是一个开源社区项目。",
       "seeAllChanges": "在 GitHub 上查看 v{{version}} 的全部变更",
       "seeDetailed": "在 GitHub 上查看详细发布说明",
       "features": {
@@ -973,7 +973,7 @@
           "features": {
             "feat_0": {
               "title": "DeepCode（实验性）",
-              "description": "与 DeepSeek Harness 协作的代码模式。在 DeepSeek 中规划任务并通过 <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> 插件直接发送至 Harness。"
+              "description": "与 DeepSeek Harness 协作的代码模式。在 DeepSeek 中规划任务并通过 <a href='https://github.com/aishervin/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> 插件直接发送至 Harness。"
             },
             "feat_1": {
               "title": "提示词排队（Queued Prompts）",
@@ -1078,7 +1078,7 @@
           "features": {
             "feat_0": {
               "title": "本地化系统",
-              "description": "Better DeepSeek 现已支持多语言。欢迎在 <a href='https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a> 上帮助我们改进翻译或添加你的语言。"
+              "description": "Deepsick 现已支持多语言。欢迎在 <a href='https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>GitHub</a> 上帮助我们改进翻译或添加你的语言。"
             },
             "feat_1": {
               "title": "自定义提示词",
@@ -1103,7 +1103,7 @@
           "features": {
             "feat_0": {
               "title": "Android 版本",
-              "description": "Better DeepSeek 现已支持 <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>。"
+              "description": "Deepsick 现已支持 <a href='https://github.com/aishervin/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>Android</a>。"
             },
             "feat_1": {
               "title": "聊天筛选与标签",
@@ -1382,11 +1382,11 @@
       "3": "\u5C06\u5E38\u7528\u63D0\u793A\u4FDD\u5B58\u4E3A\u7247\u6BB5\uFF0C\u4EE5\u540E\u53EF\u4EE5\u8F7B\u677E\u518D\u6B21\u53D1\u9001\u3002\u60A8\u751A\u81F3\u53EF\u4EE5\u5C06\u7247\u6BB5\u5206\u914D\u7ED9 \"/\" \u547D\u4EE4\u4EE5\u52A0\u5FEB\u64CD\u4F5C\u901F\u5EA6\u3002\u8BE6\u60C5\u8BF7\u8BBF\u95EE BDS \u62BD\u5C49\u4E2D\u7684\u7247\u6BB5\u9009\u9879\u5361\u3002",
       "4": "\u60A8\u77E5\u9053\u5417\uFF1F\u60A8\u53EF\u4EE5\u6FC0\u6D3B\u591A\u7CFB\u7EDF\u63D0\u793A\u6A21\u5F0F\uFF0C\u540C\u65F6\u4F7F\u7528\u591A\u4E2A\u7CFB\u7EDF\u63D0\u793A\uFF0C\u914D\u5408\u5404\u79CD\u65F6\u95F4\u8868\u548C\u6761\u4EF6\uFF0C\u521B\u5EFA\u81EA\u5B9A\u4E49\u5DE5\u4F5C\u6D41\u7A0B\u3002",
       "5": "\u60A8\u53EF\u4EE5\u4ECE\u5176\u4ED6 AI \u5C06\u8BB0\u5FC6\u5BFC\u5165 BDS\u3002\u70B9\u51FB\u8BB0\u5FC6\u90E8\u5206\u5E95\u90E8\u7684\u300C\u4ECE\u5176\u4ED6 AI \u5BFC\u5165\u8BB0\u5FC6\u300D\u3002",
-      "6": "\u60A8\u77E5\u9053\u5417\uFF1FBetter DeepSeek \u4E5F\u6709 <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android \u5E94\u7528</a>\uFF1F",
-      "7": "\u5982\u679C\u60A8\u559C\u6B22\u8FD9\u4E2A\u6269\u5C55\uFF0C\u8BF7\u4E0E\u670B\u53CB\u5206\u4EAB\uFF01\u8981\u8BF7\u6C42\u529F\u80FD\uFF0C\u8BF7\u5728 <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub \u9875\u9762</a>\u4E0A\u544A\u8BC9\u6211\u4EEC\u3002",
-      "8": "\u60A8\u77E5\u9053\u5417\uFF1F\u60A8\u53EF\u4EE5\u5C06 MCP \u670D\u52A1\u5668\u8FDE\u63A5\u5230 Better DeepSeek\u3002\u8BF7\u67E5\u770B\u9AD8\u7EA7\u8BBE\u7F6E\u3002",
+      "6": "\u60A8\u77E5\u9053\u5417\uFF1FDeepsick \u4E5F\u6709 <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">Android \u5E94\u7528</a>\uFF1F",
+      "7": "\u5982\u679C\u60A8\u559C\u6B22\u8FD9\u4E2A\u6269\u5C55\uFF0C\u8BF7\u4E0E\u670B\u53CB\u5206\u4EAB\uFF01\u8981\u8BF7\u6C42\u529F\u80FD\uFF0C\u8BF7\u5728 <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub \u9875\u9762</a>\u4E0A\u544A\u8BC9\u6211\u4EEC\u3002",
+      "8": "\u60A8\u77E5\u9053\u5417\uFF1F\u60A8\u53EF\u4EE5\u5C06 MCP \u670D\u52A1\u5668\u8FDE\u63A5\u5230 Deepsick\u3002\u8BF7\u67E5\u770B\u9AD8\u7EA7\u8BBE\u7F6E\u3002",
       "9": "\u60A8\u53EF\u4EE5\u4F7F\u7528\u81EA\u5B9A\u4E49 CSS \u968F\u610F\u5B9A\u5236\u754C\u9762\u3002",
-      "10": "\u6211\u4EEC\u5E0C\u671B\u4E3A Better DeepSeek \u6DFB\u52A0\u66F4\u591A\u8BED\u8A00\u652F\u6301\u3002\u5982\u679C\u60A8\u60F3\u6DFB\u52A0\u81EA\u5DF1\u7684\u8BED\u8A00\uFF0C\u8BF7<a href=\"https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">\u67E5\u770B\u8FD9\u91CC</a>\u3002\u53E6\u5916\uFF0C\u5982\u679C\u60A8\u53D1\u73B0\u4EFB\u4F55\u7FFB\u8BD1\u9519\u8BEF\uFF0C\u53EF\u4EE5\u4FEE\u590D\u5B83\u4EEC\u3002",
+      "10": "\u6211\u4EEC\u5E0C\u671B\u4E3A Deepsick \u6DFB\u52A0\u66F4\u591A\u8BED\u8A00\u652F\u6301\u3002\u5982\u679C\u60A8\u60F3\u6DFB\u52A0\u81EA\u5DF1\u7684\u8BED\u8A00\uFF0C\u8BF7<a href=\"https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">\u67E5\u770B\u8FD9\u91CC</a>\u3002\u53E6\u5916\uFF0C\u5982\u679C\u60A8\u53D1\u73B0\u4EFB\u4F55\u7FFB\u8BD1\u9519\u8BEF\uFF0C\u53EF\u4EE5\u4FEE\u590D\u5B83\u4EEC\u3002",
       "11": "\u60A8\u53EF\u4EE5\u901A\u8FC7\u5355\u51FB\u4F1A\u8BDD\u5386\u53F2\u4E2D\u7684 ... \u6309\u94AE\u4E3A\u4EFB\u4F55\u804A\u5929\u4F1A\u8BDD\u5206\u914D\u6807\u7B7E\u3002\u7136\u540E\u4F7F\u7528\u8FD9\u4E9B\u6807\u7B7E\u5FEB\u901F\u641C\u7D22\u6216\u8FC7\u6EE4\u60A8\u7684\u5BF9\u8BDD\u3002",
       "12": "\u4F60\u53EF\u4EE5\u76F4\u63A5\u8BA9 DeepSeek \u521B\u5EFA\u65B0\u6280\u80FD\u6216\u89D2\u8272\u3002\u53EA\u9700\u8BF4\u51FA\u4F60\u7684\u9700\u6C42\u5373\u53EF\u3002"
     }

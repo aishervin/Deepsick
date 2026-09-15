@@ -9,7 +9,7 @@
     isDeepCodeOnboarded,
     markDeepCodeOnboarded,
   } from "../deep-code.js";
-  import { BetterDeepSeekHarnessBridge } from "../../lib/harness-bridge.js";
+  import { DeepsickHarnessBridge } from "../../lib/harness-bridge.js";
   import { t } from "../../lib/i18n.svelte.js";
   import AddDirectoryModal from "./AddDirectoryModal.svelte";
 
@@ -31,7 +31,7 @@
   let showAddPopup = $state(false);
   let harnessStatus = $state("checking"); // checking | enhanced | fallback
 
-  let bridge = new BetterDeepSeekHarnessBridge();
+  let bridge = new DeepsickHarnessBridge();
 
   $effect(() => {
     localEnabled = Boolean(enabled);
@@ -335,7 +335,7 @@
         </p>
         <p class="bds-onboarding-paragraph">
           <a
-            href="https://github.com/EdgeTypE/dsh-better-deepseek"
+            href="https://github.com/aishervin/Deepsick"
             target="_blank"
             rel="noopener noreferrer"
             class="bds-onboarding-link">{t("deepCodeOnboarding.pluginLink")}</a

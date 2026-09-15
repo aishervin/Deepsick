@@ -5,7 +5,7 @@ export function sanitizeVisibleText(text) {
   let output = String(text || "");
 
   output = output.replace(
-    /<BetterDeepSeek>[\s\S]*?<\/BetterDeepSeek>/gi,
+    /<Deepsick>[\s\S]*?<\/Deepsick>/gi,
     ""
   );
   output = output.replace(/<BDS:SKILLS>[\s\S]*?<\/BDS:SKILLS>/gi, "");
@@ -20,7 +20,7 @@ export function sanitizeVisibleText(text) {
   // Clean up any stray or unclosed tags
   output = output.replace(/<BDS:[A-Za-z0-9_:]+[^>]*>/gi, "");
   output = output.replace(/<\/BDS:[A-Za-z0-9_:]+>/gi, "");
-  output = output.replace(/<BetterDeepSeek>|<\/BetterDeepSeek>/gi, "");
+  output = output.replace(/<Deepsick>|<\/Deepsick>/gi, "");
   
   output = output.replace(/<BDS:create_file[^>]*\/>/gi, "");
   output = output.replace(/<\/?BDS:LONG_WORK>/gi, "");

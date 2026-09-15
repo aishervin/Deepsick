@@ -15,7 +15,7 @@ export const DOCX_SKILL = `
 2. CREATE DOCUMENT:
    const doc = new Document({
      title: "My Document",
-     creator: "Better DeepSeek",
+     creator: "Deepsick",
      sections: [{ children: [ ... ] }]
    });
 
@@ -76,7 +76,7 @@ export const DOCX_SKILL = `
 const { Document, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell } = DOCX;
 
 const doc = new Document({
-  creator: "Better DeepSeek",
+  creator: "Deepsick",
   title: "Report",
   sections: [{
     children: [

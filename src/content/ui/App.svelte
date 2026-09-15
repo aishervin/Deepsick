@@ -138,7 +138,7 @@
   });
 </script>
 
-<button id="bds-toggle" type="button" onclick={toggleDrawer} aria-label="Better DeepSeek">
+<button id="bds-toggle" type="button" onclick={toggleDrawer} aria-label="Deepsick">
   <span class="bds-toggle-full" aria-hidden="true">BDS</span>
   <span class="bds-toggle-short" aria-hidden="true">B</span>
 </button>

@@ -175,14 +175,14 @@ export function parseBdsMessage(rawText, isSettled = false) {
     visibleText: stripAutoLinkArtifacts(text),
   };
 
-  if (!/(<BDS:|<BetterDeepSeek>|Bds create file>|\[BDS:)/i.test(text)) {
+  if (!/(<BDS:|<Deepsick>|Bds create file>|\[BDS:)/i.test(text)) {
     return result;
   }
 
   // We have BDS tags, but do we have tags that should HIDE the original message?
   // AUTO tags should NOT hide the message, EXCEPT for AUTO:CODE_RUNNER, AUTO:REQUEST_WEB_FETCH, AUTO:REQUEST_GITHUB_FETCH, AUTO:SEARCH, AUTO:MCP, AUTO:FILE_READ, AUTO:SEARCH_IN_DIRECTORY, and AUTO:LIST_DIR which have UI cards.
   // BDS tags inside code blocks are ignored — they are documentation examples.
-  const hidingRegex = /(<BDS:(?!AUTO:(?!CODE_RUNNER|REQUEST_WEB_FETCH|REQUEST_GITHUB_FETCH|SEARCH|MCP|FILE_READ|SEARCH_IN_DIRECTORY|LIST_DIR))[a-zA-Z0-9_:]+|<BetterDeepSeek>|Bds create file>|\[BDS:(?!AUTO_FILE_READ_RESULT|AUTO_DIR_SEARCH_RESULT|AUTO_DIR_LIST_RESULT)[a-zA-Z0-9_:]+\])/gi;
+  const hidingRegex = /(<BDS:(?!AUTO:(?!CODE_RUNNER|REQUEST_WEB_FETCH|REQUEST_GITHUB_FETCH|SEARCH|MCP|FILE_READ|SEARCH_IN_DIRECTORY|LIST_DIR))[a-zA-Z0-9_:]+|<Deepsick>|Bds create file>|\[BDS:(?!AUTO_FILE_READ_RESULT|AUTO_DIR_SEARCH_RESULT|AUTO_DIR_LIST_RESULT)[a-zA-Z0-9_:]+\])/gi;
   const hidingMatches = Array.from(text.matchAll(hidingRegex))
     .filter(m => !isInsideCodeBlock(m.index));
   result.containsControlTags = hidingMatches.length > 0;
@@ -632,7 +632,7 @@ export function parseBdsMessage(rawText, isSettled = false) {
     for (const { start, end } of vtRanges) {
       protectedVT += visibleText.substring(lastPos, start);
       const codeContent = visibleText.substring(start, end);
-      protectedVT += codeContent.replace(/<(\/?(?:BDS:|BetterDeepSeek))/gi, '&lt;$1');
+      protectedVT += codeContent.replace(/<(\/?(?:BDS:|Deepsick))/gi, '&lt;$1');
       lastPos = end;
     }
     protectedVT += visibleText.substring(lastPos);

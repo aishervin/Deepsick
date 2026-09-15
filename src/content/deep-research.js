@@ -501,7 +501,7 @@ function deserializeStep(raw) {
  */
 export function buildApprovalMessage(run) {
   return [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] Plan approved for run ${run.id}. Execute the following research plan:`,
     JSON.stringify(run.plan, null, 2),
     `For each search step, use a narrow query with named entities, concrete constraints, dates or locations, product or version names, and explicit source intent.`,
@@ -509,7 +509,7 @@ export function buildApprovalMessage(run) {
     `After each search/fetch result is injected, read it, update the source ledger mentally, and continue with the next step until the plan is complete.`,
     `After completing all research steps, your final answer MUST be a proper Markdown report wrapped exactly as: <BDS:DEEP_RESEARCH_REPORT runId="${run.id}">markdown</BDS:DEEP_RESEARCH_REPORT>.`,
     `Do not wrap the report Markdown in a code fence. Do not finish with ordinary prose outside the report tag.`,
-    `</BetterDeepSeek>`,
+    `</Deepsick>`,
   ].join("\n");
 }
 
@@ -523,14 +523,14 @@ export function buildRevisionMessage(run, feedback) {
   const safeFeedback = String(feedback || "").trim() || "No specific feedback was provided. Re-check the plan for completeness, source coverage, and alignment with the user's original request.";
   const currentPlan = run.plan ? JSON.stringify(run.plan, null, 2) : "{}";
   return [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] Revision requested for run ${run.id}.`,
     `User feedback: ${safeFeedback}`,
     `Current research plan:`,
     currentPlan,
     `Please revise the research plan and output ONLY an updated plan using <BDS:DEEP_RESEARCH_PLAN runId="${run.id}">JSON</BDS:DEEP_RESEARCH_PLAN>.`,
     `Do not browse yet and do not include ordinary prose outside the plan tag.`,
-    `</BetterDeepSeek>`,
+    `</Deepsick>`,
   ].join("\n");
 }
 
@@ -542,7 +542,7 @@ export function buildRevisionMessage(run, feedback) {
  */
 export function buildPlanningPrompt(runId, userQuery) {
   return [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] The DeepResearch toggle is enabled. Treat this exactly as the user asking: "Perform Deep Research on the following request."`,
     `Run ID: ${runId}`,
     ``,
@@ -562,7 +562,7 @@ export function buildPlanningPrompt(runId, userQuery) {
     `Search steps must use narrow queries with named entities, constraints, dates or locations, product or version names, and clear source intent.`,
     ``,
     `User research question: ${userQuery}`,
-    `</BetterDeepSeek>`,
+    `</Deepsick>`,
   ].join("\n");
 }
 
@@ -829,14 +829,14 @@ function buildStepPromptFooter(runId, stepId) {
     `nextStep actions: "search" or "fetch". Fetch queries must be HTTP(S) URLs. sourceType for searches: general, docs, news, reviews, academic, commerce (default: general). Only add nextSteps for material gaps — avoid unnecessary expansion.`,
     ``,
     `Do NOT produce the final report yet. Only analyze this step.`,
-    `</BetterDeepSeek>`,
+    `</Deepsick>`,
   ];
 }
 
 function buildStepMetadataLines(run, step, outcome, detail) {
   const config = PROMPT_DETAIL[detail] || PROMPT_DETAIL.full;
   const lines = [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] Step ${step.id} of your research plan is complete.`,
     `Run ID: ${run.id}`,
     `Action: ${step.action}`,
@@ -1031,7 +1031,7 @@ function buildFinalReportPrompt(run) {
   }).join("\n");
 
   return [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] All research steps are complete.`,
     `Run ID: ${runId}`,
     ``,
@@ -1041,7 +1041,7 @@ function buildFinalReportPrompt(run) {
     `Now produce the final research report.`,
     `Wrap the report as: <BDS:DEEP_RESEARCH_REPORT runId="${runId}">markdown</BDS:DEEP_RESEARCH_REPORT>`,
     `Do NOT wrap the report Markdown in a code fence.`,
-    `</BetterDeepSeek>`,
+    `</Deepsick>`,
   ].join("\n");
 }
 
@@ -1072,7 +1072,7 @@ export function buildBudgetStoppedFinalReportPrompt(run) {
   }
 
   const lines = [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] Research finalized early — context budget threshold reached.`,
     `Run ID: ${runId}`,
     `Reason: ${exec.budgetStopReason || "Context budget threshold reached"}`,
@@ -1097,7 +1097,7 @@ export function buildBudgetStoppedFinalReportPrompt(run) {
   lines.push(`Synthesize a final report from completed steps only. Briefly name skipped gaps so the user knows what was left uncovered.`);
   lines.push(`Wrap the report as: <BDS:DEEP_RESEARCH_REPORT runId="${runId}">markdown</BDS:DEEP_RESEARCH_REPORT>`);
   lines.push(`Do NOT wrap the report in a code fence. Keep the report focused on what was found.`);
-  lines.push(`</BetterDeepSeek>`);
+  lines.push(`</Deepsick>`);
 
   return lines.join("\n");
 }

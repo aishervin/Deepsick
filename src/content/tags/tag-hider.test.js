@@ -4,16 +4,16 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { cleanBdsString, hideBdsTagsInPopovers, hideTagsInSidebar } from "./tag-hider.js";
 
 describe("tag-hider cleanBdsString", () => {
-  it("strips closed BetterDeepSeek tags (raw & encoded)", () => {
-    expect(cleanBdsString("<BetterDeepSeek>system prompt</BetterDeepSeek>User question")).toBe("User question");
-    expect(cleanBdsString("&lt;BetterDeepSeek&gt;system prompt&lt;/BetterDeepSeek&gt;User question")).toBe("User question");
+  it("strips closed Deepsick tags (raw & encoded)", () => {
+    expect(cleanBdsString("<Deepsick>system prompt</Deepsick>User question")).toBe("User question");
+    expect(cleanBdsString("&lt;Deepsick&gt;system prompt&lt;/Deepsick&gt;User question")).toBe("User question");
   });
 
-  it("strips unclosed BetterDeepSeek tags from truncated preview strings", () => {
-    expect(cleanBdsString("<BetterDeepSeek> You are Better DeepSeek. You have access to specialized tools.")).toBe("");
-    expect(cleanBdsString("&lt;BetterDeepSeek&gt; You are Better DeepSeek. You have access...")).toBe("");
-    expect(cleanBdsString("3/3 <BetterDeepSeek> You are Better DeepSeek. You...")).toBe("3/3");
-    expect(cleanBdsString("3/3 &lt;BetterDeepSeek&gt; You are Better DeepSeek. You...")).toBe("3/3");
+  it("strips unclosed Deepsick tags from truncated preview strings", () => {
+    expect(cleanBdsString("<Deepsick> You are Deepsick. You have access to specialized tools.")).toBe("");
+    expect(cleanBdsString("&lt;Deepsick&gt; You are Deepsick. You have access...")).toBe("");
+    expect(cleanBdsString("3/3 <Deepsick> You are Deepsick. You...")).toBe("3/3");
+    expect(cleanBdsString("3/3 &lt;Deepsick&gt; You are Deepsick. You...")).toBe("3/3");
   });
 
   it("strips closed & unclosed BDS: control tags", () => {
@@ -28,17 +28,17 @@ describe("tag-hider hideBdsTagsInPopovers", () => {
     document.body.innerHTML = "";
   });
 
-  it("cleans BetterDeepSeek tags from popover preview items (issue #93)", () => {
+  it("cleans Deepsick tags from popover preview items (issue #93)", () => {
     document.body.innerHTML = `
       <div class="ds-virtual-list-visible-items">
         <div class="_81e7b5e">
-          <div class="_72b6158">&lt;BetterDeepSeek&gt; mesajıdsadasda placeholder</div>
+          <div class="_72b6158">&lt;Deepsick&gt; mesajıdsadasda placeholder</div>
         </div>
         <div class="_81e7b5e">
-          <div class="_72b6158">3/3 &lt;BetterDeepSeek&gt; You are Better DeepSeek.</div>
+          <div class="_72b6158">3/3 &lt;Deepsick&gt; You are Deepsick.</div>
         </div>
         <div class="_81e7b5e">
-          <div class="_72b6158">&lt;BetterDeepSeek&gt;sys&lt;/BetterDeepSeek&gt;Actual question</div>
+          <div class="_72b6158">&lt;Deepsick&gt;sys&lt;/Deepsick&gt;Actual question</div>
         </div>
       </div>
     `;
@@ -54,17 +54,17 @@ describe("tag-hider hideBdsTagsInPopovers", () => {
   it("does not touch main message markdown bubbles or extension UI", () => {
     document.body.innerHTML = `
       <div id="bds-root">
-        <div class="_72b6158">&lt;BetterDeepSeek&gt; internal</div>
+        <div class="_72b6158">&lt;Deepsick&gt; internal</div>
       </div>
       <div class="ds-message">
-        <div class="ds-markdown">&lt;BetterDeepSeek&gt; main message</div>
+        <div class="ds-markdown">&lt;Deepsick&gt; main message</div>
       </div>
     `;
 
     hideBdsTagsInPopovers();
 
-    expect(document.querySelector("#bds-root ._72b6158").textContent).toBe("<BetterDeepSeek> internal");
-    expect(document.querySelector(".ds-markdown").textContent).toBe("<BetterDeepSeek> main message");
+    expect(document.querySelector("#bds-root ._72b6158").textContent).toBe("<Deepsick> internal");
+    expect(document.querySelector(".ds-markdown").textContent).toBe("<Deepsick> main message");
   });
 });
 

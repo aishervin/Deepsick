@@ -157,7 +157,7 @@ export function formatMarkdown(messages) {
  */
 function formatAssistantContent(content) {
   // Replace internal BDS tags if they somehow leaked through
-  let text = content.replace(/<(BDS|BetterDeepSeek):[\s\S]*?<\/(BDS|BetterDeepSeek):[\s\S]*?>/gi, "").trim();
+  let text = content.replace(/<(BDS|Deepsick):[\s\S]*?<\/(BDS|Deepsick):[\s\S]*?>/gi, "").trim();
   
   // Extra layer: remove DeepSeek UI artifacts that might have survived extraction
   const noisePatterns = [
@@ -516,7 +516,7 @@ function exportToPdf(messages, title, dark = false) {
 <body>
   <div class="container">
     <header>
-      <span class="logo-text">Better DeepSeek</span>
+      <span class="logo-text">Deepsick</span>
       <span style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Archive Report</span>
     </header>
 
@@ -550,7 +550,7 @@ function exportToPdf(messages, title, dark = false) {
     `).join("")}
 
     <footer>
-      Document generated via Better DeepSeek Browser Extension
+      Document generated via Deepsick Browser Extension
     </footer>
   </div>
 </body>
@@ -630,7 +630,7 @@ export async function exportToImage(messages, title, dark, fileName) {
   container.innerHTML = `
     <div style="font-family: 'Inter', sans-serif; line-height: 1.6; color: ${dark ? "#e5e7eb" : "#111827"};">
       <header style="margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid ${dark ? "#262626" : "#e5e7eb"}; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-weight: 800; font-size: 18px; color: #10a37f;">Better DeepSeek</span>
+        <span style="font-weight: 800; font-size: 18px; color: #10a37f;">Deepsick</span>
         <span style="font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em;">Long Capture</span>
       </header>
       <h1 style="font-size: 28px; font-weight: 800; margin: 0 0 12px 0;">${title}</h1>
@@ -665,7 +665,7 @@ export async function exportToImage(messages, title, dark, fileName) {
       </div>
       
       <footer style="margin-top: 60px; padding-top: 20px; border-top: 1px solid ${dark ? "#262626" : "#e5e7eb"}; text-align: center; font-size: 11px; color: #9ca3af;">
-        Generated via Better DeepSeek
+        Generated via Deepsick
       </footer>
     </div>
   `;
@@ -754,7 +754,7 @@ export function generateStandaloneHtml(messages, title, dark) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} | Better DeepSeek Export</title>
+  <title>${title} | Deepsick Export</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -1021,7 +1021,7 @@ export function generateStandaloneHtml(messages, title, dark) {
         <polyline points="7 10 12 15 17 10"></polyline>
         <line x1="12" y1="15" x2="12" y2="3"></line>
       </svg>
-      Better DeepSeek Export
+      Deepsick Export
     </div>
     <button class="theme-toggle" onclick="document.documentElement.classList.toggle('dark')">Toggle Theme</button>
   </nav>
@@ -1057,7 +1057,7 @@ export function generateStandaloneHtml(messages, title, dark) {
     `).join("")}
 
     <footer>
-      Exported via Better DeepSeek Browser Extension
+      Exported via Deepsick Browser Extension
     </footer>
   </div>
 

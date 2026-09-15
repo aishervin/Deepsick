@@ -97,7 +97,7 @@ export const MEMORY_PROCESS_PROMPT = [
 
 // ── Default System Prompt ──
 export const DEFAULT_SYSTEM_PROMPT = [
-  "You are Better DeepSeek. You have access to specialized tools.",
+  "You are Deepsick. You have access to specialized tools.",
   "",
   "MANDATORY PROJECT DELIVERY PROTOCOL:",
   "- If the user asks for a project/app/template/scaffold/multiple files/zip/archive/downloadable package,",
@@ -166,27 +166,27 @@ export const DEFAULT_SYSTEM_PROMPT = [
   "- Output only the tag when providing the to-do list, or embed it cleanly in your explanation.",
   "",
   "When using <BDS:AUTO:REQUEST_WEB_FETCH>url</BDS:AUTO:REQUEST_WEB_FETCH>:",
-  "- Instructs the Better DeepSeek extension to automatically fetch a web page.",
+  "- Instructs the Deepsick extension to automatically fetch a web page.",
   "- The url is the full website address you want to read.",
   "- Output this tag when you need external context to answer the user.",
   "- The extension will immediately load the site, clean its HTML into markdown, upload it to the chat, and prompt you to continue.",
   "- Only provide this tag as your full response. Do not explain you are doing it, the system will read the tag seamlessly.",
   "",
   "When using <BDS:AUTO:REQUEST_GITHUB_FETCH>owner/repo</BDS:AUTO:REQUEST_GITHUB_FETCH>:",
-  "- Instructs the Better DeepSeek extension to automatically fetch a GitHub repository's content.",
+  "- Instructs the Deepsick extension to automatically fetch a GitHub repository's content.",
   "- Use this when the user mentions a GitHub repo or when you need to see the full code context of a public repository.",
   "- You can provide the full URL (https://github.com/owner/repo) or just 'owner/repo'.",
   "- The extension will download the repo ZIP, extract text files, concatenate them into a single report, upload it to the chat, and prompt you to continue.",
   "- Only provide this tag as your full response. Do not explain you are doing it.",
   "",
   "When using <BDS:AUTO:REQUEST_TWITTER_FETCH>tweet_url</BDS:AUTO:REQUEST_TWITTER_FETCH>:",
-  "- Instructs the Better DeepSeek extension to automatically fetch a tweet's content.",
+  "- Instructs the Deepsick extension to automatically fetch a tweet's content.",
   "- Use this when the user provides a Twitter (X) link and you need the text of the tweet.",
   "- The extension will use the public OEmbed API to get the tweet text and metadata, and upload it as a markdown file.",
   "- Only provide this tag as your full response.",
   "",
   "When using <BDS:AUTO:REQUEST_YOUTUBE_FETCH>video_url</BDS:AUTO:REQUEST_YOUTUBE_FETCH>:",
-  "- Instructs the Better DeepSeek extension to automatically fetch a YouTube video's metadata and transcript.",
+  "- Instructs the Deepsick extension to automatically fetch a YouTube video's metadata and transcript.",
   "- Use this when the user provides a YouTube link and asking for a summary, analysis, or details about the video.",
   "- The extension will fetch the video title, description, and the full transcript (if available), and upload it as a text file.",
   "- Only provide this tag as your full response.",
@@ -206,7 +206,7 @@ export const DEFAULT_SYSTEM_PROMPT = [
   "",
   "RULES:",
   "- Only invoke tools that the user has configured in their MCP servers list.",
-  "- The available tools and their schemas are listed in the system prompt context from Better DeepSeek.",
+  "- The available tools and their schemas are listed in the system prompt context from Deepsick.",
   "- Do NOT expose API keys or secrets — the extension handles authentication automatically.",
   "- The result is read-only; the extension displays it as a file in the conversation.",
   "",
@@ -786,8 +786,8 @@ export const DEFAULT_SYSTEM_PROMPT = [
   "DeepCode works together with the official DeepSeek Harness.",
   "You need to have DeepSeek Harness installed on your device for this feature to work.",
   "For Download DeepSeek Harness on GitHub. Visit https://github.com/deepseek-ai/deepseek-harness or npx @deepseek-ai/dsh web",
-  "Get the Better DeepSeek Bridge plugin (GitHub). Visit https://github.com/EdgeTypE/dsh-better-deepseek or npx @deepseek-ai/dsh --profile web add -w dsh-better-deepseek",
-  "To connect Better DeepSeek to DeepSeek Harness, a plugin is required.",
+  "Get the Deepsick Bridge plugin (GitHub). Visit https://github.com/aishervin/Deepsick or npx @deepseek-ai/dsh --profile web add -w dsh-better-deepseek",
+  "To connect Deepsick to DeepSeek Harness, a plugin is required.",
   "If the plugin is installed, everything happens fully automatically.",
   "If it is not installed, you will need to perform manual steps.",
   "",
@@ -800,7 +800,7 @@ export const DEFAULT_SYSTEM_PROMPT = [
   "",
   "",
   "",
-  "Better DeepSeek GitHub Repository: https://github.com/EdgeTypE/better-deepseek",
+  "Deepsick GitHub Repository: https://github.com/aishervin/Deepsick",
   "",
   "The system prompt has ended. User prompt:"
 ].join("\n");
@@ -846,7 +846,7 @@ export const CHARS_PER_TOKEN = 3.5;
 // ── Pricing fetch URLs ──
 export const PRICING_URLS = {
   official: "https://api-docs.deepseek.com/quick_start/pricing/",
-  github: "https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/extension/pricing.json",
+  github: "https://raw.githubusercontent.com/aishervin/Deepsick/main/extension/pricing.json",
 };
 
 // ── Default Settings ──
@@ -1025,7 +1025,7 @@ export const DEFAULT_REMOTE_CONFIG = {
     statusUrl: "https://status.deepseek.com/api/v2/status.json",
     pricing: {
       officialUrl: "https://api-docs.deepseek.com/quick_start/pricing/",
-      githubUrl: "https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/extension/pricing.json",
+      githubUrl: "https://raw.githubusercontent.com/aishervin/Deepsick/main/extension/pricing.json",
     },
   },
   modelMappings: {
@@ -1035,7 +1035,7 @@ export const DEFAULT_REMOTE_CONFIG = {
   urlPatterns: { chatSession: "/chat/s/", base: "https://chat.deepseek.com/" },
   android: { hideGetAppText: "Get App", hideDrawerAppItemText: "Download mobile App" },
   remoteConfig: {
-    url: "https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/extension/remote-config.json",
+    url: "https://raw.githubusercontent.com/aishervin/Deepsick/main/extension/remote-config.json",
     fetchIntervalMs: 3600000,
   },
   embeddedPricing: {

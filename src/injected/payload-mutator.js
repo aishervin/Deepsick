@@ -159,7 +159,7 @@ export function mutatePayload(payload, state) {
       const text = extractMessageText(lastUserMsg);
       console.warn(`[BDS] Guard check: model="${model}" payload.model=${payload.model} source=${modelSource} type=${modelType} limit=${limit} msgLen=${text.length} limits=${JSON.stringify(limits)}`);
       if (text.length > limit) {
-        const suffix = "\n\n...[truncated by Better DeepSeek]...";
+        const suffix = "\n\n...[truncated by Deepsick]...";
         const truncated = text.slice(0, limit - suffix.length) + suffix;
         setMessageText(lastUserMsg, truncated);
         changed = true;
@@ -169,7 +169,7 @@ export function mutatePayload(payload, state) {
   } else if (typeof payload.prompt === 'string') {
     console.warn(`[BDS] Guard check (prompt): model="${model}" payload.model=${payload.model} source=${modelSource} type=${modelType} limit=${limit} msgLen=${payload.prompt.length} limits=${JSON.stringify(limits)}`);
     if (payload.prompt.length > limit) {
-      const suffix = "\n\n...[truncated by Better DeepSeek]...";
+      const suffix = "\n\n...[truncated by Deepsick]...";
       payload.prompt = payload.prompt.slice(0, limit - suffix.length) + suffix;
       changed = true;
       console.warn(`[BDS] TRUNCATED prompt from ${payload.prompt.length} to ${limit} chars`);
@@ -291,7 +291,7 @@ export function setMessageText(message, text) {
 }
 
 /**
- * Check if the BetterDeepSeek system prompt tag exists in any message in the history.
+ * Check if the Deepsick system prompt tag exists in any message in the history.
  */
 export function hasSystemPromptInHistory(messages, excludeTarget = null) {
   if (!Array.isArray(messages)) return false;
@@ -299,7 +299,7 @@ export function hasSystemPromptInHistory(messages, excludeTarget = null) {
   for (const msg of messages) {
     if (msg === excludeTarget) continue;
     const text = extractMessageText(msg);
-    if (text.includes("<BetterDeepSeek>")) {
+    if (text.includes("<Deepsick>")) {
       return true;
     }
   }
@@ -352,7 +352,7 @@ export function buildHiddenPrefix(
     for (const entry of entries) {
       if (!entry.content.trim()) continue;
       if (evaluateEntrySchedule(entry, userMsgCount, conversationId, state)) {
-        blocks.push(`<BetterDeepSeek>\n${entry.content.trim()}\n</BetterDeepSeek>`);
+        blocks.push(`<Deepsick>\n${entry.content.trim()}\n</Deepsick>`);
         if (state.markEntryInjected) {
           state.markEntryInjected(conversationId, entry.id);
         }
@@ -366,7 +366,7 @@ export function buildHiddenPrefix(
 
     if (shouldInjectSystemPrompt) {
       blocks.push(
-        `<BetterDeepSeek>\n${state.config.systemPrompt.trim()}\n</BetterDeepSeek>`
+        `<Deepsick>\n${state.config.systemPrompt.trim()}\n</Deepsick>`
       );
       if (state.markInjected) {
         state.markInjected(conversationId);
@@ -426,7 +426,7 @@ export function buildHiddenPrefix(
   }
 
   if (state.isNextVoiceMessage) {
-    blocks.push(`<BetterDeepSeek>User send this message using voice recorder tool.</BetterDeepSeek>`);
+    blocks.push(`<Deepsick>User send this message using voice recorder tool.</Deepsick>`);
     state.isNextVoiceMessage = false;
   }
 
@@ -491,7 +491,7 @@ function buildDeepResearchPlanningBlock(userPrompt, conversationId, state) {
   emitDeepResearchStarted(config.runId, conversationId, userPrompt);
 
   return [
-    `<BetterDeepSeek>`,
+    `<Deepsick>`,
     `[BDS:DEEP_RESEARCH] The DeepResearch toggle is enabled. Treat this exactly as the user asking: "Perform Deep Research on the following request."`,
     `Run ID: ${config.runId}`,
     ``,
@@ -511,7 +511,7 @@ function buildDeepResearchPlanningBlock(userPrompt, conversationId, state) {
     `Search steps must use narrow queries with named entities, constraints, dates or locations, product or version names, and clear source intent.`,
     ``,
     `User research question: ${userPrompt}`,
-    `</BetterDeepSeek>`,
+    `</Deepsick>`,
   ].join("\n");
 }
 
@@ -541,7 +541,7 @@ export function buildSkillsBlock(state) {
     .map((skill) => `## ${skill.name}\n${skill.content.trim()}`)
     .join("\n\n");
 
-  return `<BetterDeepSeek> <BDS:SKILLS fingerprint="${getSkillsFingerprint(state.config.skills)}">\n${skillsText}\n</BDS:SKILLS> </BetterDeepSeek>`;
+  return `<Deepsick> <BDS:SKILLS fingerprint="${getSkillsFingerprint(state.config.skills)}">\n${skillsText}\n</BDS:SKILLS> </Deepsick>`;
 }
 
 /**
@@ -655,7 +655,7 @@ export function buildMemoryCallsBlock(userPrompt, state, messages) {
   const blocks = selected
     .map((item) => `<BDS:memory_calls importance="${item.importance}">${item.key}: ${sanitizeMemoryValue(item.value)}</BDS:memory_calls>`)
     .join("\n");
-  return `<BetterDeepSeek>\n${blocks}\n</BetterDeepSeek>`;
+  return `<Deepsick>\n${blocks}\n</Deepsick>`;
 }
 
 function sanitizeMemoryValue(value) {
@@ -674,7 +674,7 @@ export function buildProjectBlock(state) {
     inner += project.instructions.trim() + "\n";
   }
 
-  return `<BetterDeepSeek>\n<BDS:PROJECT name="${project.name}">\n${inner}</BDS:PROJECT>\n</BetterDeepSeek>`;
+  return `<Deepsick>\n<BDS:PROJECT name="${project.name}">\n${inner}</BDS:PROJECT>\n</Deepsick>`;
 }
 
 /**
@@ -692,7 +692,7 @@ export function buildCharacterBlock(state) {
   }
   text += `---\n${char.content.trim()}`;
 
-  return `<BetterDeepSeek> <BDS:RP>\n${text}\n</BDS:RP> </BetterDeepSeek>`;
+  return `<Deepsick> <BDS:RP>\n${text}\n</BDS:RP> </Deepsick>`;
 }
 
 /**
@@ -712,7 +712,7 @@ export function buildUserDataBlock(state) {
   }
 
   if (blocks.length === 0) return "";
-  return `<BetterDeepSeek>\n${blocks.join("\n")}\n</BetterDeepSeek>`;
+  return `<Deepsick>\n${blocks.join("\n")}\n</Deepsick>`;
 }
 
 /**
@@ -728,7 +728,7 @@ export function buildMcpBlock(state, fingerprint) {
   const totalTools = schemas.length;
 
   const header = [
-    `<BetterDeepSeek> <BDS:MCP fingerprint="${fingerprint}">`,
+    `<Deepsick> <BDS:MCP fingerprint="${fingerprint}">`,
     `You have access to the following MCP (Model Context Protocol) tools via remote servers.`,
     `To invoke them, use: <BDS:AUTO:MCP url="SERVER_NAME_OR_URL" tool="TOOL_NAME" args='{"key":"value"}'>`,
     `The extension will call the tool and inject the result.`,
@@ -737,7 +737,7 @@ export function buildMcpBlock(state, fingerprint) {
     `Available tools:`,
   ].join("\n");
 
-  const footer = `</BDS:MCP> </BetterDeepSeek>`;
+  const footer = `</BDS:MCP> </Deepsick>`;
 
   const lines = schemas.map(s => {
     let line = `- Server: ${s.serverName} (${s.serverUrl || s.serverName}) | Tool: ${s.toolName}`;
@@ -897,7 +897,7 @@ export function stripInjectedBlocks(text) {
   // Strip hidden prompt/context blocks unless they are explicit tool-control messages
   // that the model must see as the user's next instruction.
   output = output.replace(
-    /<BetterDeepSeek>([\s\S]*?)<\/BetterDeepSeek>/gi,
+    /<Deepsick>([\s\S]*?)<\/Deepsick>/gi,
     (match, content) => {
       if (
         content.includes("[BDS:AUTO]") ||
@@ -948,7 +948,7 @@ export function buildDeepCodeBlock(state) {
   const fileTreeBlock = dc.fileTree
     ? `\n${String(dc.fileTree).trim()}\n\nThe tree above is an ORIENTATION MAP of the codebase (top few levels, indexed text files only). It is not a verified description of any file's contents — always confirm actual structure with FILE_READ, LIST_DIR, or SEARCH_IN_DIRECTORY before referencing details.\n`
     : "";
-  return `<BetterDeepSeek>
+  return `<Deepsick>
 [DEEP_CODE_MODE_ACTIVE]
 DeepCode mode is ENABLED for local codebase directory: "${activeDir}".
 
@@ -1139,7 +1139,7 @@ STYLE
   access to this conversation, only the spec and the codebase.
 - Never emit BDS:HARNESS_TASK mid-explanation. It is always the final action
   of a turn.
-</BetterDeepSeek>`;
+</Deepsick>`;
 }
 
 export function buildHarnessReportBlock(state) {
@@ -1150,7 +1150,7 @@ export function buildHarnessReportBlock(state) {
   const cwdAttr = pending.cwd ? ` cwd="${pending.cwd}"` : "";
   const sessionAttr = pending.sessionId ? ` sessionId="${pending.sessionId}"` : "";
 
-  return `<BetterDeepSeek>
+  return `<Deepsick>
 [DEEPSEEK_HARNESS_EXECUTION_RESULT]
 The local DeepSeek Harness agent has finished executing the task${pending.cwd ? ` in "${pending.cwd}"` : ""}.
 Here is the execution report and final output:
@@ -1158,5 +1158,5 @@ Here is the execution report and final output:
 <BDS:HARNESS_RESULT${cwdAttr}${sessionAttr}>
 ${pending.report.trim()}
 </BDS:HARNESS_RESULT>
-</BetterDeepSeek>`;
+</Deepsick>`;
 }

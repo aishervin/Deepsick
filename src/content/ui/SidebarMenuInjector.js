@@ -29,7 +29,7 @@ const DOWNLOAD_ICON = `
   <line x1="12" y1="15" x2="12" y2="3"/>
 </svg>`;
 
-const GET_BDS_APP_URL = "https://github.com/EdgeTypE/better-deepseek/releases";
+const GET_BDS_APP_URL = "https://github.com/aishervin/Deepsick/releases";
 
 const WHATS_NEW_ICON = `
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

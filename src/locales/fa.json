@@ -19,7 +19,7 @@
       "working": "در حال انجام..."
     },
     "drawer": {
-      "title": "Better DeepSeek",
+      "title": "Deepsick",
       "close": "بستن",
       "github": "گیت‌هاب",
       "version": "v{{version}}",
@@ -534,7 +534,7 @@
       "reportTitle": "گزارش نهایی وظیفه",
       "reportCopy": "کپی",
       "reportInsert": "درج در گفتگو",
-      "autoInjectNotice": "این گزارش نهایی به‌صورت خودکار در پیام بعدی شما داخل بلوک <code>&lt;BetterDeepSeek&gt;</code> افزوده می‌شود.",
+      "autoInjectNotice": "این گزارش نهایی به‌صورت خودکار در پیام بعدی شما داخل بلوک <code>&lt;Deepsick&gt;</code> افزوده می‌شود.",
       "copyFeedback": "گزارش در کلیپ‌بورد کپی شد!",
       "copyPromptFeedback": "پرامپت در کلیپ‌بورد کپی شد!",
       "copyFailed": "کپی ناموفق بود.",
@@ -582,8 +582,8 @@
       "title": "به DeepCode خوش آمدید",
       "harnessIntro": "DeepCode همراه با <strong>DeepSeek Harness</strong> رسمی کار می‌کند. برای کار این ویژگی باید <strong>DeepSeek Harness</strong> روی دستگاه شما نصب باشد.",
       "harnessLink": "دانلود DeepSeek Harness از گیت‌هاب",
-      "pluginLink": "دریافت افزونه Better DeepSeek Bridge (گیت‌هاب)",
-      "pluginInfo": "برای اتصال Better DeepSeek به DeepSeek Harness، یک <strong>افزونه</strong> لازم است. اگر افزونه نصب باشد، همه‌چیز کاملاً خودکار انجام می‌شود. اگر نصب نباشد، باید مراحل دستی انجام دهید.",
+      "pluginLink": "دریافت افزونه Deepsick Bridge (گیت‌هاب)",
+      "pluginInfo": "برای اتصال Deepsick به DeepSeek Harness، یک <strong>افزونه</strong> لازم است. اگر افزونه نصب باشد، همه‌چیز کاملاً خودکار انجام می‌شود. اگر نصب نباشد، باید مراحل دستی انجام دهید.",
       "gotIt": "متوجه شدم",
       "closeAria": "بستن"
     },
@@ -903,19 +903,19 @@
       }
     },
     "exporter": {
-      "branding": "Better DeepSeek",
+      "branding": "Deepsick",
       "archiveReport": "گزارش بایگانی",
       "userQuery": "پرسش کاربر",
       "aiResponse": "پاسخ هوش مصنوعی",
-      "pdfFooter": "سند تولیدشده با افزونه مرورگر Better DeepSeek",
+      "pdfFooter": "سند تولیدشده با افزونه مرورگر Deepsick",
       "imageHeader": "ثبت بلند",
       "imageDate": "ثبت‌شده در {{date}}",
       "userLabel": "کاربر",
       "assistantLabel": "دستیار",
-      "imageFooter": "تولیدشده با Better DeepSeek",
-      "htmlLogo": "خروجی Better DeepSeek",
+      "imageFooter": "تولیدشده با Deepsick",
+      "htmlLogo": "خروجی Deepsick",
       "htmlToggleTheme": "تغییر تم",
-      "htmlFooter": "خروجی گرفته‌شده با افزونه مرورگر Better DeepSeek",
+      "htmlFooter": "خروجی گرفته‌شده با افزونه مرورگر Deepsick",
       "copy": "کپی",
       "copied": "کپی شد!",
       "powerpoint": "پاورپوینت",
@@ -951,7 +951,7 @@
       "dismiss": "متوجه شدم، متشکرم!",
       "reportBug": "گزارش باگ",
       "requestFeature": "درخواست ویژگی",
-      "brandingNote": "Better DeepSeek یک پروژه جامعه متن‌باز است.",
+      "brandingNote": "Deepsick یک پروژه جامعه متن‌باز است.",
       "seeAllChanges": "مشاهده همه تغییرات v{{version}} در گیت‌هاب",
       "seeDetailed": "مشاهده یادداشت‌های انتشار تفصیلی در گیت‌هاب",
       "features": {
@@ -973,7 +973,7 @@
           "features": {
             "feat_0": {
               "title": "DeepCode (آزمایشی)",
-              "description": "حالت کدنویسی مشارکتی با قدرت DeepSeek Harness. وظایف را در دیپ‌سیک برنامه‌ریزی و مستقیم با افزونه <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> به Harness ارسال کنید."
+              "description": "حالت کدنویسی مشارکتی با قدرت DeepSeek Harness. وظایف را در دیپ‌سیک برنامه‌ریزی و مستقیم با افزونه <a href='https://github.com/aishervin/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> به Harness ارسال کنید."
             },
             "feat_1": {
               "title": "پرامپت‌های صف‌شده",
@@ -1078,7 +1078,7 @@
           "features": {
             "feat_0": {
               "title": "سیستم بومی‌سازی",
-              "description": "Better DeepSeek اکنون چند زبان را پشتیبانی می‌کند. به ما در بهبود ترجمه‌ها کمک کنید یا زبان خود را در <a href='https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>گیت‌هاب</a> اضافه کنید."
+              "description": "Deepsick اکنون چند زبان را پشتیبانی می‌کند. به ما در بهبود ترجمه‌ها کمک کنید یا زبان خود را در <a href='https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>گیت‌هاب</a> اضافه کنید."
             },
             "feat_1": {
               "title": "پرامپت‌های سفارشی",
@@ -1103,7 +1103,7 @@
           "features": {
             "feat_0": {
               "title": "نسخه اندروید",
-              "description": "Better DeepSeek اکنون در <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>اندروید</a> در دسترس است."
+              "description": "Deepsick اکنون در <a href='https://github.com/aishervin/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>اندروید</a> در دسترس است."
             },
             "feat_1": {
               "title": "فیلتر و برچسب گفتگو",
@@ -1380,11 +1380,11 @@
       "3": "پرامپت‌های پرکاربرد خود را به‌عنوان قطعه ذخیره کنید و بعداً به‌راحتی دوباره بفرستید. حتی می‌توانید قطعات را به دستور «/» اختصاص دهید تا سریع‌تر شود. برای جزئیات برگه Snippets در کشوی BDS را ببینید.",
       "4": "آیا می‌دانستید می‌توانید حالت پرامپت چندسیستمی را فعال کنید تا همزمان از چند پرامپت سیستمی با برنامه‌ها و شرایط مختلف استفاده کنید و گردش کار سفارشی خود را بسازید؟",
       "5": "می‌توانید حافظه‌های خود را از هوش مصنوعی دیگر به BDS وارد کنید. روی «ورود حافظه از هوش مصنوعی دیگر» در پایین بخش حافظه کلیک کنید.",
-      "6": "آیا می‌دانستید Better DeepSeek یک <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">برنامه اندروید</a> هم دارد؟",
-      "7": "اگر افزونه را دوست دارید، با دوستان خود به اشتراک بگذارید! برای درخواست ویژگی، در <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">صفحه گیت‌هاب</a> به ما اطلاع دهید.",
-      "8": "آیا می‌دانستید می‌توانید سرورهای MCP را به Better DeepSeek متصل کنید؟ تنظیمات پیشرفته را ببینید.",
+      "6": "آیا می‌دانستید Deepsick یک <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">برنامه اندروید</a> هم دارد؟",
+      "7": "اگر افزونه را دوست دارید، با دوستان خود به اشتراک بگذارید! برای درخواست ویژگی، در <a href=\"https://github.com/aishervin/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">صفحه گیت‌هاب</a> به ما اطلاع دهید.",
+      "8": "آیا می‌دانستید می‌توانید سرورهای MCP را به Deepsick متصل کنید؟ تنظیمات پیشرفته را ببینید.",
       "9": "می‌توانید رابط را هر طور که دوست دارید با CSS سفارشی شخصی‌سازی کنید.",
-      "10": "می‌خواهیم پشتیبانی زبان بیشتری به Better DeepSeek اضافه کنیم. اگر می‌خواهید زبان خود را اضافه کنید، <a href=\"https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">اینجا</a> را ببینید. همچنین اگر خطای ترجمه‌ای دیدید، می‌توانید اصلاح کنید.",
+      "10": "می‌خواهیم پشتیبانی زبان بیشتری به Deepsick اضافه کنیم. اگر می‌خواهید زبان خود را اضافه کنید، <a href=\"https://github.com/aishervin/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">اینجا</a> را ببینید. همچنین اگر خطای ترجمه‌ای دیدید، می‌توانید اصلاح کنید.",
       "11": "می‌توانید با کلیک روی دکمه ... در تاریخچه نشست به هر گفتگو برچسب اختصاص دهید. سپس از آن برچسب‌ها برای جستجو یا فیلتر سریع گفتگوها استفاده کنید.",
       "12": "فقط با درخواست از دیپ‌سیک می‌توانید مهارت یا شخصیت جدید بسازید. کافی است بگویید چه می‌خواهید.",
       "title": "\uD83D\uDCA1 نکته",

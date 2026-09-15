@@ -829,8 +829,8 @@ describe("searchWeb", () => {
         status: 200,
         html: makeResultHtml([
           {
-            title: "EdgeTypE/better-deepseek issue tracker 2025",
-            url: "https://github.com/EdgeTypE/better-deepseek/issues",
+            title: "aishervin/Deepsick issue tracker 2025",
+            url: "https://github.com/aishervin/Deepsick/issues",
             snippet: "Issue tracker for better-deepseek, active in 2025.",
           },
         ]),

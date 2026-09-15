@@ -113,7 +113,7 @@ export function patchXmlHttpRequest(
       return originalSend.call(this, nextBody);
     } catch (error) {
       const meta = this.__bdsRequestMeta || {};
-      console.warn("[BetterDeepSeek] XHR patch failed:", error);
+      console.warn("[Deepsick] XHR patch failed:", error);
       try {
         return originalSend.call(this, body);
       } catch (sendError) {

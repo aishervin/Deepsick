@@ -117,7 +117,7 @@
   <div class="report-header">
     <h1>Deep Research Report</h1>
     ${runId ? `<div class="meta">Run: ${runId.slice(0, 8)}</div>` : ""}
-    <div class="meta">${dateStr} &middot; Better DeepSeek</div>
+    <div class="meta">${dateStr} &middot; Deepsick</div>
   </div>
   <div class="report-content">${renderedHtml}</div>
 </body>

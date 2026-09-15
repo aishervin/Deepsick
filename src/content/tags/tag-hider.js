@@ -93,22 +93,22 @@ export function hideTagsInHeader() {
 }
 
 /**
- * Clean <BetterDeepSeek> and <BDS:...> tags from strings (handles raw and HTML-encoded forms).
+ * Clean <Deepsick> and <BDS:...> tags from strings (handles raw and HTML-encoded forms).
  */
 export function cleanBdsString(text) {
   if (!text) return "";
   let s = String(text);
 
-  // 1. Full/Closed <BetterDeepSeek>...</BetterDeepSeek> or <BDS:...>...</BDS:...>
-  s = s.replace(/(?:<|&lt;)BetterDeepSeek(?:>|&gt;)[\s\S]*?(?:<|&lt;)\/BetterDeepSeek(?:>|&gt;)/gi, "");
+  // 1. Full/Closed <Deepsick>...</Deepsick> or <BDS:...>...</BDS:...>
+  s = s.replace(/(?:<|&lt;)Deepsick(?:>|&gt;)[\s\S]*?(?:<|&lt;)\/Deepsick(?:>|&gt;)/gi, "");
   s = s.replace(/(?:<|&lt;)BDS:([A-Za-z0-9_:]+)[^>&]*?(?:>|&gt;)[\s\S]*?(?:<|&lt;)\/BDS:\1(?:>|&gt;)/gi, "");
 
-  // 2. Unclosed <BetterDeepSeek>... or <BDS:...>... (e.g. truncated preview strings)
-  s = s.replace(/(?:<|&lt;)BetterDeepSeek(?:>|&gt;)[\s\S]*/gi, "");
+  // 2. Unclosed <Deepsick>... or <BDS:...>... (e.g. truncated preview strings)
+  s = s.replace(/(?:<|&lt;)Deepsick(?:>|&gt;)[\s\S]*/gi, "");
   s = s.replace(/(?:<|&lt;)BDS:[A-Za-z0-9_:]+[^>&]*?(?:>|&gt;)[\s\S]*/gi, "");
 
   // 3. Any stray closing or opening tags
-  s = s.replace(/(?:<|&lt;)\/?BetterDeepSeek(?:>|&gt;)/gi, "");
+  s = s.replace(/(?:<|&lt;)\/?Deepsick(?:>|&gt;)/gi, "");
   s = s.replace(/(?:<|&lt;)\/?BDS:[A-Za-z0-9_:]+[^>&]*?(?:>|&gt;)/gi, "");
 
   return s.trim();
@@ -116,7 +116,7 @@ export function cleanBdsString(text) {
 
 /**
  * Scan DOM for popovers, virtual lists, version history items, and message summaries,
- * stripping <BetterDeepSeek> and <BDS:...> tags so they are invisible to users.
+ * stripping <Deepsick> and <BDS:...> tags so they are invisible to users.
  */
 export function hideBdsTagsInPopovers() {
   const candidates = document.querySelectorAll(
@@ -129,7 +129,7 @@ export function hideBdsTagsInPopovers() {
     if (el.children && el.children.length > 0) continue;
 
     const text = el.textContent || "";
-    if (!/BetterDeepSeek|BDS:/i.test(text)) continue;
+    if (!/Deepsick|BDS:/i.test(text)) continue;
 
     const stored = el.getAttribute("data-bds-clean-text");
     if (stored === text) continue;

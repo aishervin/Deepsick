@@ -126,7 +126,7 @@ describe("DeepCode Tag Parser", () => {
     expect(result.renderableBlocks[0].content).toContain("1. Update index.ts");
   });
 
-  it("should generate <BetterDeepSeek> block with <BDS:HARNESS_RESULT> when pendingReport exists", async () => {
+  it("should generate <Deepsick> block with <BDS:HARNESS_RESULT> when pendingReport exists", async () => {
     const { buildHarnessReportBlock } = await import("../../injected/payload-mutator.js");
     const state = {
       config: {
@@ -143,10 +143,10 @@ describe("DeepCode Tag Parser", () => {
     };
 
     const block = buildHarnessReportBlock(state);
-    expect(block).toContain("<BetterDeepSeek>");
+    expect(block).toContain("<Deepsick>");
     expect(block).toContain('<BDS:HARNESS_RESULT cwd="A:/Users/Edige/GitHub/asistan" sessionId="s-12345">');
     expect(block).toContain("## Syntax Scan Completed");
     expect(block).toContain("</BDS:HARNESS_RESULT>");
-    expect(block).toContain("</BetterDeepSeek>");
+    expect(block).toContain("</Deepsick>");
   });
 });

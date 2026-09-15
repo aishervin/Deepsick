@@ -35,7 +35,7 @@ export async function searchImages({ query, count = 1, width = 400, filetype, in
   let response;
   try {
     response = await fetch(url, {
-      headers: { "User-Agent": "BetterDeepSeek/1.0" },
+      headers: { "User-Agent": "Deepsick/1.0" },
       signal,
     });
   } catch {

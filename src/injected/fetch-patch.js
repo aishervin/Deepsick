@@ -90,7 +90,7 @@ export function patchFetch(state, isChatCompletionUrl, markStart, markEnd) {
         markEnd(url);
       }
     } catch (error) {
-      console.warn("[BetterDeepSeek] Request patch failed:", error);
+      console.warn("[Deepsick] Request patch failed:", error);
       return originalFetch.apply(this, arguments);
     }
   };

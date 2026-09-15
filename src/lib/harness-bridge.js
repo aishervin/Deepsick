@@ -6,7 +6,7 @@
  * - MOD B: Lightweight Fallback Mode (Clipboard + Open Tab) when bridge plugin is not installed.
  */
 
-export class BetterDeepSeekHarnessBridge {
+export class DeepsickHarnessBridge {
   constructor(baseUrl = "http://127.0.0.1:3080") {
     this.baseUrl = baseUrl.replace(/\/+$/, "");
     this.bdApi = `${this.baseUrl}/api/better-deepseek`;

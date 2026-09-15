@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from "svelte";
   import appState from "../state.js";
   import { getCachedPathForFolder, setPendingHarnessReport } from "../deep-code.js";
-  import { BetterDeepSeekHarnessBridge, runFallbackMode } from "../../lib/harness-bridge.js";
+  import { DeepsickHarnessBridge, runFallbackMode } from "../../lib/harness-bridge.js";
   import { t } from "../../lib/i18n.svelte.js";
 
   let { attrs = {}, content = "" } = $props();
@@ -30,7 +30,7 @@
 
   let pluginActive = $state(false);
   let pluginVersion = $state("");
-  let bridge = new BetterDeepSeekHarnessBridge();
+  let bridge = new DeepsickHarnessBridge();
 
   let liveLogs = $state([]);
   let assistantOutput = $state("");
@@ -312,11 +312,11 @@
           <div>
             <strong>{t("harnessTaskCard.fallbackHint")}</strong>
             <!-- Install script temporarily disabled while broken. Re-add once fixed.
-            <code>irm https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/scripts/install.ps1 | iex</code>
+            <code>irm https://raw.githubusercontent.com/aishervin/Deepsick/main/scripts/install.ps1 | iex</code>
             -->
             <a
               class="bds-plugin-repo-link"
-              href="https://github.com/EdgeTypE/dsh-better-deepseek"
+              href="https://github.com/aishervin/Deepsick"
               target="_blank"
               rel="noopener noreferrer"
             >

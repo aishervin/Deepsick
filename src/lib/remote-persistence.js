@@ -12,13 +12,13 @@
 import { deepEqual } from "./deep-equal.js";
 
 export const REMOTE_CONFIG_URL =
-  "https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/extension/remote-config.json";
+  "https://raw.githubusercontent.com/aishervin/Deepsick/main/extension/remote-config.json";
 
 export const REMOTE_STATUS_URL =
-  "https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/extension/status.json";
+  "https://raw.githubusercontent.com/aishervin/Deepsick/main/extension/status.json";
 
 export const LOCALE_BASE_URL =
-  "https://raw.githubusercontent.com/EdgeTypE/better-deepseek/main/src/locales";
+  "https://raw.githubusercontent.com/aishervin/Deepsick/main/src/locales";
 
 const STORAGE_KEY_CONFIG = "bds_remote_config";
 const STORAGE_KEY_CONFIG_META = "bds_remote_config_meta";
