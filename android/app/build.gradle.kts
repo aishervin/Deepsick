@@ -1,5 +1,10 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
+
 // Release tags are also the Android update version source. This keeps versionCode
 // strictly increasing for normal semver releases (vMAJOR.MINOR.PATCH).
 val releaseTagForBuild = project.findProperty("releaseTag")?.toString() ?: "v0.0.0"
@@ -10,11 +15,6 @@ val releaseVersionCode = semverMatch?.let {
     val patch = it.groupValues[3].toLongOrNull() ?: 0L
     (major * 1_000_000L + minor * 1_000L + patch).coerceAtMost(2_100_000_000L).toInt()
 } ?: 1
-
-plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-}
 
 android {
     namespace = "com.betterdeepseek.app"
