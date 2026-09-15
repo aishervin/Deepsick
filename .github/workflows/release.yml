@@ -10,9 +10,15 @@ on:
 
 jobs:
   release:
+    name: Android Release
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: write
+    env:
+      ANDROID_HOME: ${{ github.workspace }}/.android-sdk
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/.android-sdk
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,22 +46,22 @@ jobs:
             android/**/*.gradle*
             android/**/gradle-wrapper.properties
 
+      - name: Cache Android SDK
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.android-sdk
+          key: ${{ runner.os }}-android-sdk-34-build-tools-34.0.0-v1
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
         with:
           packages: platform-tools platforms;android-34 build-tools;34.0.0
 
       - name: Write Android local.properties
-        run: printf 'sdk.dir=%s\n' "$ANDROID_HOME" > android/local.properties
+        run: printf 'sdk.dir=%s\n' "$ANDROID_SDK_ROOT" > android/local.properties
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Build browser bundles
-        run: npm run build
-
-      - name: Build Android web bundle
-        run: npm run build:android
 
       - name: Ensure Gradle wrapper files exist
         working-directory: android
@@ -78,6 +84,9 @@ jobs:
         working-directory: android
         run: chmod +x ./gradlew
 
+      - name: Build Android web bundle
+        run: npm run build:android
+
       - name: Validate release signing credentials
         env:
           BDS_KEYSTORE_PASSWORD: ${{ secrets.BDS_KEYSTORE_PASSWORD }}
@@ -88,20 +97,18 @@ jobs:
           test -n "$BDS_KEYSTORE_PASSWORD" || { echo "ERROR: BDS_KEYSTORE_PASSWORD secret is missing"; exit 1; }
           test -n "$BDS_KEY_ALIAS" || { echo "ERROR: BDS_KEY_ALIAS secret is missing"; exit 1; }
           test -n "$BDS_KEY_PASSWORD" || { echo "ERROR: BDS_KEY_PASSWORD secret is missing"; exit 1; }
-          echo "Release signing credentials are present. No debug-signing fallback will be allowed."
+          echo "Release signing credentials are present."
 
-      - name: Decode Keystore
+      - name: Decode Keystore override
         env:
           BDS_KEYSTORE: ${{ secrets.BDS_KEYSTORE }}
         run: |
-          # If BDS_KEYSTORE is configured, it is the canonical release keystore.
-          # Otherwise the checked-in ci-release.jks is used.
           if [ -n "$BDS_KEYSTORE" ]; then
             echo "$BDS_KEYSTORE" | base64 --decode > android/ci-release.jks
           fi
           test -s android/ci-release.jks || { echo "ERROR: release keystore is empty"; exit 1; }
 
-      - name: Build Android APK
+      - name: Build Android release APK
         working-directory: android
         run: ./gradlew --no-daemon clean assembleRelease -PreleaseTag=${{ github.event.inputs.release_tag }}
         env:
@@ -122,33 +129,20 @@ jobs:
             $ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK_PATH" | grep -E "package: name=|versionCode=|versionName=" | head -1
           done
 
-      - name: Debug - List APKs
+      - name: List APKs
         working-directory: android
         run: ls -R app/build/outputs/apk/
 
-      - name: Prepare Browser Artifacts
-        run: |
-          VERSION=${{ github.event.inputs.release_tag }}
-          VERSION=${VERSION#v}
-          mv better-deepseek-chrome.zip   "better-deepseek-chrome-v${VERSION}.zip"
-          mv better-deepseek-firefox.zip  "better-deepseek-firefox-v${VERSION}.zip"
-
-      - name: Create Versioned Release
+      - name: Create Android Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.release_tag }}
           name: Release ${{ github.event.inputs.release_tag }}
           body: |
-            Automated Release for ${{ github.event.inputs.release_tag }}.
+            Android-only automated release for ${{ github.event.inputs.release_tag }}.
 
-            This release includes:
-            - Firefox / Chrome Extension Bundles
-            - 3 signed Android APKs for different architectures (arm64-v8a, armeabi-v7a, x86_64)
-
-            Android releases use the persistent release signing key and a monotonically increasing versionCode so existing installations can update in place.
+            APKs are signed with the persistent release key and use a monotonically increasing versionCode so existing installations can update in place.
           files: |
-            better-deepseek-chrome-*.zip
-            better-deepseek-firefox-*.zip
             android/app/build/outputs/apk/release/**/*.apk
           generate_release_notes: true
         env:
