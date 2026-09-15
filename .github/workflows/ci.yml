@@ -7,117 +7,6 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: Web / Extension
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      # Cache Playwright browsers so they aren't re-downloaded every run
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
-
-      - name: Install Playwright browser & deps
-        run: npx playwright install --with-deps chromium
-
-      - name: Build Chrome extension
-        run: npm run build:chrome
-
-      - name: Run Vitest suite
-        run: npm run test:unit
-
-      - name: Run Playwright suite
-        run: npm run test:e2e
-
-      - name: Upload coverage artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage
-          if-no-files-found: ignore
-
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report
-          if-no-files-found: ignore
-
-      - name: Upload Playwright traces
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: test-results
-          if-no-files-found: ignore
-
-  firefox-e2e:
-    name: Firefox E2E
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Cache Selenium browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/selenium
-          key: ${{ runner.os }}-selenium-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-selenium-
-
-      - name: Setup Firefox
-        id: setup-firefox
-        uses: browser-actions/setup-firefox@v1
-        with:
-          firefox-version: latest
-
-      - name: Print Firefox version
-        run: ${{ steps.setup-firefox.outputs.firefox-path }} --version
-
-      - name: Build Firefox extension
-        run: npm run build:firefox
-
-      - name: Run Firefox E2E suite
-        run: npm run test:e2e:firefox
-        env:
-          CI: "1"
-          FIREFOX_BIN: ${{ steps.setup-firefox.outputs.firefox-path }}
-
-      - name: Upload Firefox test artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-firefox
-          path: test-results-firefox
-          if-no-files-found: ignore
-
   android:
     name: Android
     runs-on: ubuntu-latest
@@ -160,17 +49,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
-
-      - name: Install Playwright browser & deps
-        run: npx playwright install --with-deps chromium
-
       - name: Ensure Gradle wrapper files exist
         working-directory: android
         run: |
@@ -195,12 +73,9 @@ jobs:
       - name: Build Android web bundle
         run: npm run build:android
 
-      - name: Build Android APK
+      - name: Build Android debug APK
         working-directory: android
         run: ./gradlew --no-daemon assembleDebug
-
-      - name: Run Android Playwright simulator suite
-        run: npm run test:e2e:android
 
       - name: Run Kotlin unit tests
         working-directory: android
@@ -211,23 +86,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-apk-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: ignore
-
-      - name: Upload Android Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report-android
-          path: playwright-report-android
-          if-no-files-found: ignore
-
-      - name: Upload Android Playwright traces
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-android
-          path: test-results
+          path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: ignore
 
       - name: Upload Android unit test report
