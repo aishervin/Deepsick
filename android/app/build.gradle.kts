@@ -1,4 +1,16 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+
+// Release tags are also the Android update version source. This keeps versionCode
+// strictly increasing for normal semver releases (vMAJOR.MINOR.PATCH).
+val releaseTagForBuild = project.findProperty("releaseTag")?.toString() ?: "v0.0.0"
+val semverMatch = Regex("^v?(\\d+)\\.(\\d+)\\.(\\d+)(?:[-+].*)?$").find(releaseTagForBuild)
+val releaseVersionCode = semverMatch?.let {
+    val major = it.groupValues[1].toLongOrNull() ?: 0L
+    val minor = it.groupValues[2].toLongOrNull() ?: 0L
+    val patch = it.groupValues[3].toLongOrNull() ?: 0L
+    (major * 1_000_000L + minor * 1_000L + patch).coerceAtMost(2_100_000_000L).toInt()
+} ?: 1
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -11,17 +23,20 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    
+
     defaultConfig {
         applicationId = "com.betterdeepseek.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 9
-        // Keep in sync with package.json "version" and static/manifest.json "version".
-        versionName = "0.1.13"
+        versionCode = releaseVersionCode
+        // Keep in sync with the release tag used by GitHub Actions.
+        versionName = releaseTagForBuild.removePrefix("v")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // IMPORTANT: release builds must ALWAYS use the same long-lived keystore.
+    // Falling back to the ephemeral GitHub Actions debug keystore makes every
+    // release have a different signing certificate and breaks Android updates.
     signingConfigs {
         create("release") {
             storeFile = rootProject.file("ci-release.jks")
@@ -36,18 +51,9 @@ android {
             isMinifyEnabled = false
         }
         release {
-            val hasReleaseSigning = rootProject.file("ci-release.jks").exists() &&
-                !System.getenv("BDS_KEYSTORE_PASSWORD").isNullOrBlank() &&
-                !System.getenv("BDS_KEY_ALIAS").isNullOrBlank() &&
-                !System.getenv("BDS_KEY_PASSWORD").isNullOrBlank()
-
-            signingConfig = if (hasReleaseSigning) {
-                signingConfigs.getByName("release")
-            } else {
-                // Allows CI to produce an APK even when release signing secrets are not configured.
-                // The APK is debug-signed and suitable for testing/output, not Play Store release.
-                signingConfigs.getByName("debug")
-            }
+            // Never silently produce a debug-signed release APK.
+            // CI validates that the keystore and all credentials exist before Gradle.
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -77,6 +83,7 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
     splits {
         abi {
             isEnable = true
@@ -87,14 +94,12 @@ android {
     }
 
     applicationVariants.all {
-        val releaseTag = project.findProperty("releaseTag") as? String ?: "latest"
         outputs.all {
             val outputImpl = this as BaseVariantOutputImpl
             val abi = outputImpl.filters.firstOrNull { it.filterType == com.android.build.VariantOutput.ABI }?.identifier ?: "universal"
-            outputImpl.outputFileName = "BetterDeepSeek-${releaseTag}-${abi}.apk"
+            outputImpl.outputFileName = "BetterDeepSeek-${releaseTagForBuild}-${abi}.apk"
         }
     }
-
 }
 
 dependencies {
