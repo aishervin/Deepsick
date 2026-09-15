@@ -17,6 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate release tag
+        run: |
+          if [[ ! "${{ github.event.inputs.release_tag }}" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+([+-].*)?$ ]]; then
+            echo "ERROR: release_tag must be semver, for example v1.2.3"
+            exit 1
+          fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -71,40 +78,57 @@ jobs:
         working-directory: android
         run: chmod +x ./gradlew
 
+      - name: Validate release signing credentials
+        env:
+          BDS_KEYSTORE_PASSWORD: ${{ secrets.BDS_KEYSTORE_PASSWORD }}
+          BDS_KEY_ALIAS: ${{ secrets.BDS_KEY_ALIAS }}
+          BDS_KEY_PASSWORD: ${{ secrets.BDS_KEY_PASSWORD }}
+        run: |
+          test -f android/ci-release.jks || { echo "ERROR: release keystore is missing"; exit 1; }
+          test -n "$BDS_KEYSTORE_PASSWORD" || { echo "ERROR: BDS_KEYSTORE_PASSWORD secret is missing"; exit 1; }
+          test -n "$BDS_KEY_ALIAS" || { echo "ERROR: BDS_KEY_ALIAS secret is missing"; exit 1; }
+          test -n "$BDS_KEY_PASSWORD" || { echo "ERROR: BDS_KEY_PASSWORD secret is missing"; exit 1; }
+          echo "Release signing credentials are present. No debug-signing fallback will be allowed."
+
       - name: Decode Keystore
         env:
           BDS_KEYSTORE: ${{ secrets.BDS_KEYSTORE }}
         run: |
+          # If BDS_KEYSTORE is configured, it is the canonical release keystore.
+          # Otherwise the checked-in ci-release.jks is used.
           if [ -n "$BDS_KEYSTORE" ]; then
             echo "$BDS_KEYSTORE" | base64 --decode > android/ci-release.jks
-          else
-            echo "Warning: BDS_KEYSTORE secret is missing. Release build might fail or be unsigned."
           fi
+          test -s android/ci-release.jks || { echo "ERROR: release keystore is empty"; exit 1; }
 
       - name: Build Android APK
         working-directory: android
-        run: ./gradlew --no-daemon assembleRelease -PreleaseTag=${{ github.event.inputs.release_tag }}
+        run: ./gradlew --no-daemon clean assembleRelease -PreleaseTag=${{ github.event.inputs.release_tag }}
         env:
           BDS_KEYSTORE_PASSWORD: ${{ secrets.BDS_KEYSTORE_PASSWORD }}
           BDS_KEY_ALIAS: ${{ secrets.BDS_KEY_ALIAS }}
           BDS_KEY_PASSWORD: ${{ secrets.BDS_KEY_PASSWORD }}
 
+      - name: Verify APK signatures and version
+        working-directory: android
+        run: |
+          for APK_PATH in $(find app/build/outputs/apk/release -name "*.apk"); do
+            echo "=================================================="
+            echo "Verifying $APK_PATH"
+            $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose "$APK_PATH"
+            echo "Certificate fingerprint:"
+            $ANDROID_HOME/build-tools/34.0.0/apksigner verify --print-certs "$APK_PATH"
+            echo "APK version:"
+            $ANDROID_HOME/build-tools/34.0.0/aapt dump badging "$APK_PATH" | grep -E "package: name=|versionCode=|versionName=" | head -1
+          done
+
       - name: Debug - List APKs
         working-directory: android
         run: ls -R app/build/outputs/apk/
 
-      - name: Verify APK Signatures
-        working-directory: android
-        run: |
-          for APK_PATH in $(find app/build/outputs/apk/release -name "*.apk"); do
-            echo "Verifying $APK_PATH..."
-            $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose "$APK_PATH"
-          done
-
       - name: Prepare Browser Artifacts
         run: |
           VERSION=${{ github.event.inputs.release_tag }}
-          # strip 'v' prefix if present for versioning
           VERSION=${VERSION#v}
           mv better-deepseek-chrome.zip   "better-deepseek-chrome-v${VERSION}.zip"
           mv better-deepseek-firefox.zip  "better-deepseek-firefox-v${VERSION}.zip"
@@ -116,10 +140,12 @@ jobs:
           name: Release ${{ github.event.inputs.release_tag }}
           body: |
             Automated Release for ${{ github.event.inputs.release_tag }}.
-            
+
             This release includes:
             - Firefox / Chrome Extension Bundles
-            - 3 Signed Android APKs for different architectures (arm64-v8a, armeabi-v7a, x86_64)
+            - 3 signed Android APKs for different architectures (arm64-v8a, armeabi-v7a, x86_64)
+
+            Android releases use the persistent release signing key and a monotonically increasing versionCode so existing installations can update in place.
           files: |
             better-deepseek-chrome-*.zip
             better-deepseek-firefox-*.zip
