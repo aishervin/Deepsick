@@ -71,24 +71,10 @@ jobs:
         working-directory: android
         run: chmod +x ./gradlew
 
-      - name: Decode Keystore
-        env:
-          BDS_KEYSTORE: ${{ secrets.BDS_KEYSTORE }}
-        run: |
-          if [ -n "$BDS_KEYSTORE" ]; then
-            echo "$BDS_KEYSTORE" | base64 --decode > android/ci-release.jks
-          else
-            echo "Warning: BDS_KEYSTORE secret is missing. Release build might fail or be unsigned."
-          fi
-
       - name: Build Android APK
         working-directory: android
         run: ./gradlew --no-daemon assembleRelease
-        env:
-          BDS_KEYSTORE_PASSWORD: ${{ secrets.BDS_KEYSTORE_PASSWORD }}
-          BDS_KEY_ALIAS: ${{ secrets.BDS_KEY_ALIAS }}
-          BDS_KEY_PASSWORD: ${{ secrets.BDS_KEY_PASSWORD }}
-
+        
       - name: Verify APK Signature
         run: |
           APK_PATH=$(find android/app/build/outputs/apk/release -name "*.apk" | head -n 1)

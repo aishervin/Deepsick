@@ -27,10 +27,10 @@ android {
         }
         signingConfigs {
             create("release") {
-                storeFile = rootProject.file("ci-release.jks")
-                storePassword = System.getenv("BDS_KEYSTORE_PASSWORD") ?: ""
-                keyAlias = System.getenv("BDS_KEY_ALIAS") ?: ""
-                keyPassword = System.getenv("BDS_KEY_PASSWORD") ?: ""
+                storeFile = file("release.jks")
+                storePassword = "bds123456"
+                keyAlias = "release"
+                keyPassword = "bds123456"
             }
         }
         release {
