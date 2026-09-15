@@ -1,0 +1,1394 @@
+{
+  "updatedAt": "2026-08-30T00:00:00Z",
+  "messages": {
+    "common": {
+      "save": "ذخیره",
+      "cancel": "انصراف",
+      "delete": "حذف",
+      "edit": "ویرایش",
+      "close": "بستن",
+      "back": "بازگشت",
+      "export": "خروجی",
+      "import": "ورودی",
+      "refresh": "بازنشانی",
+      "download": "دانلود",
+      "name": "نام",
+      "content": "محتوا",
+      "description": "توضیحات",
+      "none": "هیچ‌کدام",
+      "working": "در حال انجام..."
+    },
+    "drawer": {
+      "title": "Better DeepSeek",
+      "close": "بستن",
+      "github": "گیت‌هاب",
+      "version": "v{{version}}",
+      "exportAll": "خروجی از همه داده‌ها",
+      "importAll": "ورود همه داده‌ها",
+      "exportEncrypt": "محافظت با رمز عبور (توصیه می‌شود)",
+      "enterPassword": "رمز عبور را وارد کنید",
+      "confirmPassword": "تأیید رمز عبور",
+      "passwordTooShort": "رمز عبور باید حداقل ۴ نویسه باشد.",
+      "passwordMismatch": "رمزهای عبور مطابقت ندارند.",
+      "passwordRequired": "رمز عبور الزامی است.",
+      "passwordWrong": "رمز عبور نادرست است.",
+      "exportDone": "داده‌ها با موفقیت خروجی گرفته شد.",
+      "exportFailed": "خروجی گرفتن از داده‌ها ناموفق بود.",
+      "exporting": "در حال خروجی...",
+      "importing": "در حال ورود...",
+      "download": "دانلود",
+      "decrypt": "رمزگشایی",
+      "selectSections": "بخش‌های مورد نظر برای ورود را انتخاب کنید:",
+      "importBtn": "ورود",
+      "importParseError": "قالب فایل نامعتبر است.",
+      "importDone": "داده‌ها با موفقیت وارد شد.",
+      "importFailed": "ورود داده‌ها ناموفق بود.",
+      "importContextError": "افزونه به‌روزرسانی شد. لطفاً صفحه را دوباره بارگذاری و دوباره تلاش کنید.",
+      "importPasswordPlaceholder": "رمز خروجی را وارد کنید",
+      "sectionSettings": "تنظیمات",
+      "sectionPrompts": "پرامپت‌های سیستمی سفارشی",
+      "sectionSkills": "مجموعه مهارت",
+      "sectionCharacters": "شخصیت‌های نقش‌آفرینی",
+      "sectionMemories": "حافظه‌های ذخیره‌شده",
+      "sectionProjects": "پروژه‌ها",
+      "sectionProjectFiles": "فایل‌های پروژه",
+      "sectionChatTags": "برچسب‌های گفتگو",
+      "sectionSavedItems": "موارد ذخیره‌شده",
+      "sectionCssSnippets": "قطعات CSS",
+      "sectionMcpServers": "سرورهای MCP"
+    },
+    "settings": {
+      "generalSettings": "تنظیمات عمومی",
+      "systemPrompts": "پرامپت‌های سیستمی",
+      "defaultPromptName": "پیش‌فرض (پنهان)",
+      "defaultPromptStatus": "دستورالعمل‌های اصلی فقط‌خواندنی",
+      "customPromptStatus": "پرامپت سفارشی ذخیره‌شده",
+      "view": "مشاهده",
+      "edit": "ویرایش",
+      "delete": "حذف",
+      "addNewPrompt": "افزودن پرامپت سیستمی جدید",
+      "addNewTitle": "افزودن پرامپت جدید",
+      "viewTitle": "مشاهده پرامپت",
+      "editTitle": "ویرایش پرامپت",
+      "nameLabel": "نام",
+      "namePlaceholder": "مثلاً قوانین سفارشی من",
+      "contentLabel": "محتوا",
+      "contentPlaceholder": "دستورالعمل‌های سیستمی اینجا...",
+      "baseOnDefault": "مبنا بر پیش‌فرض",
+      "cancel": "انصراف",
+      "savePrompt": "ذخیره پرامپت",
+      "nameRequired": "نام و محتوا الزامی است.",
+      "settingsSaved": "تنظیمات ذخیره شد.",
+      "advancedSettings": "تنظیمات پیشرفته",
+      "subLanguage": "زبان و منطقه",
+      "subChat": "گفتگو و پیام‌ها",
+      "subProjects": "پروژه‌ها و فایل‌ها",
+      "subInjection": "پرامپت و حافظه",
+      "subResearch": "تحقیق عمیق",
+      "subVoice": "صدا",
+      "subIntegrations": "یکپارچه‌سازی‌ها",
+      "subUtilities": "ابزارها",
+      "subCSS": "CSS سفارشی",
+      "projectAutoContext": "زمینه خودکار پروژه (RAG محلی)",
+      "processGitignore": "پردازش .gitignore هنگام بارگذاری",
+      "autoDownloadFiles": "دانلود خودکار خروجی‌های create_file",
+      "disableSystemPrompt": "غیرفعال‌کردن پرامپت سیستمی پنهان",
+      "disableMemory": "غیرفعال‌کردن تزریق حافظه ذخیره‌شده",
+      "injectSystemDateTime": "تزریق تاریخ و زمان سیستم به پیام‌ها",
+      "skipDeletionConfirmation": "ردکردن تأیید حذف",
+      "injectionFrequency": "بسامد تزریق پرامپت سیستمی",
+      "firstMessage": "فقط در اولین پیام",
+      "everyMessage": "همیشه (هر پیام)",
+      "everyNMessages": "هر N پیام",
+      "injectionInterval": "بازه تزریق (N)",
+      "injectEveryN": "تزریق پرامپت هر {{n}} پیام.",
+      "voiceMode": "حالت صوتی (خواندن خودکار پاسخ‌ها)",
+      "autoSubmitVoice": "ارسال خودکار پس از گفتار",
+      "speechLanguage": "زبان گفتار",
+      "vadSilenceTimeout": "مهلت سکوت",
+      "autoDownloadZip": "دانلود خودکار zip کار طولانی",
+      "preferredLang": "زبان پاسخ ترجیحی",
+      "preferredLangPlaceholder": "مثلاً فارسی، انگلیسی، شبیه دزد دریایی",
+      "preferredLangHint": "خالی بگذارید تا مدل تصمیم بگیرد.",
+      "markdownMaxDepth": "حداکثر عمق Markdown Walker",
+      "markdownMaxDepthHint": "سقف سخت عمق بازگشت DOM هنگام بازسازی مارک‌داون از پیام. کمتر = امن‌تر در برابر سرریز پشته در محتوای بسیار تودرتو؛ بیشتر = حفظ ساختار پیام‌های فوق‌العاده تودرتو. پیش‌فرض ۲۰۰.",
+      "chatSessionCap": "سقف فهرست نشست‌های گفتگو",
+      "chatSessionCapHint": "حداکثر تعداد نشست‌های گفتگو که برای نوار کناری در حافظه نگهداری می‌شود. نشست‌های قدیمی‌تر فراتر از این سقف حذف می‌شوند (FIFO). مقادیر کمتر مصرف حافظه را در برگه‌های طولانی‌مدت کاهش می‌دهد. پیش‌فرض ۵۰۰.",
+      "githubToken": "توکن دسترسی شخصی گیت‌هاب",
+      "githubTokenPlaceholder": "ghp_...",
+      "githubTokenHelp": "یک توکن کلاسیک با دسترسی repo از GitHub Settings -> Tokens بسازید.",
+      "githubTokenShow": "نمایش",
+      "githubTokenHide": "پنهان",
+      "githubTokenClear": "پاک‌کردن",
+      "tokenPriceEstimation": "تخمین قیمت توکن (آزمایشی)",
+      "tokenPriceHint": "هزینه تخمینی API دیپ‌سیک به ازای هر پیام و مجموع نشست را نشان می‌دهد. قیمت توکن‌های ورودی/خروجی برای تخمین استفاده می‌شود. داده قیمت به‌صورت پویا با جایگزین‌ها دریافت می‌شود.",
+      "deepResearchContextGuard": "محافظ زمینه تحقیق عمیق",
+      "contextGuardEnabled": "فعال‌کردن محافظ زمینه",
+      "contextGuardEnabledHint": "تحقیق عمیق مدیریت‌شده را پیش از اتمام پنجره زمینه گفتگو متوقف می‌کند. پرامپت‌های پنهان افزونه، خلاصه شواهد و مصرف گزارش‌شده سرور را ردیابی می‌کند.",
+      "contextGuardLimit": "محدودیت زمینه (توکن)",
+      "contextGuardLimitHint": "اندازه پنجره زمینه گفتگوی وب دیپ‌سیک. پیش‌فرض ۱۲۸٬۰۰۰ توکن.",
+      "contextGuardStopPercent": "آستانه توقف (٪)",
+      "contextGuardStopPercentHint": "تحقیق عمیق وقتی زمینه تخمینی به {{threshold}} توکن برسد متوقف می‌شود. محدود به ۵۰ تا ۹۵٪.",
+      "searchProviders": "ارائه‌دهندگان جستجو",
+      "searchProvidersHint": "موتورهای استفاده‌شده برای جستجوی خودکار وب را انتخاب و مرتب کنید. اولین موتوری که نتایج قوی برگرداند برنده است.",
+      "providerMoveUp": "انتقال ارائه‌دهنده به بالا",
+      "providerMoveDown": "انتقال ارائه‌دهنده به پایین",
+      "searchProvider": {
+        "ddgLite": "DuckDuckGo (Lite)",
+        "ddgHtml": "DuckDuckGo (HTML)",
+        "bing": "Bing"
+      },
+      "collapseLongUserMessages": "جمع‌کردن پیام‌های طولانی کاربر",
+      "collapseLongUserMessagesHint": "پیام‌های بسیار طولانی کاربر را به‌صورت خودکار پشت دکمه «بیشتر بخوانید» پنهان می‌کند.",
+      "loadAllHistoryOnSession": "بارگذاری همه تاریخچه هنگام بازکردن نشست",
+      "loadAllHistoryHint": "برای فعال‌شدن بارگذاری تنبل دیپ‌سیک به بالای گفتگو می‌رود و اطمینان می‌دهد همه پیام‌ها برای خروجی و محاسبه قیمت در دسترس باشند. برای گفتگوهای طولانی ممکن است کند باشد. به‌صورت پیش‌فرض غیرفعال است.",
+      "showTimestamps": "نمایش زمان پیام‌ها",
+      "showTimestampsHint": "زمان دقیق ارسال یا دریافت هر پیام را در گفتگو نشان می‌دهد.",
+      "save": "ذخیره تنظیمات",
+      "ragChunks": "حداکثر قطعات RAG برای تزریق",
+      "ragChunks3": "۳ قطعه (~۶۰۰ واژه)",
+      "ragChunks5": "۵ قطعه (~۱۰۰۰ واژه)",
+      "ragChunks8": "۸ قطعه (~۱۶۰۰ واژه)",
+      "ragChunks10": "۱۰ قطعه (~۲۰۰۰ واژه)",
+      "ragHint": "به‌صورت خودکار بخش‌های مرتبط را از فایل‌های پروژه شما بازیابی می‌کند.",
+      "projectInstructions": "دستورالعمل‌های پروژه",
+      "projectInstructionsPlaceholder": "دستورالعمل‌های سفارشی که به پرامپت سیستمی سراسری برای این پروژه افزوده می‌شود…",
+      "autoSaved": "ذخیره خودکار شد",
+      "languageSettings": "تنظیمات زبان",
+      "syncLocale": "همگام‌سازی زبان افزونه با مرورگر",
+      "selectLanguage": "زبان",
+      "checkUpdates": "بررسی به‌روزرسانی زبان",
+      "resetFactory": "بازنشانی به زبان‌های کارخانه",
+      "lastChecked": "آخرین بررسی: {{date}}",
+      "updateAvailable": "به‌روزرسانی زبان موجود است!",
+      "updatedSuccess": "فایل‌های زبان با موفقیت به‌روزرسانی شد.",
+      "resetSuccess": "فایل‌های زبان به پیش‌فرض کارخانه بازنشانی شد.",
+      "updateFailed": "بررسی به‌روزرسانی زبان ناموفق بود.",
+      "unsavedTitle": "تغییرات ذخیره‌نشده",
+      "unsavedMessage": "تغییرات تنظیمات ذخیره‌نشده دارید. مطمئنید می‌خواهید آن‌ها را دور بریزید؟",
+      "discard": "دور ریختن",
+      "keepEditing": "ادامه ویرایش",
+      "customCSS": "CSS سفارشی",
+      "customCSSPlaceholder": "/* بازنویسی‌های CSS خود را اینجا بچسبانید یا یک پیش‌تنظیم بالا انتخاب کنید */",
+      "multiPromptMode": "حالت چند پرامپت سیستمی (پیشرفته)",
+      "scheduleType": "برنامه تزریق",
+      "enabled": "فعال",
+      "cssPresets": "پیش‌تنظیم‌ها",
+      "presetNone": "هیچ‌کدام",
+      "presetReducePadding": "کاهش فاصله گفتگو",
+      "presetWiderMessages": "پیام‌های پهن‌تر",
+      "presetCompact": "رابط فشرده",
+      "presetBetterCodeFont": "فونت بهتر کد",
+      "saveAsSnippet": "ذخیره به‌عنوان قطعه",
+      "manageSnippets": "مدیریت قطعات CSS",
+      "restore": "بازیابی",
+      "enterSnippetName": "نام قطعه را وارد کنید:",
+      "snippetSaved": "قطعه ذخیره شد!",
+      "snippetDeleted": "قطعه حذف شد",
+      "presetRestored": "پیش‌تنظیم به پیش‌فرض بازنشانی شد",
+      "duplicateNameError": "قطعه‌ای با این نام از قبل وجود دارد.",
+      "updateSnippet": "به‌روزرسانی قطعه",
+      "snippetUpdated": "قطعه به‌روزرسانی شد!",
+      "editingSnippet": "در حال ویرایش قطعه: {{name}}",
+      "exitEditMode": "خروج از حالت ویرایش",
+      "noSnippets": "هنوز قطعه CSS وجود ندارد.",
+      "advancedSearchPlaceholder": "جستجوی تنظیمات...",
+      "advancedNoResults": "تنظیمات منطبقی یافت نشد.",
+      "disableTipBox": "غیرفعال‌کردن جعبه نکته",
+      "disableTipBoxHint": "هر بار که کشو باز می‌شود یک نکته تصادفی نشان می‌دهد."
+    },
+    "skillList": {
+      "title": "مجموعه مهارت",
+      "export": "خروجی",
+      "import": "ورودی",
+      "uploadLabel": "بارگذاری مهارت (.md)",
+      "empty": "هیچ مهارتی بارگذاری نشده است.",
+      "namePlaceholder": "نام مهارت",
+      "usagePlaceholder": "کاربرد (مثلاً typescript, react)",
+      "contentPlaceholder": "شخصیت/دستورالعمل مهارت...",
+      "cancel": "انصراف",
+      "save": "ذخیره",
+      "edit": "ویرایش",
+      "delete": "حذف",
+      "onlyMdOrJson": "فقط فایل‌های .md و .json برای مهارت‌ها پشتیبانی می‌شوند.",
+      "onlyMd": "فقط فایل‌های .md برای مهارت‌ها پشتیبانی می‌شوند.",
+      "loaded": "مهارت بارگذاری شد: {{name}}",
+      "removed": "مهارت حذف شد.",
+      "saved": "مهارت ذخیره شد.",
+      "importedCount": "{{count}} مهارت وارد شد.",
+      "importFailed": "ورود مهارت‌ها ناموفق بود. قالب فایل نامعتبر است."
+    },
+    "characterList": {
+      "title": "شخصیت‌های نقش‌آفرینی",
+      "export": "خروجی",
+      "import": "ورودی",
+      "uploadLabel": "بارگذاری پرسونا (.md)",
+      "defaultOption": "هیچ‌کدام (دستیار)",
+      "empty": "هیچ پرسونایی ذخیره نشده است.",
+      "namePlaceholder": "نام شخصیت",
+      "usagePlaceholder": "کاربرد (مثلاً سرگرمی، فلسفه)",
+      "contentPlaceholder": "دستورالعمل/پیشینه شخصیت...",
+      "cancel": "انصراف",
+      "save": "ذخیره",
+      "edit": "ویرایش",
+      "delete": "حذف",
+      "onlyMdOrJson": "فقط فایل‌های .md و .json برای پرسوناها پشتیبانی می‌شوند.",
+      "onlyMd": "فقط فایل‌های .md برای بارگذاری پرسونا پشتیبانی می‌شوند.",
+      "loaded": "شخصیت بارگذاری شد: {{name}}",
+      "removed": "شخصیت حذف شد.",
+      "saved": "شخصیت ذخیره شد.",
+      "importedCount": "{{count}} پرسونا وارد شد.",
+      "importFailed": "ورود پرسوناها ناموفق بود. قالب فایل نامعتبر است."
+    },
+    "memoryList": {
+      "title": "حافظه ذخیره‌شده",
+      "export": "خروجی",
+      "import": "ورودی",
+      "empty": "هنوز ورودی حافظه‌ای وجود ندارد.",
+      "delete": "حذف",
+      "edit": "ویرایش",
+      "editTitle": "ویرایش حافظه",
+      "saved": "حافظه ذخیره شد: {{key}}",
+      "importSuccess": "حافظه‌ها با موفقیت وارد شدند.",
+      "importFailed": "ورود ناموفق بود: خطای قالب JSON.",
+      "deleted": "حافظه حذف شد: {{key}}",
+      "more": "+{{count}} بیشتر"
+    },
+    "memoryImport": {
+      "title": "ورود حافظه از هوش مصنوعی دیگر",
+      "step1Title": "۱. پرامپت را کپی و در هوش مصنوعی دیگر جای‌گذاری کنید",
+      "copyPrompt": "کپی",
+      "copied": "کپی شد!",
+      "step2Title": "۲. پاسخ هوش مصنوعی را زیر جای‌گذاری کنید",
+      "placeholder": "پاسخ هوش مصنوعی را اینجا جای‌گذاری کنید...",
+      "importButton": "ورود و شروع نشست تخصصی",
+      "importError": "ابتدا پاسخ هوش مصنوعی را جای‌گذاری کنید."
+    },
+    "projectsManager": {
+      "noFilesPicked": "چیزی پیوست نشد - فایل(های) انتخابی پشتیبانی‌نشده، بیش از حد بزرگ (بیش از ۲ مگابایت) یا باینری هستند.",
+      "someFilesSkipped": "{{skipped}} از {{total}} فایل انتخابی قابل پیوست نبود (پشتیبانی‌نشده، بیش از حد بزرگ یا باینری).",
+      "folderNoTextFiles": "هیچ فایل متنی پشتیبانی‌شده‌ای در پوشه انتخابی یافت نشد.",
+      "pickTimeout": "انتخاب‌گر فایل نتیجه‌ای برنگرداند. لطفاً دوباره تلاش کنید.",
+      "back": "بازگشت",
+      "title": "پروژه‌ها",
+      "manage": "مدیریت پروژه‌ها",
+      "newProject": "+ پروژه جدید",
+      "nameRequired": "نام پروژه (الزامی)",
+      "descriptionOptional": "توضیحات (اختیاری)",
+      "cancel": "انصراف",
+      "create": "ایجاد",
+      "empty": "هنوز پروژه‌ای وجود ندارد.",
+      "nameLabel": "نام",
+      "descriptionLabel": "توضیحات",
+      "optional": "اختیاری",
+      "customInstructions": "دستورالعمل‌های سفارشی",
+      "instructionsPlaceholder": "دستورالعمل‌هایی که هنگام فعال‌بودن این پروژه به پرامپت سیستمی سراسری افزوده می‌شود...",
+      "autoSaved": "ذخیره خودکار شد",
+      "files": "فایل‌ها",
+      "exportAll": "خروجی همه",
+      "noFiles": "هنوز فایلی اضافه نشده است.",
+      "export": "خروجی",
+      "delete": "حذف",
+      "uploadFile": "+ بارگذاری فایل",
+      "uploadFolder": "+ بارگذاری پوشه",
+      "fileHint": "فقط فایل‌های متنی ساده. حداکثر ۵۰۰ کیلوبایت به ازای هر فایل.",
+      "localDirectory": "پوشه محلی",
+      "permissionLost": "(دسترسی از دست رفت — پیوند دوباره)",
+      "refresh": "بازنشانی",
+      "unlink": "قطع پیوند",
+      "linkDirectory": "+ پیوند پوشه محلی",
+      "selectingDir": "در حال انتخاب پوشه...",
+      "dirHint": "فایل‌ها به‌صورت زنده از سیستم فایل شما خوانده می‌شوند (کپی نمی‌شوند). فقط مرورگرهای مبتنی بر کرومیوم.",
+      "deleteProject": "حذف پروژه",
+      "nameIsRequired": "نام الزامی است.",
+      "filePickFailed": "انتخاب فایل ناموفق بود.",
+      "fileTooLarge": "«{{name}}» بیش از حد بزرگ است ({{size}} کیلوبایت)",
+      "fileUnreadable": "خواندن «{{name}}» ممکن نشد",
+      "fileEmpty": "«{{name}}» خالی است",
+      "storageError": "خطای ذخیره‌سازی: {{msg}}",
+      "folderPickFailed": "انتخاب پوشه ناموفق بود.",
+      "folderRequiresNewer": "بارگذاری پوشه به نسخه جدیدتری از برنامه نیاز دارد.",
+      "folderUploadFailed": "بارگذاری پوشه ناموفق بود: {{msg}}",
+      "filesUploaded": "{{count}} فایل بارگذاری شد، {{skipped}} رد شد (بیش از حد بزرگ، ناخوانا یا غیرمتنی).",
+      "linkFailed": "پیوند پوشه ناموفق بود.",
+      "refreshFailed": "بازنشانی پوشه ناموفق بود.",
+      "downloadAll": "دانلود همه فایل‌ها به‌صورت یک فایل متنی به‌هم‌چسبیده",
+      "downloadFile": "دانلود {{name}}",
+      "removeFile": "حذف {{name}} از این پروژه",
+      "deleteConfirm": "حذف «{{name}}»؟ این کار {{count}} فایل آن را نیز حذف می‌کند.",
+      "filesUploadedShort": "{{count}} فایل بارگذاری شد، {{skipped}} رد شد (بیش از حد بزرگ یا خالی)."
+    },
+    "projectsCard": {
+      "title": "پروژه‌ها",
+      "manage": "مدیریت",
+      "description": "انتخاب پروژه و فایل زیر ورودی گفتگو در دسترس است."
+    },
+    "selectionOverlay": {
+      "selected": "انتخاب‌شده",
+      "deselectAll": "لغو انتخاب همه",
+      "selectAll": "انتخاب همه",
+      "markdown": "مارک‌داون (.md)",
+      "pdf": "سند PDF",
+      "html": "HTML تعاملی",
+      "image": "اسکرین‌شات بلند",
+      "cancel": "انصراف",
+      "exportHint": "ابتدا پیام‌هایی را که می‌خواهید خروجی بگیرید انتخاب کنید."
+    },
+    "questionPanel": {
+      "of": "{{current}} از {{total}}",
+      "dismiss": "ردکردن",
+      "somethingElse": "چیز دیگر...",
+      "typeAnswer": "پاسخ خود را اینجا بنویسید...",
+      "keyboardNav": "↑↓ برای پیمایش",
+      "keyboardSelect": "Enter برای انتخاب",
+      "keyboardClose": "Esc برای بستن",
+      "sendAnswers": "ارسال پاسخ‌ها",
+      "skip": "ردکردن",
+      "next": "بعدی",
+      "other": "دیگر",
+      "noOptionSkipped": "*(هیچ گزینه‌ای انتخاب نشد / رد شد)*",
+      "noAnswerSkipped": "*(هیچ پاسخی داده نشد / رد شد)*",
+      "answersHeader": "در اینجا پاسخ سؤالات شفاف‌سازی شما آمده است:\n\n",
+      "noInputField": "فیلد ورودی دیپ‌سیک یافت نشد."
+    },
+    "statusBanner": {
+      "title": "مشکل دیپ‌سیک {{indicator}} شناسایی شد | {{description}}",
+      "message": "مشکل از سمت شما نیست، مربوط به سمت دیپ‌سیک است. ممکن است سرورها به دلیل بار زیاد یا نگهداری دچار مشکل شده باشند."
+    },
+    "announcementBanner": {
+      "dismiss": "ردکردن"
+    },
+    "attachMenu": {
+      "noFilesPicked": "چیزی پیوست نشد - فایل(های) انتخابی پشتیبانی‌نشده، بیش از حد بزرگ (بیش از ۲ مگابایت) یا باینری هستند.",
+      "someFilesSkipped": "{{skipped}} از {{total}} فایل انتخابی قابل پیوست نبود (پشتیبانی‌نشده، بیش از حد بزرگ یا باینری).",
+      "folderNoTextFiles": "هیچ فایل متنی پشتیبانی‌شده‌ای در پوشه انتخابی یافت نشد.",
+      "pickTimeout": "انتخاب‌گر فایل نتیجه‌ای برنگرداند. لطفاً دوباره تلاش کنید.",
+      "imagesRequireVision": "تصاویر فقط در حالت بینایی قابل پیوست هستند.",
+      "expertModeWarning": "به دلیل محدودیت‌های پلتفرم دیپ‌سیک، این ابزارها ممکن است در حالت تخصصی درست کار نکنند.",
+      "buttonTitle": "بارگذاری پیشرفته",
+      "attachProject": "پیوست پروژه",
+      "voicePrompt": "پرامپت صوتی",
+      "stopRecording": "توقف ضبط",
+      "uploadFile": "بارگذاری فایل",
+      "uploadFolder": "بارگذاری پوشه",
+      "githubRepo": "مخزن گیت‌هاب",
+      "githubAuthLabel": "دسترسی گیت‌هاب احراز هویت‌شده",
+      "fetchWebPage": "دریافت صفحه وب",
+      "githubImportTitle": "ورود مخزن گیت‌هاب",
+      "authenticated": "احراز هویت‌شده",
+      "githubPlaceholder": "https://github.com/owner/repo یا owner/repo",
+      "includeCommits": "شامل تاریخچه commit",
+      "commitsLabel": "تعداد commitها:",
+      "close": "بستن",
+      "fetch": "دریافت",
+      "fetching": "در حال دریافت...",
+      "projectLabel": "پروژه",
+      "noProject": "هیچ‌کدام",
+      "projectHint": "دستورالعمل‌های پروژه انتخابی فقط در اولین پیام اعمال می‌شود.",
+      "deselectAll": "لغو انتخاب همه",
+      "selectAll": "انتخاب همه",
+      "file": "فایل",
+      "files": "فایل‌ها",
+      "attach": "پیوست ({{count}})",
+      "noFiles": "بدون فایل — از طریق مدیریت پروژه‌ها اضافه کنید",
+      "noProjectSelected": "پروژه‌ای انتخاب نشده است",
+      "webImportTitle": "دریافت صفحه وب",
+      "webPlaceholder": "https://example.com/article",
+      "noSpeechRecognition": "مرورگر از تشخیص گفتار پشتیبانی نمی‌کند.",
+      "voiceError": "خطای صدا: {{msg}}",
+      "noInputField": "فیلد ورودی یافت نشد.",
+      "filePickFailed": "انتخاب فایل ناموفق بود.",
+      "folderPickFailed": "انتخاب پوشه ناموفق بود.",
+      "folderRequiresNewer": "بارگذاری پوشه به نسخه جدیدتری از برنامه نیاز دارد.",
+      "folderUploadFailed": "بارگذاری پوشه ناموفق بود: {{msg}}",
+      "invalidGithubUrl": "نشانی نامعتبر. استفاده کنید: https://github.com/owner/repo یا owner/repo",
+      "commitsFailed": "دریافت تاریخچه commit ناموفق بود: {{msg}}",
+      "repoFailed": "دریافت مخزن ناموفق بود: {{msg}}",
+      "invalidWebUrl": "لطفاً یک نشانی معتبر وارد کنید (شامل http/https).",
+      "webFetchFailed": "دریافت محتوای صفحه ممکن نشد: {{msg}}"
+    },
+    "codeRunner": {
+      "pythonRunner": "اجراگر پایتون",
+      "tsRunner": "اجراگر تایپ‌اسکریپت",
+      "jsRunner": "اجراگر جاوااسکریپت",
+      "luaRunner": "اجراگر لوا",
+      "rubyRunner": "اجراگر روبی",
+      "download": "دانلود",
+      "placeholder": "کد خود را اینجا وارد کنید...",
+      "running": "در حال اجرا...",
+      "runPython": "▶ اجرای پایتون",
+      "runTs": "▶ اجرای TS",
+      "runJs": "▶ اجرای JS",
+      "runLua": "▶ اجرای لوا",
+      "runRuby": "▶ اجرای روبی",
+      "consoleOutput": "خروجی کنسول",
+      "clear": "پاک‌کردن",
+      "noOutput": "(اجرا بدون خروجی پایان یافت)",
+      "loadingPyodide": "در حال بارگذاری زمان‌اجرای Pyodide...",
+      "finished": "پایان یافت.",
+      "executionError": "خطای اجرا.",
+      "pythonStatus": "پایتون 3.x (WASM)",
+      "tsStatus": "تایپ‌اسکریپت (Babel)",
+      "jsStatus": "جاوااسکریپت (V8)",
+      "luaStatus": "لوا (Fengari)",
+      "rubyStatus": "روبی (Opal)"
+    },
+    "autoCodeResult": {
+      "success": "اجرا موفق بود",
+      "rejected": "درخواست رد شد",
+      "failed": "اجرا ناموفق بود",
+      "completed": "اجرای کد {{lang}} با موفقیت کامل شد",
+      "wasRejected": "اجرای کد {{lang}} رد شد",
+      "execFailed": "اجرای کد {{lang}} ناموفق بود",
+      "hideOutput": "پنهان‌کردن خروجی ▴",
+      "showOutput": "نمایش خروجی ▾"
+    },
+    "searchResult": {
+      "resultsFor": "نتایج جستجو: {{query}}",
+      "resultCount": "{{count}} نتیجه یافت شد",
+      "via": "از طریق {{provider}}",
+      "lowConfidence": "نتایج با اطمینان کم — پیش از استناد بررسی کنید"
+    },
+    "fileReadResult": {
+      "success": "فایل با موفقیت خوانده شد",
+      "error": "خواندن فایل ناموفق بود",
+      "linesRead": "{{count}} خط خوانده شد",
+      "showContent": "نمایش محتوای فایل",
+      "hideContent": "پنهان‌کردن محتوای فایل",
+      "copyCode": "کپی",
+      "copied": "کپی شد!"
+    },
+    "directorySearchResult": {
+      "resultsFor": "جستجوی پایگاه کد: «{{query}}»",
+      "matchCount": "{{count}} انطباق کد یافت شد",
+      "noMatches": "کد منطبقی یافت نشد.",
+      "copySnippet": "کپی",
+      "copied": "کپی شد!"
+    },
+    "directoryListResult": {
+      "title": "پوشه: {{path}}",
+      "entryCount": "{{count}} مورد",
+      "folder": "پوشه",
+      "file": "فایل",
+      "empty": "این پوشه خالی است."
+    },
+    "autoCodeRunner": {
+      "aiWantsToRun": "هوش مصنوعی می‌خواهد کد {{lang}} اجرا کند",
+      "safeSandbox": "این در یک جعبه ایمن اجرا می‌شود.",
+      "runCode": "▶ اجرای کد",
+      "reject": "✕ رد",
+      "running": "در حال اجرا...",
+      "finished": "پایان یافت",
+      "runAgain": "اجرای دوباره",
+      "error": "خطا",
+      "retry": "تلاش دوباره",
+      "rejected": "رد شد",
+      "actuallyRun": "در واقع اجرا کن",
+      "hideCode": "پنهان‌کردن کد ▴",
+      "showCode": "نمایش کد ▾",
+      "consoleOutput": "خروجی کنسول"
+    },
+    "toolCard": {
+      "pythonRunner": "اجراگر پایتون"
+    },
+    "imageCard": {
+      "searching": "در حال جستجو...",
+      "close": "بستن",
+      "notFound": "تصویر یافت نشد"
+    },
+    "todoCard": {
+      "title": "فهرست کارها",
+      "copy": "کپی مارک‌داون",
+      "copied": "کپی شد!",
+      "download": "دانلود"
+    },
+    "harnessTaskCard": {
+      "title": "وظیفه DeepSeek Harness",
+      "pluginTag": "افزونه Bridge v{{version}} (SSE خودکار)",
+      "statusReady": "آماده",
+      "statusConnecting": "در حال اتصال...",
+      "statusRunning": "در حال اجرا...",
+      "statusFinishing": "در حال کامپایل...",
+      "statusCompleted": "تکمیل شد",
+      "statusFallback": "حالت دستی",
+      "statusCancelled": "لغو شد",
+      "statusError": "ناموفق",
+      "cwdLabel": "مسیر مطلق پایگاه کد (CWD):",
+      "cwdPlaceholder": "مثلاً A:/Users/Edige/GitHub/asistan",
+      "taskLabel": "شرح وظیفه و برنامه:",
+      "taskDefault": "اجرای وظیفه",
+      "fallbackTitle": "اجرای دستی Harness (افزونه Bridge نصب نیست)",
+      "fallbackDesc": "متن وظیفه در کلیپ‌بورد کپی شد! آن را در برگه Harness جای‌گذاری و Enter بزنید.",
+      "copyPrompt": "کپی دوباره",
+      "openHarness": "بازکردن Harness",
+      "fallbackHint": "برای حالت کاملاً خودکار، افزونه Bridge را در ترمینال نصب کنید:",
+      "pluginRepoButton": "مخزن افزونه Bridge (گیت‌هاب)",
+      "liveHeader": "جریان اجرای زنده ({{count}} رویداد)",
+      "liveAssistantLabel": "خروجی زنده دستیار:",
+      "logSessionCreated": "نشست {{sid}} در Harness ایجاد شد.",
+      "logToolCall": "[{{time}}] اجرای ابزار: {{tool}}",
+      "logToolResult": "[{{time}}] پایان ابزار: {{tool}}",
+      "logCompiling": "[{{time}}] در حال کامپایل نتایج...",
+      "logComplete": "[{{time}}] نوبت کامل شد. گزارش برای پرامپت بعدی هوش مصنوعی صف شد.",
+      "logCancelled": "وظیفه توسط کاربر لغو شد.",
+      "reportTitle": "گزارش نهایی وظیفه",
+      "reportCopy": "کپی",
+      "reportInsert": "درج در گفتگو",
+      "autoInjectNotice": "این گزارش نهایی به‌صورت خودکار در پیام بعدی شما داخل بلوک <code>&lt;BetterDeepSeek&gt;</code> افزوده می‌شود.",
+      "copyFeedback": "گزارش در کلیپ‌بورد کپی شد!",
+      "copyPromptFeedback": "پرامپت در کلیپ‌بورد کپی شد!",
+      "copyFailed": "کپی ناموفق بود.",
+      "insertFeedback": "در گفتگو درج شد!",
+      "insertFallback": "در کلیپ‌بورد کپی شد (ورودی گفتگو یافت نشد)",
+      "debugToggleShow": "نمایش گزارش خطای تفصیلی",
+      "debugToggleHide": "پنهان‌کردن جزئیات اشکال‌زدایی",
+      "debugUrl": "نشانی:",
+      "debugError": "خطا:",
+      "cancelBtn": "توقف / لغو",
+      "runExecuting": "در حال اجرا در Harness...",
+      "runAgain": "اجرای دوباره",
+      "runFallback": "اجرای دوباره",
+      "runDefault": "اجرا در DeepSeek Harness",
+      "executeFailed": "اجرای نشست در Harness ناموفق بود."
+    },
+    "deepCodeModal": {
+      "title": "DeepCode و Harness",
+      "subtitle": "یک پایگاه کد محلی را پیوند دهید تا دیپ‌سیک با بازرسی فایل، جستجوی کد و اجرای خودکار وظایف Harness تقویت شود.",
+      "activeCodebase": "پایگاه کد فعال",
+      "filesIndexed": "{{count}} فایل نمایه شد",
+      "linkFolder": "پیوند پوشه محلی...",
+      "addNewDirectory": "افزودن پوشه جدید",
+      "pickFolder": "انتخاب پوشه",
+      "indexing": "در حال نمایه‌سازی فایل‌ها...",
+      "manualPathLabel": "مسیر مطلق سیستم (برای CWD در Harness):",
+      "manualPathPlaceholder": "مثلاً A:/Users/Edige/GitHub/asistan",
+      "manualPathHint": "به دلیل قوانین امنیتی مرورگر وب، باید مسیر را دوباره وارد کنید.",
+      "savePath": "ذخیره مسیر",
+      "pathSaved": "مسیر مطلق ذخیره شد. به‌عنوان CWD در Harness استفاده می‌شود.",
+      "pathMismatch": "مسیر واردشده با پوشه انتخابی «{{name}}» مطابقت ندارد. نام آخرین پوشه را بررسی کنید.",
+      "recentTitle": "پایگاه‌های کد اخیر",
+      "emptyRecent": "پوشه اخیری وجود ندارد. برای پیوند یک پوشه محلی بالا کلیک کنید.",
+      "removeHistory": "حذف از تاریخچه",
+      "done": "انجام شد",
+      "closeAria": "بستن",
+      "linkedFeedback": "«{{name}}» پیوند شد ({{count}} فایل نمایه شد)",
+      "selectFailed": "انتخاب پوشه ناموفق بود.",
+      "fsApiUnsupported": "File System Access API در این بستر مرورگر پشتیبانی نمی‌شود.",
+      "switchedFeedback": "به «{{name}}» تغییر کرد",
+      "recentNeedsPicker": "«{{name}}» دسترسی فایل پیوندشده ندارد. برای فعال‌سازی خواندن فایل آن را با انتخاب‌گر پوشه انتخاب کنید.",
+      "cancel": "انصراف"
+    },
+    "deepCodeOnboarding": {
+      "title": "به DeepCode خوش آمدید",
+      "harnessIntro": "DeepCode همراه با <strong>DeepSeek Harness</strong> رسمی کار می‌کند. برای کار این ویژگی باید <strong>DeepSeek Harness</strong> روی دستگاه شما نصب باشد.",
+      "harnessLink": "دانلود DeepSeek Harness از گیت‌هاب",
+      "pluginLink": "دریافت افزونه Better DeepSeek Bridge (گیت‌هاب)",
+      "pluginInfo": "برای اتصال Better DeepSeek به DeepSeek Harness، یک <strong>افزونه</strong> لازم است. اگر افزونه نصب باشد، همه‌چیز کاملاً خودکار انجام می‌شود. اگر نصب نباشد، باید مراحل دستی انجام دهید.",
+      "gotIt": "متوجه شدم",
+      "closeAria": "بستن"
+    },
+    "deepCodeToggle": {
+      "label": "DeepCode",
+      "labelActive": "DeepCode: فعال",
+      "labelWithDir": "DeepCode: {{dir}}",
+      "ariaLabel": "DeepCode: پایگاه کد محلی و Harness",
+      "titleActive": "DeepCode فعال: {{path}}",
+      "titleDefault": "DeepCode: فضای کاری پایگاه کد محلی و Harness",
+      "panelTitle": "DeepCode",
+      "closeAria": "بستن",
+      "integrationTitle": "یکپارچه‌سازی پایگاه کد و Harness",
+      "integrationDesc": "تزریق زمینه پایگاه کد و فعال‌سازی وظایف محلی DeepSeek Harness.",
+      "enableToggle": "فعال‌کردن DeepCode",
+      "disableToggle": "غیرفعال‌کردن DeepCode",
+      "recentTitle": "پایگاه‌های کد اخیر",
+      "removeHistory": "حذف از تاریخچه",
+      "emptyRecents": "هنوز پایگاه کد اخیری وجود ندارد. برای شروع یک پوشه محلی پیوند دهید.",
+      "statusEnhanced": "Harness Bridge متصل (SSE خودکار)",
+      "statusFallback": "حالت جایگزین Harness"
+    },
+    "downloadCard": {
+      "download": "دانلود",
+      "viewFiles": "مشاهده فایل‌ها",
+      "hideFiles": "پنهان‌کردن فایل‌ها",
+      "showCode": "نمایش کد",
+      "hideCode": "پنهان‌کردن کد"
+    },
+    "pptxCard": {
+      "title": "ارائه پاورپوینت",
+      "download": "دانلود",
+      "working": "در حال انجام...",
+      "showScript": "نمایش اسکریپت تولیدشده",
+      "hideScript": "پنهان‌کردن اسکریپت تولیدشده",
+      "preparing": "در حال آماده‌سازی جعبه ایمن...",
+      "downloading": "در حال دانلود...",
+      "success": "موفق!",
+      "error": "خطا: {{msg}}",
+      "generating": "در حال تولید PPTX...",
+      "bridgeError": "خطای Bridge",
+      "browserUnsupported": "مرورگر شما پشتیبانی نمی‌شود",
+      "browserUnsupportedDesc": "در حال کار برای پشتیبانی از مرورگر شما هستیم. اگر مایل به کمک هستید، صفحه گیت‌هاب ما را ببینید."
+    },
+    "excelCard": {
+      "title": "صفحه‌گسترده اکسل",
+      "download": "دانلود",
+      "working": "در حال انجام...",
+      "showScript": "نمایش اسکریپت تولیدشده",
+      "hideScript": "پنهان‌کردن اسکریپت تولیدشده",
+      "preparing": "در حال آماده‌سازی جعبه ایمن...",
+      "downloading": "در حال دانلود...",
+      "success": "موفق!",
+      "error": "خطا: {{msg}}",
+      "generating": "در حال تولید اکسل...",
+      "bridgeError": "خطای Bridge",
+      "browserUnsupported": "مرورگر شما پشتیبانی نمی‌شود",
+      "browserUnsupportedDesc": "در حال کار برای پشتیبانی از مرورگر شما هستیم. اگر مایل به کمک هستید، صفحه گیت‌هاب ما را ببینید."
+    },
+    "docxCard": {
+      "title": "سند ورد",
+      "download": "دانلود",
+      "working": "در حال انجام...",
+      "showScript": "نمایش اسکریپت تولیدشده",
+      "hideScript": "پنهان‌کردن اسکریپت تولیدشده",
+      "preparing": "در حال آماده‌سازی جعبه ایمن...",
+      "downloading": "در حال دانلود...",
+      "success": "موفق!",
+      "error": "خطا: {{msg}}",
+      "generating": "در حال تولید سند ورد...",
+      "bridgeError": "خطای Bridge",
+      "browserUnsupported": "مرورگر شما پشتیبانی نمی‌شود",
+      "browserUnsupportedDesc": "در حال کار برای پشتیبانی از مرورگر شما هستیم. اگر مایل به کمک هستید، صفحه گیت‌هاب ما را ببینید."
+    },
+    "visualizerCard": {
+      "title": "تصویرساز",
+      "subtitle": "شبیه‌سازی تعاملی",
+      "openInPanel": "بازکردن در پنل",
+      "reportIssue": "گزارش مشکل",
+      "runtimeError": "خطای زمان اجرا",
+      "reportErrorTooltip": "خطای زمان اجرا شناسایی شد. برای ارسال خطا به هوش مصنوعی و تولید دوباره کلیک کنید.",
+      "reportWarningTooltip": "گزارش مشکل تصویرساز",
+      "runtimeErrorTitle": "خطای زمان اجرای تصویرساز",
+      "feedbackTitle": "بازخورد تصویرساز",
+      "sentToAi": "برای تولید دوباره به هوش مصنوعی ارسال شد",
+      "optionBuggy": "نادرست به نظر می‌رسد / رفتار باگ",
+      "optionBlank": "چیزی نمایش داده نمی‌شود / خالی",
+      "optionOther": "دیگر (شرح مشکل)",
+      "otherPlaceholder": "توضیح دهید چه چیزی کم یا نادرست است...",
+      "otherEmptyFallback": "مشخص نشده",
+      "sendAndRegenerate": "گزارش و تولید دوباره",
+      "sendFailed": "ارسال ناموفق بود. لطفاً دوباره تلاش کنید.",
+      "cancel": "انصراف"
+    },
+    "chartCard": {
+      "defaultTitle": "نمودار تعاملی",
+      "defaultSubtitle": "بصری‌سازی Vega-Lite",
+      "downloadPng": "دانلود به عنوان PNG",
+      "downloadSvg": "دانلود به عنوان SVG",
+      "downloadJson": "دانلود مشخصات (JSON)",
+      "viewCode": "مشاهده مشخصات",
+      "hideCode": "مخفی کردن مشخصات",
+      "copySpec": "کپی مشخصات",
+      "copied": "کپی شد!",
+      "renderError": "امکان رسم نمودار وجود ندارد",
+      "expand": "گسترش نمودار",
+      "collapse": "جمع کردن نمودار"
+    },
+    "previewPanel": {
+      "close": "بستن",
+      "download": "دانلود .html"
+    },
+    "htmlPreview": {
+      "title": "پیش‌نمایش HTML",
+      "subtitle": "خروجی تعاملی",
+      "downloadHtml": "دانلود .html"
+    },
+    "pptxGenerator": {
+      "title": "تولیدکننده پاورپوینت",
+      "subtitle": "موتور PptxGenJS",
+      "heading": "ارائه پاورپوینت",
+      "download": "دانلود",
+      "showScript": "نمایش اسکریپت تولیدشده",
+      "hideScript": "پنهان‌کردن اسکریپت",
+      "processing": "در حال پردازش...",
+      "done": "انجام شد!",
+      "error": "خطا"
+    },
+    "loadingIndicator": {
+      "working": "در حال انجام..."
+    },
+    "ragPreview": {
+      "title": "فایل‌های منطبق RAG",
+      "moreFiles": "+{{count}} فایل دیگر",
+      "lines": "خطوط {{start}}–{{end}}"
+    },
+    "mcp": {
+      "detailShow": "▸ نمایش جزئیات",
+      "detailHide": "▾ پنهان‌کردن جزئیات",
+      "inlineMaxChars": "حداکثر نویسه محتوای درون‌خطی",
+      "inlineMaxCharsHint": "حداکثر نویسه برای فهرست ابزارهای MCP و نتایج ابزار ارسال‌شده به‌صورت درون‌خطی. اگر فهرست ابزار از این بیشتر شود، ابزارهای اضافی با هشدار تعداد حذف می‌شوند. اگر نتیجه‌ای رد شود، جایگزین‌های کوتاه‌تر و متن خالص امتحان می‌شوند.",
+      "transportNote": "نکته: فقط انتقال HTTP/Streamable HTTP پشتیبانی می‌شود.",
+      "sectionTitle": "سرورهای MCP",
+      "description": "سرورهای MCP (پروتکل زمینه مدل) راه دور را اضافه کنید. هوش مصنوعی می‌تواند ابزارها را از این سرورها کشف و فراخوانی کند.",
+      "test": "آزمایش",
+      "testLoading": "...",
+      "edit": "ویرایش",
+      "addServer": "افزودن سرور MCP",
+      "addModalTitle": "افزودن سرور MCP",
+      "editModalTitle": "ویرایش سرور MCP",
+      "nameLabel": "نام",
+      "namePlaceholder": "سرور MCP من",
+      "serverUrlLabel": "نشانی سرور",
+      "serverUrlPlaceholder": "https://example.com/mcp",
+      "apiKeyLabel": "کلید API (اختیاری)",
+      "apiKeyPlaceholder": "sk-...",
+      "enabledLabel": "فعال",
+      "cancel": "انصراف",
+      "save": "ذخیره",
+      "deleteConfirm": "حذف سرور MCP «{{name}}»؟",
+      "testFailed": "آزمایش MCP ناموفق بود: {{message}}",
+      "toolsCount": "{{count}} ابزار",
+      "connected": "متصل: {{count}} ابزار یافت شد"
+    },
+    "expandToggle": {
+      "expand": "بازکردن",
+      "collapse": "جمع‌کردن",
+      "expandTitle": "بازکردن جعبه پرامپت",
+      "collapseTitle": "جمع‌کردن جعبه پرامپت",
+      "showMore": "نمایش بیشتر",
+      "showLess": "نمایش کمتر"
+    },
+    "messageOverlay": {
+      "questionsAsked": "سؤالات شفاف‌سازی پرسیده شد.",
+      "questionsSubtitle": "لطفاً پاسخ‌های خود را در پنل تعامل زیر ارائه دهید.",
+      "characterCreated": "شخصیت/پرسونا ایجاد شد.",
+      "characterActive": "شخصیت فعال: <strong>{{name}}</strong>",
+      "skillCreated": "مهارت ایجاد شد.",
+      "skillActive": "مهارت فعال: <strong>{{name}}</strong>",
+      "webFetchRequested": "صفحه وب در حال دریافت است",
+      "githubFetchRequested": "مخزن گیت‌هاب در حال دریافت است",
+      "searchRequested": "در حال جستجو در {{provider}}...",
+      "fileReadRequested": "در حال خواندن فایل پایگاه کد...",
+      "directorySearchRequested": "در حال جستجوی پایگاه کد...",
+      "directoryListRequested": "در حال فهرست‌کردن پوشه...",
+      "memoryStored": "حافظه ذخیره شد ({{count}}).",
+      "downloadMd": "دانلود به‌صورت .md"
+    },
+    "sidebarMenu": {
+      "tags": "برچسب‌ها (BDS)",
+      "exportChat": "خروجی گفتگو (BDS)",
+      "getBdsApp": "دریافت برنامه BDS",
+      "whatsNew": "چه چیز جدید است؟"
+    },
+    "savedItems": {
+      "title": "موارد ذخیره‌شده",
+      "bookmarks": "نشانک‌ها",
+      "snippets": "قطعات",
+      "newSnippet": "قطعه جدید",
+      "editSnippet": "ویرایش قطعه",
+      "search": "جستجوی موارد ذخیره‌شده...",
+      "emptyBookmarks": "هنوز نشانکی وجود ندارد. برای ذخیره روی نماد نشانک هر پیام کلیک کنید.",
+      "emptySnippets": "هنوز قطعه‌ای وجود ندارد. برای استفاده دوباره از پرامپت‌های محبوب خود یکی بسازید.",
+      "delete": "حذف",
+      "edit": "ویرایش",
+      "send": "ارسال به گفتگو",
+      "removeBookmark": "حذف نشانک",
+      "bookmarkThis": "نشانک‌گذاری این پیام",
+      "bookmarked": "پیام نشانک‌گذاری شد",
+      "bookmarkRemoved": "نشانک حذف شد",
+      "deleted": "حذف شد",
+      "snippetSent": "قطعه ارسال شد",
+      "importSuccess": "{{count}} مورد وارد شد",
+      "importFailed": "ورود ناموفق بود: {{msg}}",
+      "namePlaceholder": "نام قطعه",
+      "contentPlaceholder": "پرامپت یا پیام خود را اینجا جای‌گذاری کنید...",
+      "contentRequired": "محتوا الزامی است.",
+      "save": "ذخیره",
+      "cancel": "انصراف",
+      "titleRequired": "عنوان الزامی است.",
+      "export": "خروجی",
+      "import": "ورودی",
+      "openConversation": "بازکردن گفتگو",
+      "dateJustNow": "همین حالا",
+      "dateMinAgo": "{{count}} دقیقه پیش",
+      "dateHourAgo": "{{count}} ساعت پیش"
+    },
+    "commands": {
+      "title": "دستورها",
+      "manage": "مدیریت",
+      "helpTitle": "دستورها",
+      "search": "جستجوی دستورها...",
+      "all": "همه",
+      "noCommands": "دستوری یافت نشد",
+      "addCommand": "افزودن دستور",
+      "remove": "حذف",
+      "noCustomCommands": "هنوز دستور سفارشی وجود ندارد. یک قطعه در بالا نگاشت کنید.",
+      "builtinCommands": "دستورهای داخلی",
+      "unknownCommand": "دستور ناشناخته: /{{cmd}}. برای فهرست دستورها /help بنویسید.",
+      "cmdRequired": "دستور الزامی است",
+      "cmdInvalidChars": "فقط حروف کوچک، اعداد و زیرخط مجاز است",
+      "cmdConflictBuiltin": "با یک دستور داخلی تداخل دارد",
+      "cmdConflictSnippet": "دستور از قبل توسط قطعه دیگری استفاده می‌شود",
+      "cmdPlaceholder": "دستور (اختیاری)",
+      "cmdOk": "تأیید",
+      "selectSnippet": "انتخاب قطعه...",
+      "compress": "خلاصه گفتگو و شروع نشست جدید با زمینه کامل",
+      "summarize": "تولید خلاصه تحویل گفتگو",
+      "done": "انجام شد",
+      "commandShortcuts": "میان‌برهای دستور",
+      "cmdHint": "/mycommand (حروف کوچک، بدون فاصله)",
+      "add": "افزودن",
+      "categorySnippet": "قطعه",
+      "autocompleteHint": "Tab تکمیل · ⏎ اجرا",
+      "cmdSearchDesc": "جستجوی وب و تزریق نتایج به گفتگو",
+      "cmdSearchUsage": "/search <query>",
+      "cmdNewDesc": "شروع گفتگوی جدید",
+      "cmdNewUsage": "/new",
+      "cmdExportDesc": "خروجی گفتگو (markdown, pdf, html, image)",
+      "cmdExportUsage": "/export <format>",
+      "cmdCompressDesc": "خلاصه گفتگو و شروع نشست جدید با زمینه کامل",
+      "cmdCompressUsage": "/compress",
+      "cmdSummarizeDesc": "تولید خلاصه تحویل گفتگو در گفتگوی فعلی",
+      "cmdSummarizeUsage": "/summarize",
+      "cmdHelpDesc": "نمایش همه دستورهای موجود",
+      "cmdHelpUsage": "/help [command]",
+      "cattools": "ابزارها",
+      "catnavigation": "ناوبری",
+      "catbuiltin": "داخلی"
+    },
+    "sidebarSearch": {
+      "placeholder": "جستجوی تاریخچه... (#برچسب)"
+    },
+    "files": {
+      "standalone": {
+        "packageTitle": "بسته فایل تولیدشده",
+        "folderPath": "{{path}} (مسیر پوشه حفظ شد)",
+        "singleTitle": "فایل تولیدشده"
+      },
+      "longWork": {
+        "noFiles": "LONG_WORK پایان یافت. هیچ فایلی تولید نشد.",
+        "complete": "LONG_WORK کامل شد: {{count}} فایل فشرده شد.",
+        "projectTitle": "پروژه LONG_WORK",
+        "filesPackaged": "{{count}} فایل بسته‌بندی شد"
+      },
+      "webReader": {
+        "fetching": "در حال دریافت محتوای صفحه...",
+        "processing": "در حال پردازش محتوا...",
+        "converting": "در حال تبدیل به مارک‌داون...",
+        "creating": "در حال ایجاد فایل...",
+        "fetchFailed": "دریافت صفحه ناموفق بود.",
+        "parseFailed": "استخراج محتوای اصلی از این صفحه ممکن نشد.",
+        "unknown": "ناشناخته"
+      },
+      "githubReader": {
+        "downloading": "در حال دانلود {{owner}}/{{repo}} ({{branch}})...",
+        "extracting": "در حال استخراج ZIP...",
+        "processing": "در حال پردازش فایل‌ها...",
+        "creating": "در حال ایجاد فایل...",
+        "invalidUrl": "نشانی گیت‌هاب نامعتبر. استفاده کنید: https://github.com/owner/repo",
+        "tokenRejected": "گیت‌هاب توکن شما را رد کرد. بررسی کنید که دسترسی repo دارد و منقضی نشده باشد.",
+        "notFound": "مخزن یافت نشد یا ممکن است برای مخازن خصوصی به توکن گیت‌هاب نیاز داشته باشید. یکی در تنظیمات پیشرفته اضافه کنید.",
+        "downloadFailed": "دانلود {{owner}}/{{repo}}/{{branch}} ممکن نشد. نشانی را بررسی و مطمئن شوید مخزن عمومی است.",
+        "extractFailed": "استخراج ZIP ناموفق بود: {{msg}}",
+        "directoryTree": "درخت پوشه:"
+      },
+      "youtubeReader": {
+        "invalidUrl": "نشانی یوتیوب نامعتبر.",
+        "fallbackTitle": "ویدئوی یوتیوب",
+        "noTranscript": "[زیرنویس خالی است. ممکن است این ویدئو زیرنویس نداشته باشد.]",
+        "transcriptError": "[خطا در دریافت زیرنویس: {{msg}}]",
+        "bgScriptError": "[دریافت داده زیرنویس از اسکریپت پس‌زمینه ممکن نشد.]"
+      },
+      "twitterReader": {
+        "fetchFailed": "دریافت اطلاعات توییت از Twitter OEmbed ناموفق بود.",
+        "noExtract": "استخراج متن توییت ممکن نشد."
+      }
+    },
+    "exporter": {
+      "branding": "Better DeepSeek",
+      "archiveReport": "گزارش بایگانی",
+      "userQuery": "پرسش کاربر",
+      "aiResponse": "پاسخ هوش مصنوعی",
+      "pdfFooter": "سند تولیدشده با افزونه مرورگر Better DeepSeek",
+      "imageHeader": "ثبت بلند",
+      "imageDate": "ثبت‌شده در {{date}}",
+      "userLabel": "کاربر",
+      "assistantLabel": "دستیار",
+      "imageFooter": "تولیدشده با Better DeepSeek",
+      "htmlLogo": "خروجی Better DeepSeek",
+      "htmlToggleTheme": "تغییر تم",
+      "htmlFooter": "خروجی گرفته‌شده با افزونه مرورگر Better DeepSeek",
+      "copy": "کپی",
+      "copied": "کپی شد!",
+      "powerpoint": "پاورپوینت",
+      "presentation": "ارائه",
+      "bdsTool": "ابزار BDS",
+      "imageTooLong": "نشست بیش از حد طولانی است ({{height}}هزار پیکسل در مقیاس {{scale}}x). تصویر ممکن است در {{limit}}هزار پیکسل بریده شود. به‌جای آن از PDF یا HTML استفاده کنید.",
+      "imageFailed": "خروجی تصویر محدودیت اندازه بوم مرورگر دارد. سعی کنید پیام‌های کمتری خروجی بگیرید یا از PDF/HTML/MD استفاده کنید."
+    },
+    "auto": {
+      "fetchFailed": "دریافت {{url}} ناموفق بود:\n\n{{msg}}",
+      "githubFailed": "دریافت مخزن گیت‌هاب {{url}} ناموفق بود:\n\n{{msg}}",
+      "tweetFailed": "دریافت توییت {{url}} ناموفق بود:\n\n{{msg}}",
+      "youtubeFailed": "دریافت ویدئوی یوتیوب {{url}} ناموفق بود:\n\n{{msg}}",
+      "statusSuccess": "موفق",
+      "statusError": "خطا",
+      "statusRejected": "رد شد",
+      "noOutput": "(بدون خروجی)",
+      "generationError": "خطا هنگام تولید {{toolName}}.",
+      "errorMessage": "پیام خطا: {{msg}}",
+      "correctionPrompt": "لطفاً خطای بالا را تحلیل کنید، مرجع API کتابخانه را مطالعه کنید، سپس کد را اصلاح و نسخه تصحیح‌شده را در تگ مناسب <BDS:{{tagName}}> ارائه دهید. به موارد زیر دقت کنید: نام صحیح متدهای API، آرگومان‌های مناسب و فراخوانی ذخیره/خروجی لازم در پایان."
+    },
+    "messageProcessor": {
+      "minCost": "<$0.0001",
+      "contextTemplate": "{{used}} / {{total}} ({{percent}}٪)",
+      "contextTooltip": "زمینه: {{text}}",
+      "longWorkClosed": "LONG_WORK بسته شد چون پاسخ API پایان یافت.",
+      "userPrice": "API: ~{{price}}",
+      "tokenCount": "{{count}} توکن"
+    },
+    "whatsnew": {
+      "title": "چه چیز جدید است",
+      "versionHistory": "تاریخچه نسخه‌ها",
+      "dismiss": "متوجه شدم، متشکرم!",
+      "reportBug": "گزارش باگ",
+      "requestFeature": "درخواست ویژگی",
+      "brandingNote": "Better DeepSeek یک پروژه جامعه متن‌باز است.",
+      "seeAllChanges": "مشاهده همه تغییرات v{{version}} در گیت‌هاب",
+      "seeDetailed": "مشاهده یادداشت‌های انتشار تفصیلی در گیت‌هاب",
+      "features": {
+        "v0_1_13": {
+          "title": "هات‌فیکس اضطراری ۱",
+          "features": {
+            "feat_0": {
+              "title": "رفع خرابی",
+              "description": "یک به‌روزرسانی اخیر دیپ‌سیک باعث خرابی افزونه شد. برای بازیابی عملکرد حیاتی افزونه یک اصلاح اضطراری آماده کرده‌ایم. وضعیت را از نزدیک زیر نظر داریم و در صورت نیاز هات‌فیکس‌های بیشتری منتشر خواهیم کرد."
+            },
+            "feat_1": {
+              "title": "فهرست ارائه‌دهندگان جستجو",
+              "description": "موتورهای جستجوی ترجیحی خود (Bing، DuckDuckGo Lite، DuckDuckGo HTML) را مستقیماً در تنظیمات پیکربندی و اولویت‌بندی کنید."
+            }
+          }
+        },
+        "v0_1_12": {
+          "title": "DeepCode، پرامپت‌های صف‌شده و پایداری",
+          "features": {
+            "feat_0": {
+              "title": "DeepCode (آزمایشی)",
+              "description": "حالت کدنویسی مشارکتی با قدرت DeepSeek Harness. وظایف را در دیپ‌سیک برنامه‌ریزی و مستقیم با افزونه <a href='https://github.com/EdgeTypE/dsh-better-deepseek' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>dsh-better-deepseek</a> به Harness ارسال کنید."
+            },
+            "feat_1": {
+              "title": "پرامپت‌های صف‌شده",
+              "description": "هنگام تولید پاسخ توسط دیپ‌سیک پیام بفرستید. BDS آن‌ها را صف می‌کند و پس از پایان تولید به‌صورت خودکار ارسال می‌کند."
+            },
+            "feat_2": {
+              "title": "بهبود پایداری و تجربه کاربری",
+              "description": "اصلاح تجزیه‌گر ابزار برای به‌روزرسانی‌های رابط دیپ‌سیک، پشتیبانی خروجی برای مهارت‌ها/پرسوناهای ایجادشده، پاک‌سازی کارت‌های قدیمی و بهبود جستجوی اندروید."
+            }
+          }
+        },
+        "v0_1_11": {
+          "title": "سرورهای MCP، جدول‌های پویا و پایداری",
+          "features": {
+            "feat_0": {
+              "title": "پشتیبانی از سرور MCP",
+              "description": "سرورهای MCP راه دور را برای دسترسی به ابزارهای خارجی به دیپ‌سیک متصل کنید. سرورها را در تنظیمات → تنظیمات پیشرفته → سرورهای MCP پیکربندی کنید."
+            },
+            "feat_1": {
+              "title": "جدول‌های پویا",
+              "description": "داده‌ها را مرتب و ستون‌ها را مستقیماً در جدول‌های تولیدشده توسط دیپ‌سیک بازچینی کنید."
+            },
+            "feat_2": {
+              "title": "بهبود پایداری و تجربه کاربری",
+              "description": "ده‌ها اصلاح باگ و بهبود رابط/تجربه کاربری در سراسر افزونه."
+            }
+          }
+        },
+        "v0_1_10": {
+          "title": "پایداری و بهبود",
+          "features": {
+            "feat_0": {
+              "title": "پشتیبانی از تصویر",
+              "description": "دیپ‌سیک اکنون می‌تواند تصاویر را از Wikimedia Commons مستقیماً در گفتگو با تگ جدید BDS:IMAGE جستجو و نمایش دهد."
+            },
+            "feat_1": {
+              "title": "سیستم دستور اسلش",
+              "description": "یک زیرسیستم کامل دستور اسلش با تکمیل خودکار، تحویل زمینه، دستورهای داخلی و امکان ساخت دستورهای سفارشی از قطعات ذخیره‌شده."
+            },
+            "feat_2": {
+              "title": "اصلاح باگ‌ها و بهبود تجربه کاربری",
+              "description": "اصلاحات متعدد باگ و بهبود تجربه کاربری در سراسر افزونه."
+            }
+          }
+        },
+        "v0_1_9": {
+          "title": "پرامپت‌های چندسیستمی، بازطراحی تصویرساز و تحقیق عمیق",
+          "features": {
+            "feat_0": {
+              "title": "حالت پرامپت چندسیستمی و زمان‌بندی پیشرفته",
+              "description": "چند ورودی پرامپت سیستمی با گزینه‌های زمان‌بندی برای هر ورودی - اولین پیام، هر N نوبت یا همیشه."
+            },
+            "feat_1": {
+              "title": "بازطراحی تصویرساز",
+              "description": "ابزارک‌های تصویرساز اکنون قابل تغییر اندازه و دانلود هستند. کل رابط برای تجربه تمیزتر بازطراحی شده است."
+            },
+            "feat_2": {
+              "title": "تحقیق عمیق",
+              "description": "یک موضوع به دیپ‌سیک بگویید، برنامه تولیدشده را بازبینی کنید و پس از تأیید، تحقیق عمیق چندمرحله‌ای را به‌صورت خودکار انجام می‌دهد."
+            },
+            "feat_3": {
+              "title": "بازطراحی خروجی/ورودی",
+              "description": "همه داده‌های افزونه (تنظیمات، مهارت‌ها، حافظه‌ها، شخصیت‌ها، پروژه‌ها) اکنون با پشتیبانی رمزنگاری اختیاری قابل خروجی و ورود هستند."
+            }
+          }
+        },
+        "v0_1_8": {
+          "title": "بازطراحی حافظه، موارد ذخیره‌شده و زمین بازی API",
+          "features": {
+            "feat_0": {
+              "title": "بازطراحی حافظه",
+              "description": "سیستم حافظه با رویکرد مبتنی بر هم‌پوشانی توکن برای تطبیق بهتر زمینه بازطراحی شده است."
+            },
+            "feat_1": {
+              "title": "موارد ذخیره‌شده (نشانک‌ها و قطعات)",
+              "description": "پیام‌ها را برای دسترسی بعدی ذخیره کنید. قطعات بسازید و با یک کلیک ارسال کنید."
+            },
+            "feat_2": {
+              "title": "ابزار سازنده مهارت",
+              "description": "از هوش مصنوعی بخواهید مستقیماً از گفتگو برای شما مهارت سفارشی بسازد."
+            },
+            "feat_3": {
+              "title": "ورود حافظه از هوش مصنوعی دیگر",
+              "description": "حافظه خود را از سایر پلتفرم‌های هوش مصنوعی به دیپ‌سیک وارد کنید."
+            },
+            "feat_4": {
+              "title": "زمین بازی API",
+              "description": "یک زمین بازی داخلی برای آزمایش آسان API دیپ‌سیک."
+            },
+            "feat_5": {
+              "title": "ابزار جستجوی خودکار",
+              "description": "خواندن و جستجوی لینک حالت تخصصی حذف‌شده با ابزار جستجوی یکپارچه خودمان جایگزین شد."
+            },
+            "feat_6": {
+              "title": "اصلاح باگ‌ها و بهبود تجربه کاربری",
+              "description": "اصلاحات متعدد باگ و بهبود تجربه کاربری در سراسر افزونه."
+            }
+          }
+        },
+        "v0_1_7": {
+          "title": "بومی‌سازی، پرامپت‌های سفارشی و RAG",
+          "features": {
+            "feat_0": {
+              "title": "سیستم بومی‌سازی",
+              "description": "Better DeepSeek اکنون چند زبان را پشتیبانی می‌کند. به ما در بهبود ترجمه‌ها کمک کنید یا زبان خود را در <a href='https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>گیت‌هاب</a> اضافه کنید."
+            },
+            "feat_1": {
+              "title": "پرامپت‌های سفارشی",
+              "description": "پرامپت‌های سیستمی متعدد را بی‌زحمت بسازید، ذخیره و بین آن‌ها جابه‌جا شوید."
+            },
+            "feat_2": {
+              "title": "جستجوی RAG پروژه",
+              "description": "یک سیستم RAG ابتدایی اضافه شده است. برای جستجوی فایل یک پروژه وصل کنید یا پوشه محلی انتخاب کنید. در نسخه‌های آینده به بهبود ادامه می‌دهیم."
+            },
+            "feat_3": {
+              "title": "بهبود رابط کاربری",
+              "description": "جمع/بازکردن پیام‌های طولانی، بازشدن وب‌سایت دیپ‌سیک با نماد افزونه، بنرهای وضعیت سرور و اعلان و موارد دیگر..."
+            },
+            "feat_4": {
+              "title": "اصلاح باگ‌ها و عملکرد",
+              "description": "بهبود تجزیه‌گر ابزار BDS و ابزارهای Office. رفع مشکلات رندر فونت. بهینه‌سازی‌های مختلف پایداری و عملکرد و موارد دیگر..."
+            }
+          }
+        },
+        "v0_1_6": {
+          "title": "اندروید و سازمان‌دهی",
+          "features": {
+            "feat_0": {
+              "title": "نسخه اندروید",
+              "description": "Better DeepSeek اکنون در <a href='https://github.com/EdgeTypE/better-deepseek/releases' target='_blank' style='color: #4d6bfe; text-decoration: underline;'>اندروید</a> در دسترس است."
+            },
+            "feat_1": {
+              "title": "فیلتر و برچسب گفتگو",
+              "description": "با افزودن برچسب، نشست‌های خود را سازمان‌دهی کنید. گفتگوها را به‌راحتی از منوی نوار کناری فیلتر و گروه‌بندی کنید."
+            },
+            "feat_2": {
+              "title": "بازطراحی رابط خروجی",
+              "description": "رابط خروجی جدید برای مارک‌داون، PDF، HTML و تصاویر. کل نشست‌ها یا بخش‌های خاص را خروجی بگیرید."
+            }
+          }
+        },
+        "v0_1_5": {
+          "title": "پالایش و دید",
+          "features": {
+            "feat_0": {
+              "title": "پاپ‌آپ چه چیز جدید",
+              "description": "دارید به آن نگاه می‌کنید! از این پس آخرین تغییرات را همین‌جا به شما اطلاع می‌دهیم."
+            },
+            "feat_1": {
+              "title": "کنترل پیشرفته تزریق",
+              "description": "بین «همیشه»، «اولین پیام» یا «هر X» پیام با بازه‌های قابل تنظیم برای پرامپت‌های سیستمی انتخاب کنید."
+            },
+            "feat_2": {
+              "title": "پشتیبانی مخزن خصوصی",
+              "description": "مخازن خصوصی را از طریق توکن‌های دسترسی شخصی گیت‌هاب به‌صورت امن وارد کنید."
+            },
+            "feat_3": {
+              "title": "تخمین توکن و قیمت",
+              "description": "تخمین مصرف توکن در لحظه و نمایش پنجره زمینه برای مصرف معادل API."
+            },
+            "feat_4": {
+              "title": "غیرفعال‌کردن حافظه",
+              "description": "کلید جدید در تنظیمات برای جلوگیری از ماندگاری زمینه گفتگو توسط افزونه."
+            },
+            "feat_5": {
+              "title": "بهبود پایداری",
+              "description": "رفع مشکلات مدیریت پیام و پالایش کلی وضعیت رابط کاربری."
+            }
+          }
+        },
+        "v0_1_4": {
+          "title": "پروژه‌ها و تنظیمات پیشرفته",
+          "features": {
+            "feat_0": {
+              "title": "منوی پروژه‌ها",
+              "description": "کنترل سازمانی بهتر برای نشست‌ها و فایل‌ها."
+            },
+            "feat_1": {
+              "title": "جستجوی تاریخچه",
+              "description": "قابلیت جستجو به نوار کناری تاریخچه نشست اضافه شد."
+            },
+            "feat_2": {
+              "title": "تنظیمات پیشرفته",
+              "description": "منوی تنظیمات با چیدمان آکاردئونی برای صرفه‌جویی در فضا و بهبود تمرکز بازطراحی شد."
+            },
+            "feat_3": {
+              "title": "غیرفعال‌کردن پرامپت سیستمی",
+              "description": "گزینه جدید برای غیرفعال‌کردن کامل پرامپت سیستمی پنهان وقتی نیاز نیست."
+            },
+            "feat_4": {
+              "title": "زبان اجباری",
+              "description": "اطمینان از اینکه دیپ‌سیک همیشه بدون توجه به ورودی به زبان ترجیحی شما پاسخ می‌دهد."
+            }
+          }
+        },
+        "v0_1_3": {
+          "title": "پرسیدن سؤال و خروجی‌ها",
+          "features": {
+            "feat_0": {
+              "title": "ابزار پرسیدن سؤال",
+              "description": "دیپ‌سیک اکنون می‌تواند وقتی درباره زمینه یا دستورالعمل‌ها مطمئن نیست شفاف‌سازی بخواهد."
+            },
+            "feat_1": {
+              "title": "خروجی مارک‌داون و PDF",
+              "description": "کل نشست‌های گفتگوی خود را به فایل‌های مارک‌داون و PDF خروجی بگیرید."
+            },
+            "feat_2": {
+              "title": "بازنشانی پرامپت",
+              "description": "پرامپت سیستمی را به‌راحتی به حالت پیش‌فرض بازنشانی کنید."
+            },
+            "feat_3": {
+              "title": "اصلاح ناوبری",
+              "description": "رفع مشکلات بارگذاری مجدد کامل صفحه هنگام کلیک روی لوگو یا «گفتگوی جدید»."
+            }
+          }
+        },
+        "v0_1_2": {
+          "title": "چندمرورگری و اجراگرهای کد",
+          "features": {
+            "feat_0": {
+              "title": "پشتیبانی فایرفاکس",
+              "description": "پشتیبانی آزمایشی از مرورگر فایرفاکس اضافه شد."
+            },
+            "feat_1": {
+              "title": "اجراگرهای کد بهبودیافته",
+              "description": "اجراگر پایتون به‌روزرسانی و محیط‌های اجرای JS و TS جدید اضافه شد."
+            },
+            "feat_2": {
+              "title": "دریافت خودکار گیت‌هاب",
+              "description": "مخازن گیت‌هاب را مستقیماً از طریق دستور BDS:AUTO به گفتگو تزریق کنید."
+            }
+          }
+        },
+        "v0_1_1": {
+          "title": "پشتیبانی صدا و قابلیت اطمینان",
+          "features": {
+            "feat_0": {
+              "title": "پشتیبانی کامل صدا",
+              "description": "یکپارچه‌سازی کامل گفتار به متن و متن به گفتار."
+            },
+            "feat_1": {
+              "title": "پیکربندی صدا",
+              "description": "زبان‌های قابل تنظیم صدا و تشخیص در تنظیمات موجود است."
+            },
+            "feat_2": {
+              "title": "ناوبری بهبودیافته",
+              "description": "لوگو و «گفتگوی جدید» اکنون تگ واقعی &lt;a&gt; هستند و از «بازکردن در برگه جدید» پشتیبانی می‌کنند."
+            },
+            "feat_3": {
+              "title": "قابلیت اطمینان جریان",
+              "description": "مدیریت بهتر جریان‌های متوقف و بسته‌شدن خودکار تگ‌ها."
+            }
+          }
+        }
+      }
+    },
+    "language": {
+      "en": "انگلیسی",
+      "tr": "ترکی",
+      "ru": "روسی",
+      "zh-cn": "چینی ساده‌شده",
+      "fa": "فارسی"
+    },
+    "apiPlayground": {
+      "title": "زمین بازی API",
+      "builder": "سازنده",
+      "response": "پاسخ",
+      "history": "تاریخچه",
+      "presets": "پیش‌تنظیم‌ها",
+      "endpoint": "پایانه",
+      "model": "مدل",
+      "messages": "پیام‌ها",
+      "stream": "جریان",
+      "temperature": "دما",
+      "maxTokens": "حداکثر توکن",
+      "topP": "Top P",
+      "frequencyPenalty": "جریمه بسامد",
+      "presencePenalty": "جریمه حضور",
+      "thinking": "تفکر",
+      "disabled": "غیرفعال",
+      "enabled": "فعال",
+      "budgetToken": "بودجه توکن",
+      "reasoningEffort": "تلاش استدلال",
+      "low": "کم",
+      "medium": "متوسط",
+      "high": "زیاد",
+      "responseFormat": "قالب پاسخ",
+      "text": "متن",
+      "jsonObject": "شیء JSON",
+      "jsonSchema": "طرح JSON",
+      "schema": "طرح",
+      "tools": "ابزارها",
+      "toolChoice": "انتخاب ابزار",
+      "auto": "خودکار",
+      "required": "الزامی",
+      "none": "هیچ‌کدام",
+      "toolName": "نام ابزار",
+      "addTool": "افزودن ابزار",
+      "addMessage": "افزودن پیام",
+      "role": "نقش",
+      "content": "محتوا",
+      "name": "نام",
+      "prefix": "پیشوند",
+      "toolCallId": "شناسه فراخوانی ابزار",
+      "remove": "حذف",
+      "moveUp": "انتقال به بالا",
+      "moveDown": "انتقال به پایین",
+      "beta": "بتا",
+      "prefixCompletion": "تکمیل پیشوند",
+      "store": "ذخیره",
+      "reasoning": "استدلال",
+      "metadata": "فراداده",
+      "userId": "شناسه کاربر",
+      "labels": "برچسب‌ها",
+      "logprobs": "Logprobs",
+      "topLogprobs": "Top Logprobs",
+      "copy": "کپی",
+      "noResponse": "برای دیدن پاسخ یک درخواست بفرستید.",
+      "noKey": "بدون کلید",
+      "messagePlaceholder": "محتوای پیام را وارد کنید...",
+      "sending": "در حال ارسال...",
+      "send": "ارسال",
+      "reset": "بازنشانی",
+      "saveRequest": "ذخیره درخواست",
+      "saveName": "ذخیره نام",
+      "manageKeys": "مدیریت کلیدهای API",
+      "addKey": "افزودن کلید",
+      "noKeysHint": "کلید API ذخیره نشده است. برای شروع ارسال درخواست یکی اضافه کنید.",
+      "useActiveKey": "استفاده از کلید: {{name}}",
+      "noActiveKey": "کلید API فعالی نیست",
+      "searchHistory": "جستجوی تاریخچه...",
+      "allModels": "همه مدل‌ها",
+      "exportHistory": "خروجی",
+      "clearHistory": "پاک‌کردن",
+      "noHistory": "هنوز ورودی تاریخچه‌ای وجود ندارد.",
+      "delete": "حذف",
+      "historyLimit": "تاریخچه محدود به ۵۰۰ ورودی است. پیش از پاک‌کردن برای ذخیره خروجی بگیرید.",
+      "builtinPresets": "پیش‌تنظیم‌های داخلی",
+      "savedRequests": "درخواست‌های ذخیره‌شده",
+      "viewCurl": "مشاهده cURL",
+      "copyCode": "کپی کد",
+      "clear": "پاک‌کردن",
+      "latency": "تأخیر",
+      "finishReason": "دلیل پایان",
+      "tokens": "توکن‌ها",
+      "input": "ورودی",
+      "output": "خروجی",
+      "cacheHit": "برخورد کش",
+      "cacheMiss": "خطای کش",
+      "cacheSavings": "صرفه‌جویی کش",
+      "cost": "هزینه",
+      "estimatedCost": "هزینه تخمینی",
+      "responseTime": "زمان پاسخ",
+      "rawResponse": "پاسخ خام",
+      "streamChunks": "قطعات جریان",
+      "toolsCalled": "ابزارهای فراخوانی‌شده",
+      "enterJsonSchema": "طرح JSON را وارد کنید...",
+      "saveNamePlaceholder": "این درخواست را نام‌گذاری کنید...",
+      "betaFeatureDescription": "ویژگی‌های پایانه بتا (با احتیاط استفاده کنید).",
+      "codeGen": "تولید کد",
+      "promptSuffix": "پسوند پرامپت"
+    },
+    "queue": {
+      "title": "پیام‌های صف‌شده",
+      "waitingForAI": "در انتظار هوش مصنوعی...",
+      "sendingNext": "در حال ارسال بعدی...",
+      "clearAll": "پاک‌کردن همه",
+      "addToQueue": "افزودن به صف",
+      "enterToQueueTip": "هوش مصنوعی در حال تولید است. برای صف‌کردن پرامپت خود Enter بزنید.",
+      "moveUp": "انتقال به بالا",
+      "moveDown": "انتقال به پایین",
+      "itemCount.one": "{{count}} مورد",
+      "itemCount.other": "{{count}} مورد"
+    },
+    "deepResearchRevision": {
+      "title": "درخواست تغییرات برنامه",
+      "run": "اجرا: {{id}}",
+      "closeAria": "بستن بازبینی تحقیق عمیق",
+      "placeholder": "توضیح دهید چه چیزی باید در برنامه تحقیق تغییر کند...",
+      "cancel": "انصراف",
+      "submit": "ارسال بازخورد",
+      "cancelledToast": "بازبینی تحقیق عمیق لغو شد."
+    },
+    "tableInjector": {
+      "columnOptions": "گزینه‌های ستون",
+      "hideRow": "پنهان‌کردن ردیف",
+      "manageColumnsRows": "مدیریت ستون‌ها و ردیف‌ها",
+      "sortAsc": "\u25B2 مرتب‌سازی الف تا ی",
+      "sortDesc": "\u25BC مرتب‌سازی ی تا الف",
+      "hideColumn": "پنهان‌کردن ستون",
+      "showColumn": "نمایش ستون",
+      "columns": "ستون‌ها",
+      "hiddenRows": "ردیف‌های پنهان ({{count}})",
+      "showAll": "نمایش همه ستون‌ها و ردیف‌ها",
+      "columnLabel": "ستون {{n}}"
+    },
+    "shareModal": {
+      "searchEngineWarning": "گفتگوهای به‌اشتراک‌گذاشته‌شده ممکن است توسط موتورهای جستجو کشف و نمایه شوند."
+    },
+    "tips": {
+      "0": "برای خروجی گرفتن از گفتگو، روی دکمه ... کنار نشست در تاریخچه گفتگو کلیک کنید.",
+      "1": "می‌توانید این جعبه نکته را از تنظیمات غیرفعال کنید.",
+      "2": "می‌توانید تنظیمات و داده‌های فعلی خود را خروجی بگیرید. کافی است بخش تنظیمات پیشرفته را ببینید.",
+      "3": "پرامپت‌های پرکاربرد خود را به‌عنوان قطعه ذخیره کنید و بعداً به‌راحتی دوباره بفرستید. حتی می‌توانید قطعات را به دستور «/» اختصاص دهید تا سریع‌تر شود. برای جزئیات برگه Snippets در کشوی BDS را ببینید.",
+      "4": "آیا می‌دانستید می‌توانید حالت پرامپت چندسیستمی را فعال کنید تا همزمان از چند پرامپت سیستمی با برنامه‌ها و شرایط مختلف استفاده کنید و گردش کار سفارشی خود را بسازید؟",
+      "5": "می‌توانید حافظه‌های خود را از هوش مصنوعی دیگر به BDS وارد کنید. روی «ورود حافظه از هوش مصنوعی دیگر» در پایین بخش حافظه کلیک کنید.",
+      "6": "آیا می‌دانستید Better DeepSeek یک <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">برنامه اندروید</a> هم دارد؟",
+      "7": "اگر افزونه را دوست دارید، با دوستان خود به اشتراک بگذارید! برای درخواست ویژگی، در <a href=\"https://github.com/EdgeTypE/better-deepseek\" target=\"_blank\" rel=\"noopener noreferrer\">صفحه گیت‌هاب</a> به ما اطلاع دهید.",
+      "8": "آیا می‌دانستید می‌توانید سرورهای MCP را به Better DeepSeek متصل کنید؟ تنظیمات پیشرفته را ببینید.",
+      "9": "می‌توانید رابط را هر طور که دوست دارید با CSS سفارشی شخصی‌سازی کنید.",
+      "10": "می‌خواهیم پشتیبانی زبان بیشتری به Better DeepSeek اضافه کنیم. اگر می‌خواهید زبان خود را اضافه کنید، <a href=\"https://github.com/EdgeTypE/better-deepseek/blob/main/LOCALIZATION.md\" target=\"_blank\" rel=\"noopener noreferrer\">اینجا</a> را ببینید. همچنین اگر خطای ترجمه‌ای دیدید، می‌توانید اصلاح کنید.",
+      "11": "می‌توانید با کلیک روی دکمه ... در تاریخچه نشست به هر گفتگو برچسب اختصاص دهید. سپس از آن برچسب‌ها برای جستجو یا فیلتر سریع گفتگوها استفاده کنید.",
+      "12": "فقط با درخواست از دیپ‌سیک می‌توانید مهارت یا شخصیت جدید بسازید. کافی است بگویید چه می‌خواهید.",
+      "title": "\uD83D\uDCA1 نکته",
+      "disableInSettings": "می‌توانید این را از تنظیمات غیرفعال کنید."
+    }
+  }
+}

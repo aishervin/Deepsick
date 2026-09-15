@@ -1,0 +1,319 @@
+import { isAutoLinkArtifact } from "../parser/link-artifacts.js";
+
+/**
+ * Extract raw text from a message DOM node using the best available source.
+ */
+/**
+ * Extract the raw text from a message node, choosing the best source.
+ */
+export function extractMessageRawText(node) {
+  return parseNodeWithBestTextSource(node);
+}
+
+/**
+ * Extract code directly from a <pre><code> DOM element inside a message node.
+ * This bypasses all text extraction and markdown mangling, giving us the
+ * verbatim code content with perfect indentation.
+ *
+ * DeepSeek's markdown renderer converts ```python...``` into a
+ * <pre><code class="language-python"> element. Inside this element,
+ * ALL whitespace is preserved exactly as the AI wrote it.
+ * This is immune to:
+ *  - Indentation stripping (markdown code block syntax)
+ *  - __name__ → <strong>name</strong> (markdown bold)
+ *  - Copy/Download button text contamination
+ */
+export function extractCodeFromDomNode(node) {
+  if (!node) return "";
+
+  // Prefer a language-tagged code block (from a fenced ```python block)
+  const langCode = node.querySelector(
+    'pre code[class*="language-python"], pre code[class*="language-py"]'
+  );
+  if (langCode) {
+    return langCode.textContent || "";
+  }
+
+  // Fall back to any <pre><code> block that looks substantial
+  const allCodeBlocks = node.querySelectorAll("pre code");
+  let best = "";
+  for (const el of allCodeBlocks) {
+    const text = el.textContent || "";
+    if (text.trim().length > best.length) {
+      best = text;
+    }
+  }
+
+  return best;
+}
+
+function parseNodeWithBestTextSource(node) {
+  const candidates = getNodeTextCandidates(node);
+  if (!candidates.length) {
+    return "";
+  }
+
+  const tagCandidates = candidates.filter((c) =>
+    /<BDS:|<BetterDeepSeek>/i.test(c.value)
+  );
+  const pool = tagCandidates.length ? tagCandidates : candidates;
+
+  const selected =
+    pool.sort(
+      (a, b) => scoreRawTextCandidate(b) - scoreRawTextCandidate(a)
+    )[0];
+  return selected ? selected.value : "";
+}
+
+function getNodeTextCandidates(node) {
+  // Instead of innerText (which fails on detached clones), 
+  // we'll filter out thinking blocks and then use textContent.
+
+  const clone = node.cloneNode(true);
+
+  // Remove Thinking blocks, UI elements, and code block banners
+  const selectorsToRemove = [
+    ".ds-think-content",
+    "[class*=\"think\"]",
+    "._5255ff8", // "Thought for X seconds"
+    "._60aa7fb", // "Found X web pages"
+    ".e4c3fd02", // "Read X pages" list
+    "._74c0879", // Collapsible area title
+    ".ds-icon",
+    ".ds-icon-button",
+    "div[role=\"button\"]",
+    // Code block banners contain "Run Python", "Copy", "Download" button text
+    ".md-code-block-banner",
+    ".md-code-block-banner-wrap",
+    "[class*=\"code-block-banner\"]",
+    // BDS injected elements inside node
+    ".bds-host-wrapper",
+    ".bds-selection-checkbox-container",
+    ".bds-bookmark-btn",
+    ".bds-price-bubble",
+    ".bds-run-btn"
+  ];
+
+  for (const selector of selectorsToRemove) {
+    clone.querySelectorAll(selector).forEach(el => el.remove());
+  }
+
+  // INDENTATION FIX: Extract code from <pre><code> elements BEFORE text
+  // extraction. DeepSeek renders markdown code fences as <pre><code> with
+  // preserved whitespace, but when the surrounding BDS tags are treated as
+  // unknown HTML elements, re-parsing or textContent can collapse whitespace.
+  // By replacing each <pre> with a text node containing the verbatim code,
+  // we guarantee indentation survives into the final extracted text.
+  // INDENTATION & UI FIX: Replace the entire markdown code block container with its 
+  // raw indented code text. DeepSeek's markdown renderer puts code in .md-code-block,
+  // which contains a banner (with "Copy", "Download", etc.) and a <pre><code> block.
+  // By replacing the whole .md-code-block with the text from <pre><code>, we:
+  // 1. Preserve the whitespace perfectly.
+  // 2. Completely eliminate the banner UI text from leaking into the extracted content.
+  // 3. We re-wrap the code in ``` backticks so the parser can consistently unwrap it.
+  const mdCodeBlocks = clone.querySelectorAll(".md-code-block");
+  for (const block of mdCodeBlocks) {
+    const codeEl = block.querySelector("pre code") || block.querySelector("pre");
+    if (codeEl) {
+      const codeText = codeEl.textContent || "";
+      const textNode = clone.ownerDocument.createTextNode(`\n\`\`\`\n${codeText}\n\`\`\`\n`);
+      block.replaceWith(textNode);
+    }
+  }
+
+  // Catch any stray <pre> elements that aren't inside .md-code-block
+  const strayPres = clone.querySelectorAll("pre");
+  for (const pre of strayPres) {
+    const codeEl = pre.querySelector("code");
+    const codeText = (codeEl || pre).textContent || "";
+    const textNode = clone.ownerDocument.createTextNode(`\n\`\`\`\n${codeText}\n\`\`\`\n`);
+    pre.replaceWith(textNode);
+  }
+
+  // decodeNodeHtmlText already uses textContent internally but handles line breaks
+  const htmlDecoded = decodeNodeHtmlText(clone.innerHTML || "");
+  const textContent = String(clone.textContent || "");
+  const markdownReconstructed = extractMessageMarkdown(clone);
+
+  return [
+    { type: "htmlDecoded", value: htmlDecoded },
+    { type: "textContent", value: textContent },
+    { type: "markdownReconstructed", value: markdownReconstructed }
+  ].filter(
+    (c) => c.value && c.value.trim()
+  );
+}
+
+function decodeNodeHtmlText(html) {
+  const htmlWithBreaks = String(html || "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/(p|div|li|pre|code|blockquote|h[1-6])>/gi, "\n");
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlWithBreaks, "text/html");
+  return String(doc.body.textContent || "");
+}
+
+function scoreRawTextCandidate(candidate) {
+  const text = String(candidate.value || "");
+  const lineBreakCount = (text.match(/\n/g) || []).length;
+  const tagCount = (text.match(/<BDS:|<BetterDeepSeek>/gi) || []).length;
+
+  // Bonus points for structured markdown syntax to ensure markdownReconstructed wins
+  // matches headings (# ), bullets (- , * , 1. ), and table pipes (|...|), blockquotes (> ), horizontal rules (---)
+  const mdBonus = (text.match(/(?:^|\n)(?:#+ |\* |- |\d+\. |\|.*\||> |---)/g) || []).length * 100;
+
+  // Reconstructed markdown is much higher fidelity than raw browser text/decoded html
+  const typeBonus = candidate.type === "markdownReconstructed" ? 15000 : 0;
+
+  return tagCount * 10000 + mdBonus + typeBonus + lineBreakCount * 50 + text.length;
+}
+
+/**
+ * Reconstruct markdown from a rendered message node.
+ * This is used for exporting when the original markdown source is not available.
+ */
+export function extractMessageMarkdown(node) {
+  if (!node) return "";
+
+  const clone = node.cloneNode(true);
+
+  // Remove noise first
+  const noiseSelectors = [
+    ".ds-think-content",
+    "[class*=\"think\"]",
+    "._5255ff8",
+    "._60aa7fb",
+    ".e4c3fd02",
+    "._74c0879",
+    ".ds-icon",
+    ".ds-icon-button",
+    "div[role=\"button\"]",
+    ".bds-host-wrapper",
+    ".bds-selection-checkbox-container",
+    ".bds-bookmark-btn",
+    ".bds-price-bubble",
+    ".bds-run-btn"
+  ];
+  for (const s of noiseSelectors) {
+    clone.querySelectorAll(s).forEach(el => el.remove());
+  }
+
+  // Find the markdown container
+  const container = clone.querySelector(".ds-markdown") || clone;
+  return htmlToMarkdown(container).trim();
+}
+
+const HTML_TO_MARKDOWN_MAX_DEPTH_FLOOR = 10;
+let HTML_TO_MARKDOWN_MAX_DEPTH = 200;
+
+/**
+ * Update the depth cap used by htmlToMarkdown. Called by the storage layer
+ * on initial settings load and whenever the user saves a new value via the
+ * Settings panel. Clamped to a sane floor.
+ */
+export function setHtmlToMarkdownMaxDepth(value) {
+  const raw = Number(value);
+  if (!Number.isFinite(raw) || raw <= 0) return;
+  HTML_TO_MARKDOWN_MAX_DEPTH = Math.max(HTML_TO_MARKDOWN_MAX_DEPTH_FLOOR, Math.floor(raw));
+}
+
+function htmlToMarkdown(element, depth = 0) {
+  // Hard depth cap so deeply-nested DOM (nested lists/blockquotes/KaTeX,
+  // streamed long messages) cannot blow V8's stack. Falls back to plain text.
+  if (depth > HTML_TO_MARKDOWN_MAX_DEPTH) {
+    return element.textContent || "";
+  }
+
+  let markdown = "";
+
+  for (const child of element.childNodes) {
+    if (child.nodeType === 3) { // TEXT_NODE
+      markdown += child.textContent;
+    } else if (child.nodeType === 1) { // ELEMENT_NODE
+      const tag = child.tagName.toLowerCase();
+      const content = htmlToMarkdown(child, depth + 1);
+
+      switch (tag) {
+        case "h1": markdown += `\n# ${content}\n`; break;
+        case "h2": markdown += `\n## ${content}\n`; break;
+        case "h3": markdown += `\n### ${content}\n`; break;
+        case "h4": markdown += `\n#### ${content}\n`; break;
+        case "h5": markdown += `\n##### ${content}\n`; break;
+        case "h6": markdown += `\n###### ${content}\n`; break;
+        case "strong": case "b": markdown += `**${content}**`; break;
+        case "em": case "i": markdown += `*${content}*`; break;
+        case "code":
+          // If it's inside a pre, we handle it in the pre case
+          if (child.parentElement?.tagName.toLowerCase() === "pre") {
+            markdown += content;
+          } else {
+            markdown += `\`${content}\``;
+          }
+          break;
+        case "pre":
+          const lang = child.querySelector("code")?.className?.match(/language-(\w+)/)?.[1] || "";
+          markdown += `\n\`\`\`${lang}\n${child.textContent.trim()}\n\`\`\`\n`;
+          break;
+        case "p": markdown += `\n${content}\n`; break;
+        case "ul": markdown += `\n${content}\n`; break;
+        case "ol": markdown += `\n${content}\n`; break;
+        case "li": {
+          const parent = child.parentElement;
+          const isOrdered = parent?.tagName.toLowerCase() === "ol";
+          if (isOrdered) {
+            const siblings = Array.from(parent.children);
+            const index = siblings.indexOf(child);
+            const startAttr = parseInt(parent.getAttribute("start"), 10) || 1;
+            const itemNumber = startAttr + index;
+            markdown += `\n${itemNumber}. ${content.trim()}`;
+          } else {
+            markdown += `\n- ${content.trim()}`;
+          }
+          break;
+        }
+        case "blockquote": {
+          const lines = content.trim().split("\n").map(line => `> ${line}`).join("\n");
+          markdown += `\n${lines}\n`;
+          break;
+        }
+        case "hr": markdown += `\n---\n`; break;
+        case "a":
+          const href = child.getAttribute("href") || "#";
+          // DeepSeek autolinks bare tokens like "main.rs" into <a> elements.
+          // Reconstruct those as plain text so BDS tag attributes
+          // (fileName="src/main.rs"), AUTO paths, and file trees survive intact.
+          if (isAutoLinkArtifact(content, href)) {
+            markdown += content;
+          } else {
+            markdown += `[${content}](${href})`;
+          }
+          break;
+        case "br": markdown += `\n`; break;
+        case "table": markdown += `\n\n${content}\n`; break;
+        case "thead":
+        case "tbody":
+          markdown += content;
+          break;
+        case "tr":
+          markdown += `|${content}\n`;
+          if (
+            child.parentElement?.tagName.toLowerCase() === "thead" ||
+            (child.parentElement?.tagName.toLowerCase() === "table" && child === child.parentElement.firstElementChild)
+          ) {
+            const cellCount = child.querySelectorAll("th, td").length;
+            markdown += `|${Array(cellCount).fill("---").join("|")}|\n`;
+          }
+          break;
+        case "th":
+        case "td":
+          markdown += ` ${content.trim().replace(/\n/g, " ")} |`;
+          break;
+        default: markdown += content;
+      }
+    }
+  }
+
+  // Clean up excessive newlines
+  return markdown.replace(/\n{3,}/g, "\n\n");
+}
