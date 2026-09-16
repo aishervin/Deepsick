@@ -6,6 +6,7 @@
  */
 
 import { installChromePolyfill } from "./android-chrome-polyfill.js";
+import { initStudioRuntime } from "./studio-runtime.js";
 import { hideGetAppButton } from "../android/hide-get-app.js";
 import { hideDrawerAppItem } from "../android/hide-drawer-app-item.js";
 
@@ -28,6 +29,7 @@ function runWhenBodyExists(callback) {
 runWhenBodyExists(() => {
   hideGetAppButton();
   hideDrawerAppItem();
+  initStudioRuntime();
 });
 
 export { AndroidStorage, AndroidFetch, AndroidAssetUrl } from "./android-bridge-shim.js";
