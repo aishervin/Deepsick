@@ -7,13 +7,16 @@ plugins {
 
 // Release tags are also the Android update version source. This keeps versionCode
 // strictly increasing for normal semver releases (vMAJOR.MINOR.PATCH).
-val releaseTagForBuild = project.findProperty("releaseTag")?.toString() ?: "v0.0.0"
+val releaseTagForBuild = project.findProperty("releaseTag")?.toString() ?: "v0.1.13"
 val semverMatch = Regex("^v?(\\d+)\\.(\\d+)\\.(\\d+)(?:[-+].*)?$").find(releaseTagForBuild)
 val releaseVersionCode = semverMatch?.let {
     val major = it.groupValues[1].toLongOrNull() ?: 0L
     val minor = it.groupValues[2].toLongOrNull() ?: 0L
     val patch = it.groupValues[3].toLongOrNull() ?: 0L
-    (major * 1_000_000L + minor * 1_000L + patch).coerceAtMost(2_100_000_000L).toInt()
+    (major * 1_000_000L + minor * 1_000L + patch)
+        .coerceAtLeast(1L)
+        .coerceAtMost(2_100_000_000L)
+        .toInt()
 } ?: 1
 
 android {
