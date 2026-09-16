@@ -1,6 +1,6 @@
 <div align="center">
 
-# ☬ Deepsick — SHΞN Studio Android
+# ☬ Deepsick ➕ SHΞN Studio mooded apk
 
 ### یک لایه‌ی اندرویدی برای تبدیل DeepSeek به استودیوی اجرایی، ترمینال HTML و ابزارساز زنده
 
@@ -305,7 +305,7 @@ cd android
 
 ## Disclaimer
 
-Deepsick یک پروژه‌ی مستقل و غیررسمی است و وابسته، تأییدشده یا اسپانسرشده توسط DeepSeek یا DeepSeek AI نیست.
+SHΞЯVIN™ یک پروژه‌ی مستقل و غیررسمی است و وابسته، تأییدشده یا اسپانسرشده توسط DeepSeek یا DeepSeek AI نیست.
 
 <div align="center">
 
