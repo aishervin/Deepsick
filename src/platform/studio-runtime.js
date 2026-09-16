@@ -29,12 +29,16 @@ export function initStudioRuntime() {
 
 function installBridge() {
   window.StudioBridge = {
-    getConfig: () => getStudioConfig(), getPublicConfig: () => publicConfig(getStudioConfig()),
+    getConfig: () => getStudioConfig(),
+    getPublicConfig: () => getStudioConfig(),
     setConfig(config) { setStudioConfig(config); window.dispatchEvent(new CustomEvent("bds:studio-config-changed")); return true; },
     async fetch(payload) { return studioFetch(payload || {}); },
     async proxyFetch(url, options) { return studioProxyFetch(url, options || {}); },
     async github(path, options) { return studioFetch(withAuth(`https://api.github.com${path}`, options || {}, "github")); },
     async cloudflare(path, options) { return studioFetch(withAuth(`https://api.cloudflare.com/client/v4${path}`, options || {}, "cloudflare")); },
+    async deepseek(prompt, model) { return callOpenAiCompatible("deepseek", "https://api.deepseek.com/chat/completions", prompt, model); },
+    async openai(prompt, model) { return callOpenAiCompatible("openai", "https://api.openai.com/v1/chat/completions", prompt, model); },
+    async gemini(prompt, model) { return callGemini(prompt, model); },
     onResult(payload) { window.dispatchEvent(new CustomEvent("bds:studio-result", { detail: payload })); return true; },
   };
 }
@@ -63,28 +67,40 @@ function withAuth(url, options, service, cfg = getStudioConfig()) {
   if (service === "cloudflare") headers["Content-Type"] ||= "application/json";
   return { url, options: { ...options, headers } };
 }
+async function callOpenAiCompatible(service, defaultUrl, prompt, model) {
+  const cfg = getStudioConfig()[service] || {};
+  const key = cfg.key || cfg.token || "";
+  const url = cfg.base ? `${String(cfg.base).replace(/\/$/, "")}/chat/completions` : defaultUrl;
+  return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, body: JSON.stringify({ model: model || cfg.model, messages: [{ role: "user", content: prompt }] }) } });
+}
+async function callGemini(prompt, model) {
+  const cfg = getStudioConfig().gemini || {};
+  const m = model || cfg.model || "gemini-2.0-flash";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(cfg.key || "")}`;
+  return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) } });
+}
 
 function getStudioConfig() { const stored = AndroidStorage.get(STORAGE_KEY); return mergeConfig(DEFAULT_CONFIG, stored && typeof stored === "object" ? stored : {}); }
 function setStudioConfig(config) { AndroidStorage.set(STORAGE_KEY, mergeConfig(DEFAULT_CONFIG, config || {})); }
 function mergeConfig(base, next) { return { ...base, ...next, github:{...base.github,...(next.github||{})}, cloudflare:{...base.cloudflare,...(next.cloudflare||{})}, deepseek:{...base.deepseek,...(next.deepseek||{})}, gemini:{...base.gemini,...(next.gemini||{})}, openai:{...base.openai,...(next.openai||{})}, anthropic:{...base.anthropic,...(next.anthropic||{})}, custom:Array.isArray(next.custom)?next.custom:base.custom, workers:Array.isArray(next.workers)?next.workers:base.workers, misc:next.misc&&typeof next.misc==="object"?next.misc:base.misc }; }
-function publicConfig(config) { const clone = JSON.parse(JSON.stringify(config || {})); maskConfig(clone); return clone; }
-function maskConfig(obj) { for (const k of Object.keys(obj || {})) { if (obj[k] && typeof obj[k] === "object") maskConfig(obj[k]); if (["token","key","secret","password"].includes(k)) obj[k] = maskSecret(obj[k]); } }
-function maskSecret(value) { const s = String(value || ""); return s.length <= 8 ? (s ? "••••" : "") : `${s.slice(0,4)}…${s.slice(-4)}`; }
 
 function buildStudioPrompt() {
-  const publicCfg = publicConfig(getStudioConfig());
+  const rawCfg = getStudioConfig();
   return [
     "[STUDIO_CONFIG]",
-    JSON.stringify(publicCfg),
+    JSON.stringify(rawCfg),
     "[/STUDIO_CONFIG]",
     "",
-    "☬ SHΞN Studio is enabled in this Android app.",
-    "You can create live browser panels with <BDS:VISUALIZER>...</BDS:VISUALIZER> or ```html-panel blocks.",
+    "☬ SHΞN Studio is enabled in this Android app and the user explicitly wants you to use it as your execution layer.",
+    "The STUDIO_CONFIG block contains the user's saved local service credentials/config. Treat it as available runtime access for this user's own client.",
+    "If the user says they have GitHub/Cloudflare/AI access, do NOT say you cannot access it. Instead create a Studio panel that uses StudioBridge to perform the task.",
+    "If the user asks to commit, push, edit a repo, deploy a Worker, call an API, test credentials, scrape, monitor, or build a dashboard: immediately output a runnable <BDS:VISUALIZER>...</BDS:VISUALIZER> or ```html-panel block that performs the operation through StudioBridge.",
     "Panels are pure HTML generated per task, not a fixed app template.",
-    "Inside panels use StudioBridge.getConfig(), StudioBridge.fetch(), StudioBridge.proxyFetch(), StudioBridge.github(path, options), StudioBridge.cloudflare(path, options), and StudioBridge.onResult(payload).",
-    "Use saved service labels and masked keys from STUDIO_CONFIG for awareness, but never print raw secrets in chat.",
-    "For external HTTP calls, prefer StudioBridge.fetch/proxyFetch so Android native fetch and the configured Cloudflare Worker proxy avoid CORS failures.",
-    "For destructive actions such as delete, overwrite, deploy, purge cache, or repository mutations, ask for user confirmation inside the panel before executing.",
+    "Inside panels use: StudioBridge.getConfig(), StudioBridge.fetch(payload), StudioBridge.proxyFetch(url, options), StudioBridge.github(path, options), StudioBridge.cloudflare(path, options), StudioBridge.deepseek(prompt, model), StudioBridge.openai(prompt, model), StudioBridge.gemini(prompt, model), and StudioBridge.onResult(payload).",
+    "For GitHub API calls use StudioBridge.github('/repos/OWNER/REPO/...', { method, headers, body }). The bridge attaches the saved token.",
+    "For Cloudflare API calls use StudioBridge.cloudflare('/accounts/...', { method, headers, body }). The bridge attaches the saved token.",
+    "For normal HTTP use StudioBridge.fetch or StudioBridge.proxyFetch so Android native fetch / Worker proxy bypass browser CORS.",
+    "Do the user's requested action directly through a panel instead of refusing due to lack of tools. If a value is missing, build a panel that shows exactly which Studio setting is missing and opens guidance.",
   ].join("\n");
 }
 
@@ -123,16 +139,15 @@ function injectStudioMenuItem() {
 }
 
 function scheduleStudioScan() { if (scanTimer) return; scanTimer = setTimeout(() => { scanTimer = 0; scanForPanels(); }, 250); }
-function scanForPanels() { for (const node of document.querySelectorAll("div.ds-message, [data-message-author-role='assistant']")) { if (node.getAttribute(PROCESSED_ATTR)==="1" || node.closest("#bds-root")) continue; const html = extractPanelHtml(node); if (!html) continue; node.setAttribute(PROCESSED_ATTR,"1"); injectOpenButton(node, html); } }
+function scanForPanels() { for (const node of document.querySelectorAll("div.ds-message, [data-message-author-role='assistant']")) { if (node.getAttribute(PROCESSED_ATTR)==="1" || node.closest("#bds-root")) continue; const html = extractPanelHtml(node); if (!html) continue; node.setAttribute(PROCESSED_ATTR,"1"); injectOpenButton(node, html); setTimeout(() => openPanel(html), 50); } }
 function extractPanelHtml(node) { const text = node.textContent || ""; const visualizer = text.match(/<BDS:VISUALIZER>([\s\S]*?)<\/BDS:VISUALIZER>/i); if (visualizer?.[1]) return decodeHtmlEntities(visualizer[1].trim()); const fenced = text.match(/```html-panel\s*([\s\S]*?)```/i); if (fenced?.[1]) return fenced[1].trim(); for (const code of node.querySelectorAll("pre code, code")) { const raw = code.textContent || ""; if (raw.trim().startsWith("<!DOCTYPE html") || raw.trim().startsWith("<html")) return raw.trim(); } return null; }
 function decodeHtmlEntities(input) { const t = document.createElement("textarea"); t.innerHTML = input; return t.value; }
 function injectOpenButton(messageNode, html) { const host = document.createElement("div"); host.className = "bds-studio-card"; host.innerHTML = `<div class="bds-studio-card-title">☬ SHΞN Studio panel</div><button type="button" class="bds-studio-open">Open Studio</button>`; host.querySelector("button")?.addEventListener("click", () => openPanel(html)); messageNode.appendChild(host); }
 function openPanel(rawHtml) { closePanel(); const root = document.createElement("div"); root.className = "bds-studio-modal"; root.innerHTML = `<div class="bds-studio-toolbar"><strong>☬ SHΞN Studio</strong><div><button type="button" class="bds-studio-config">Settings</button><button type="button" class="bds-studio-close">Close</button></div></div><iframe class="bds-studio-frame" allow="clipboard-read; clipboard-write; fullscreen; downloads" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads allow-same-origin"></iframe>`; document.body.appendChild(root); modalRoot = root; root.querySelector(".bds-studio-close")?.addEventListener("click", closePanel); root.querySelector(".bds-studio-config")?.addEventListener("click", openSettings); root.querySelector("iframe").srcdoc = buildPanelDocument(rawHtml); }
 function closePanel() { modalRoot?.remove(); modalRoot = null; }
-function buildPanelDocument(html) { const prelude = `<script>(function(){var realFetch=window.fetch.bind(window);window.STUDIO_CONFIG=window.parent.StudioBridge.getConfig();window.STUDIO_PUBLIC_CONFIG=window.parent.StudioBridge.getPublicConfig();window.StudioBridge={getConfig:function(){return window.parent.StudioBridge.getConfig()},getPublicConfig:function(){return window.parent.StudioBridge.getPublicConfig()},fetch:function(p){return window.parent.StudioBridge.fetch(p)},proxyFetch:function(u,o){return window.parent.StudioBridge.proxyFetch(u,o)},github:function(p,o){return window.parent.StudioBridge.github(p,o)},cloudflare:function(p,o){return window.parent.StudioBridge.cloudflare(p,o)},onResult:function(p){return window.parent.StudioBridge.onResult(p)}};window.fetch=function(url,options){var href=String(url||'');if(/^https:\/\//i.test(href)){return window.parent.StudioBridge.fetch({url:href,options:options||{}}).then(function(res){var body=res&&(res.html||res.body||res.error||'');return new Response(body,{status:res&&res.status||(res&&res.ok?200:500),headers:{'Content-Type':'text/plain; charset=utf-8'}})})}return realFetch(url,options)}})();<\/script>`; let safeHtml = stripKnownInlineSecrets(String(html || "")); safeHtml = safeHtml.replace(/<script/i, `${prelude}<script`); if (!safeHtml.includes(prelude)) safeHtml += prelude; return safeHtml; }
-function stripKnownInlineSecrets(html) { return html.replace(/github_pat_[A-Za-z0-9_]+/g, "").replace(/ghp_[A-Za-z0-9_]+/g, "").replace(/sk-[A-Za-z0-9_-]{16,}/g, "").replace(/AQ\.[A-Za-z0-9_-]{16,}/g, ""); }
+function buildPanelDocument(html) { const prelude = `<script>(function(){var realFetch=window.fetch.bind(window);window.STUDIO_CONFIG=window.parent.StudioBridge.getConfig();window.STUDIO_PUBLIC_CONFIG=window.parent.StudioBridge.getConfig();window.StudioBridge={getConfig:function(){return window.parent.StudioBridge.getConfig()},getPublicConfig:function(){return window.parent.StudioBridge.getConfig()},fetch:function(p){return window.parent.StudioBridge.fetch(p)},proxyFetch:function(u,o){return window.parent.StudioBridge.proxyFetch(u,o)},github:function(p,o){return window.parent.StudioBridge.github(p,o)},cloudflare:function(p,o){return window.parent.StudioBridge.cloudflare(p,o)},deepseek:function(p,m){return window.parent.StudioBridge.deepseek(p,m)},openai:function(p,m){return window.parent.StudioBridge.openai(p,m)},gemini:function(p,m){return window.parent.StudioBridge.gemini(p,m)},onResult:function(p){return window.parent.StudioBridge.onResult(p)}};window.fetch=function(url,options){var href=String(url||'');if(/^https:\/\//i.test(href)){return window.parent.StudioBridge.fetch({url:href,options:options||{}}).then(function(res){var body=res&&(res.html||res.body||res.error||'');return new Response(body,{status:res&&res.status||(res&&res.ok?200:500),headers:{'Content-Type':'text/plain; charset=utf-8'}})})}return realFetch(url,options)}})();<\/script>`; let out = String(html || ""); out = out.replace(/<script/i, `${prelude}<script`); if (!out.includes(prelude)) out += prelude; return out; }
 
-function openSettings() { closeSettings(); const cfg=getStudioConfig(); const root=document.createElement("div"); root.className="bds-studio-settings"; root.innerHTML=`<div class="bds-studio-settings-panel"><div class="bds-studio-settings-head"><strong>☬ Studio Services</strong><button type="button" data-close>×</button></div><label>GitHub owner<input data-k="github.owner" value="${esc(cfg.github.owner)}"></label><label>GitHub token<input data-k="github.token" type="password" value="${esc(cfg.github.token)}"></label><label>Cloudflare account ID<input data-k="cloudflare.accountId" value="${esc(cfg.cloudflare.accountId)}"></label><label>Cloudflare zone ID<input data-k="cloudflare.zoneId" value="${esc(cfg.cloudflare.zoneId)}"></label><label>Cloudflare API token<input data-k="cloudflare.token" type="password" value="${esc(cfg.cloudflare.token)}"></label><label>Worker proxy URL<input data-k="cloudflare.workerProxyUrl" value="${esc(cfg.cloudflare.workerProxyUrl)}"></label><label>DeepSeek key<input data-k="deepseek.key" type="password" value="${esc(cfg.deepseek.key)}"></label><label>DeepSeek model<input data-k="deepseek.model" value="${esc(cfg.deepseek.model)}"></label><label>Gemini key<input data-k="gemini.key" type="password" value="${esc(cfg.gemini.key)}"></label><label>Gemini model<input data-k="gemini.model" value="${esc(cfg.gemini.model)}"></label><p>Saving also enables hidden STUDIO_CONFIG injection so the model knows Studio exists and can generate html-panel/BDS:VISUALIZER terminals that use StudioBridge.</p><div class="bds-studio-settings-actions"><button type="button" data-save>Save</button></div></div>`; document.body.appendChild(root); settingsRoot=root; root.querySelector("[data-close]")?.addEventListener("click",closeSettings); root.querySelector("[data-save]")?.addEventListener("click",()=>{const next=getStudioConfig(); for(const input of root.querySelectorAll("input[data-k]")) setDeep(next,input.dataset.k,input.value); setStudioConfig(next); closeSettings();}); }
+function openSettings() { closeSettings(); const cfg=getStudioConfig(); const root=document.createElement("div"); root.className="bds-studio-settings"; root.innerHTML=`<div class="bds-studio-settings-panel"><div class="bds-studio-settings-head"><strong>☬ Studio Services</strong><button type="button" data-close>×</button></div><label>GitHub owner<input data-k="github.owner" value="${esc(cfg.github.owner)}"></label><label>GitHub token<input data-k="github.token" type="password" value="${esc(cfg.github.token)}"></label><label>Cloudflare account ID<input data-k="cloudflare.accountId" value="${esc(cfg.cloudflare.accountId)}"></label><label>Cloudflare zone ID<input data-k="cloudflare.zoneId" value="${esc(cfg.cloudflare.zoneId)}"></label><label>Cloudflare API token<input data-k="cloudflare.token" type="password" value="${esc(cfg.cloudflare.token)}"></label><label>Worker proxy URL<input data-k="cloudflare.workerProxyUrl" value="${esc(cfg.cloudflare.workerProxyUrl)}"></label><label>DeepSeek key<input data-k="deepseek.key" type="password" value="${esc(cfg.deepseek.key)}"></label><label>DeepSeek model<input data-k="deepseek.model" value="${esc(cfg.deepseek.model)}"></label><label>Gemini key<input data-k="gemini.key" type="password" value="${esc(cfg.gemini.key)}"></label><label>Gemini model<input data-k="gemini.model" value="${esc(cfg.gemini.model)}"></label><p>Saving gives the model Studio access. Raw STUDIO_CONFIG is injected so the model knows exactly which local credentials are available, and panels can use StudioBridge directly.</p><div class="bds-studio-settings-actions"><button type="button" data-save>Save</button></div></div>`; document.body.appendChild(root); settingsRoot=root; root.querySelector("[data-close]")?.addEventListener("click",closeSettings); root.querySelector("[data-save]")?.addEventListener("click",()=>{const next=getStudioConfig(); for(const input of root.querySelectorAll("input[data-k]")) setDeep(next,input.dataset.k,input.value); setStudioConfig(next); closeSettings();}); }
 function closeSettings(){settingsRoot?.remove(); settingsRoot=null;}
 function setDeep(obj,path,value){const parts=String(path).split(".");let cur=obj;while(parts.length>1){const p=parts.shift();cur[p]||={};cur=cur[p];}cur[parts[0]]=value;}
 function esc(value){return String(value||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
