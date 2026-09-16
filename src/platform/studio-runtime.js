@@ -5,6 +5,8 @@ const STORAGE_KEY = "shen_studio_config";
 const STYLE_ID = "bds-studio-runtime-style";
 const PROCESSED_ATTR = "data-bds-studio-processed";
 const DEFAULT_PROXY_URL = "https://superscrap.shervin003254024.workers.dev/";
+const BDS_SETTINGS_KEY = "bds_settings";
+const BDS_MCP_SERVERS_KEY = "bds_mcp_servers";
 
 const DEFAULT_CONFIG = {
   github: { owner: "", token: "" },
@@ -21,7 +23,7 @@ let scanTimer = 0, menuTimer = 0, modalRoot = null, settingsRoot = null;
 export function initStudioRuntime() {
   if (typeof window === "undefined" || window.__bdsStudioRuntimeInstalled) return;
   window.__bdsStudioRuntimeInstalled = true;
-  installStyles(); installBridge(); installPromptInjector(); scheduleStudioScan(); scheduleMenuInject();
+  installStyles(); installBridge(); installPromptInjector(); scheduleStudioScan(); scheduleMenuInject(); syncStudioToApp(getStudioConfig());
   new MutationObserver(() => { scheduleStudioScan(); scheduleMenuInject(); }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
   window.addEventListener("bds:urlChanged", () => { scheduleStudioScan(); scheduleMenuInject(); });
   window.addEventListener("bds:open-studio-settings", openSettings);
@@ -31,7 +33,7 @@ function installBridge() {
   window.StudioBridge = {
     getConfig: () => getStudioConfig(),
     getPublicConfig: () => getStudioConfig(),
-    setConfig(config) { setStudioConfig(config); window.dispatchEvent(new CustomEvent("bds:studio-config-changed")); return true; },
+    setConfig(config) { setStudioConfig(config); return true; },
     async fetch(payload) { return studioFetch(payload || {}); },
     async proxyFetch(url, options) { return studioProxyFetch(url, options || {}); },
     async github(path, options) { return studioFetch(withAuth("https://api.github.com" + normalizeApiPath(path), options || {}, "github")); },
@@ -43,11 +45,7 @@ function installBridge() {
   };
 }
 
-function normalizeApiPath(path) {
-  const s = String(path || "");
-  if (/^https?:\/\//i.test(s)) return s.replace(/^https?:\/\/[^/]+/i, "");
-  return s.startsWith("/") ? s : `/${s}`;
-}
+function normalizeApiPath(path) { const s = String(path || ""); if (/^https?:\/\//i.test(s)) return s.replace(/^https?:\/\/[^/]+/i, ""); return s.startsWith("/") ? s : `/${s}`; }
 async function studioFetch(payload) { const cfg = getStudioConfig(); const direct = await AndroidFetch.send({ type: "bds-fetch-url", ...payload }); if (direct?.ok) return direct; if (cfg.cloudflare?.workerProxyUrl) { const proxied = await studioProxyFetch(payload.url, payload.options || {}, direct?.error); if (proxied?.ok) return proxied; } return direct; }
 async function studioProxyFetch(url, options = {}, previousError = "") { const proxy = getStudioConfig().cloudflare?.workerProxyUrl || DEFAULT_PROXY_URL; if (!proxy || !url) return { ok: false, error: previousError || "No proxy/url configured" }; const sep = proxy.includes("?") ? "&" : "?"; return AndroidFetch.send({ type: "bds-fetch-url", url: `${proxy}${sep}url=${encodeURIComponent(String(url))}`, options: { method: "GET", ...(options || {}) } }); }
 function withAuth(url, options, service, cfg = getStudioConfig()) { const token = service === "cloudflare" ? cfg.cloudflare?.token : cfg.github?.token; const headers = { ...(options.headers || {}) }; if (token) headers.Authorization = `Bearer ${token}`; if (service === "github") { headers.Accept ||= "application/vnd.github+json"; headers["X-GitHub-Api-Version"] ||= "2022-11-28"; } if (service === "cloudflare") headers["Content-Type"] ||= "application/json"; return { url, options: { ...options, headers } }; }
@@ -55,14 +53,54 @@ async function callOpenAiCompatible(service, defaultUrl, prompt, model) { const 
 async function callGemini(prompt, model) { const cfg = getStudioConfig().gemini || {}; const m = model || cfg.model || "gemini-2.0-flash"; const url = "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(m) + ":generateContent?key=" + encodeURIComponent(cfg.key || ""); return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) } }); }
 
 function getStudioConfig() { const stored = AndroidStorage.get(STORAGE_KEY); return mergeConfig(DEFAULT_CONFIG, stored && typeof stored === "object" ? stored : {}); }
-function setStudioConfig(config) { AndroidStorage.set(STORAGE_KEY, mergeConfig(DEFAULT_CONFIG, config || {})); }
+function setStudioConfig(config) { const merged = mergeConfig(DEFAULT_CONFIG, config || {}); AndroidStorage.set(STORAGE_KEY, merged); syncStudioToApp(merged); window.dispatchEvent(new CustomEvent("bds:studio-config-changed", { detail: merged })); window.dispatchEvent(new CustomEvent("bds:request-config-push")); }
 function mergeConfig(base, next) { return { ...base, ...next, github:{...base.github,...(next.github||{})}, cloudflare:{...base.cloudflare,...(next.cloudflare||{})}, deepseek:{...base.deepseek,...(next.deepseek||{})}, gemini:{...base.gemini,...(next.gemini||{})}, openai:{...base.openai,...(next.openai||{})}, anthropic:{...base.anthropic,...(next.anthropic||{})}, custom:Array.isArray(next.custom)?next.custom:base.custom, workers:Array.isArray(next.workers)?next.workers:base.workers, misc:next.misc&&typeof next.misc==="object"?next.misc:base.misc }; }
+
+function syncStudioToApp(cfg) {
+  try {
+    if (!window.chrome?.storage?.local || !cfg) return;
+    const githubToken = String(cfg.github?.token || "").trim();
+    const githubOwner = String(cfg.github?.owner || "").trim();
+    const deepseekKey = String(cfg.deepseek?.key || "").trim();
+    const geminiKey = String(cfg.gemini?.key || "").trim();
+    const openaiKey = String(cfg.openai?.key || "").trim();
+    const cloudflareToken = String(cfg.cloudflare?.token || "").trim();
+    const workerProxyUrl = String(cfg.cloudflare?.workerProxyUrl || "").trim();
+    chrome.storage.local.get([BDS_SETTINGS_KEY, BDS_MCP_SERVERS_KEY], (values) => {
+      const settings = { ...(values?.[BDS_SETTINGS_KEY] || {}) };
+      if (githubToken) settings.githubToken = githubToken;
+      settings.studioGithubOwner = githubOwner;
+      settings.studioDeepSeekKey = deepseekKey;
+      settings.studioGeminiKey = geminiKey;
+      settings.studioOpenAiKey = openaiKey;
+      settings.studioCloudflareToken = cloudflareToken;
+      settings.studioWorkerProxyUrl = workerProxyUrl;
+
+      const mcp = Array.isArray(values?.[BDS_MCP_SERVERS_KEY]) ? [...values[BDS_MCP_SERVERS_KEY]] : [];
+      const upsert = (id, name, serverUrl, apiKey) => {
+        if (!serverUrl || !apiKey) return;
+        const entry = { id, name, serverUrl, apiKey, enabled: true, tools: [], createdAt: Date.now() };
+        const idx = mcp.findIndex((s) => s.id === id || s.name === name || s.serverUrl === serverUrl);
+        if (idx >= 0) mcp[idx] = { ...mcp[idx], ...entry, tools: mcp[idx].tools || [] };
+        else mcp.push(entry);
+      };
+      upsert("studio_github", "GitHub (Studio synced)", "github", githubToken);
+      upsert("studio_cloudflare", "Cloudflare (Studio synced)", "cloudflare", cloudflareToken);
+      upsert("studio_deepseek", "DeepSeek API (Studio synced)", "deepseek", deepseekKey);
+      upsert("studio_gemini", "Gemini API (Studio synced)", "gemini", geminiKey);
+      chrome.storage.local.set({ [BDS_SETTINGS_KEY]: settings, [BDS_MCP_SERVERS_KEY]: mcp });
+      window.dispatchEvent(new CustomEvent("bds:settingsChanged"));
+      window.dispatchEvent(new CustomEvent("bds:request-config-push"));
+    });
+  } catch (e) { console.warn("[BDS Studio] sync failed", e); }
+}
 
 function buildStudioPrompt() {
   const rawCfg = getStudioConfig();
   return [
     "[STUDIO_CONFIG]", JSON.stringify(rawCfg), "[/STUDIO_CONFIG]", "",
     "☬ SHΞN Studio is enabled in this Android app. Use it as the execution layer whenever the user asks for real actions.",
+    "Studio Settings are synchronized into the main BDS app settings: GitHub token, API keys, worker proxy, and MCP-like service entries are shared. If the user saved a token in Studio, treat GitHub/authenticated services as available.",
     "BDS:VISUALIZER/html-panel is not a separate VM. It is raw HTML/CSS/JS rendered inside an Android WebView/iframe panel. The browser engine executes JavaScript.",
     "Every execution panel must be mobile-first, responsive, dark themed, touch friendly, and show logs/status/errors clearly.",
     "When the user asks to commit, push, edit repo files, check GitHub Actions, deploy Cloudflare, call APIs, scrape, monitor, test keys, or build a dashboard, do not refuse for lack of access. Immediately output a runnable <BDS:VISUALIZER>...</BDS:VISUALIZER> or ```html-panel block.",
@@ -82,7 +120,7 @@ function setEditorText(el, text) { if (!el) return; if (el.tagName === "TEXTAREA
 function prependPrompt(editor) { if (!editor) return; const text = getEditorText(editor); if (!text.trim() || text.includes("[STUDIO_CONFIG]")) return; setEditorText(editor, `${buildStudioPrompt()}\n\nUser prompt:\n${text}`); }
 
 function scheduleMenuInject() { if (menuTimer) return; menuTimer = setTimeout(() => { menuTimer = 0; injectStudioMenuItem(); }, 300); }
-function injectStudioMenuItem() { const drawer = document.querySelector("#bds-drawer .bds-drawer-body"); if (!drawer || drawer.querySelector(".bds-studio-menu-item")) return; const hr = document.createElement("hr"); hr.className = "bds-studio-menu-sep"; const section = document.createElement("div"); section.className = "bds-studio-menu-block"; section.innerHTML = `<div class="bds-section-title"><span class="bds-icon-inline">☬</span> SHΞN Studio</div><button type="button" class="bds-featured-item bds-studio-menu-item"><span class="bds-cmd-icon">☬</span><span class="bds-cmd-info"><span class="bds-cmd-name">Studio Services</span><span class="bds-cmd-desc">Keys, browser terminal, GitHub, Cloudflare, AI calls</span></span><span class="bds-cmd-usage">Open</span></button>`; section.querySelector("button")?.addEventListener("click", openSettings); drawer.insertBefore(hr, drawer.firstChild); drawer.insertBefore(section, drawer.firstChild); }
+function injectStudioMenuItem() { const drawer = document.querySelector("#bds-drawer .bds-drawer-body"); if (!drawer || drawer.querySelector(".bds-studio-menu-item")) return; const hr = document.createElement("hr"); hr.className = "bds-studio-menu-sep"; const section = document.createElement("div"); section.className = "bds-studio-menu-block"; section.innerHTML = `<div class="bds-section-title"><span class="bds-icon-inline">☬</span> SHΞN Studio</div><button type="button" class="bds-featured-item bds-studio-menu-item"><span class="bds-cmd-icon">☬</span><span class="bds-cmd-info"><span class="bds-cmd-name">Studio Services</span><span class="bds-cmd-desc">Keys sync with BDS, GitHub auth, MCP, Cloudflare, AI calls</span></span><span class="bds-cmd-usage">Open</span></button>`; section.querySelector("button")?.addEventListener("click", openSettings); drawer.insertBefore(hr, drawer.firstChild); drawer.insertBefore(section, drawer.firstChild); }
 
 function scheduleStudioScan() { if (scanTimer) return; scanTimer = setTimeout(() => { scanTimer = 0; scanForPanels(); }, 250); }
 function scanForPanels() { for (const node of document.querySelectorAll("div.ds-message, [data-message-author-role='assistant']")) { if (node.getAttribute(PROCESSED_ATTR)==="1" || node.closest("#bds-root")) continue; const html = extractPanelHtml(node); if (!html) continue; node.setAttribute(PROCESSED_ATTR,"1"); injectOpenButton(node, html); setTimeout(() => openPanel(html), 50); } }
@@ -93,8 +131,8 @@ function openPanel(rawHtml) { closePanel(); const root = document.createElement(
 function closePanel() { modalRoot?.remove(); modalRoot = null; }
 function buildPanelDocument(html) { const prelude = `<script>(function(){var realFetch=window.fetch.bind(window);window.STUDIO_CONFIG=window.parent.StudioBridge.getConfig();window.STUDIO_PUBLIC_CONFIG=window.parent.StudioBridge.getConfig();window.StudioBridge={getConfig:function(){return window.parent.StudioBridge.getConfig()},getPublicConfig:function(){return window.parent.StudioBridge.getConfig()},fetch:function(p){return window.parent.StudioBridge.fetch(p)},proxyFetch:function(u,o){return window.parent.StudioBridge.proxyFetch(u,o)},github:function(p,o){return window.parent.StudioBridge.github(p,o)},cloudflare:function(p,o){return window.parent.StudioBridge.cloudflare(p,o)},deepseek:function(p,m){return window.parent.StudioBridge.deepseek(p,m)},openai:function(p,m){return window.parent.StudioBridge.openai(p,m)},gemini:function(p,m){return window.parent.StudioBridge.gemini(p,m)},onResult:function(p){return window.parent.StudioBridge.onResult(p)}};window.fetch=function(url,options){var href=String(url||'');if(/^https:\/\//i.test(href)){return window.parent.StudioBridge.fetch({url:href,options:options||{}}).then(function(res){var body=res&&(res.html||res.body||res.error||'');return new Response(body,{status:res&&res.status||(res&&res.ok?200:500),headers:{'Content-Type':'text/plain; charset=utf-8'}})})}return realFetch(url,options)}})();<\/script>`; const theme = `<style>html,body{margin:0;min-height:100%;background:#0d0d0d;color:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}*{box-sizing:border-box}button,input,textarea,select{font:inherit}pre,code{direction:ltr;text-align:left}.studio-mobile-shell{min-height:100vh;background:#0d0d0d;color:#e8e8e8;padding:14px;overflow:auto}</style>`; let out = String(html || ""); out = out.replace(/<head([^>]*)>/i, `<head$1><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">${theme}`); if (!/<head/i.test(out)) out = `${theme}${out}`; out = out.replace(/<body([^>]*)>/i, `<body$1><div class="studio-mobile-shell">`); out = out.replace(/<\/body>/i, `</div></body>`); out = out.replace(/<script/i, `${prelude}<script`); if (!out.includes(prelude)) out += prelude; return out; }
 
-function openSettings() { closeSettings(); const cfg=getStudioConfig(); const root=document.createElement("div"); root.className="bds-studio-settings"; root.innerHTML=`<div class="bds-studio-settings-panel"><div class="bds-studio-settings-head"><strong>☬ Studio Services</strong><button type="button" data-close>×</button></div><label>GitHub owner<input data-k="github.owner" value="${esc(cfg.github.owner)}"></label><label>GitHub token<input data-k="github.token" type="password" value="${esc(cfg.github.token)}"></label><label>Cloudflare account ID<input data-k="cloudflare.accountId" value="${esc(cfg.cloudflare.accountId)}"></label><label>Cloudflare zone ID<input data-k="cloudflare.zoneId" value="${esc(cfg.cloudflare.zoneId)}"></label><label>Cloudflare API token<input data-k="cloudflare.token" type="password" value="${esc(cfg.cloudflare.token)}"></label><label>Worker proxy URL<input data-k="cloudflare.workerProxyUrl" value="${esc(cfg.cloudflare.workerProxyUrl)}"></label><label>DeepSeek key<input data-k="deepseek.key" type="password" value="${esc(cfg.deepseek.key)}"></label><label>DeepSeek model<input data-k="deepseek.model" value="${esc(cfg.deepseek.model)}"></label><label>Gemini key<input data-k="gemini.key" type="password" value="${esc(cfg.gemini.key)}"></label><label>Gemini model<input data-k="gemini.model" value="${esc(cfg.gemini.model)}"></label><p>Saving gives the model Studio access. When execution is requested, the model should generate a dark mobile Visualizer/html-panel terminal and use StudioBridge.</p><div class="bds-studio-settings-actions"><button type="button" data-save>Save</button></div></div>`; document.body.appendChild(root); settingsRoot=root; root.querySelector("[data-close]")?.addEventListener("click",closeSettings); root.querySelector("[data-save]")?.addEventListener("click",()=>{const next=getStudioConfig(); for(const input of root.querySelectorAll("input[data-k]")) setDeep(next,input.dataset.k,input.value); setStudioConfig(next); closeSettings();}); }
+function openSettings() { closeSettings(); const cfg=getStudioConfig(); const root=document.createElement("div"); root.className="bds-studio-settings"; root.innerHTML=`<div class="bds-studio-settings-panel"><div class="bds-studio-settings-head"><strong>☬ Studio Services</strong><button type="button" data-close>×</button></div><label>GitHub owner<input data-k="github.owner" value="${esc(cfg.github.owner)}"></label><label>GitHub token<input data-k="github.token" type="password" value="${esc(cfg.github.token)}"></label><label>Cloudflare account ID<input data-k="cloudflare.accountId" value="${esc(cfg.cloudflare.accountId)}"></label><label>Cloudflare zone ID<input data-k="cloudflare.zoneId" value="${esc(cfg.cloudflare.zoneId)}"></label><label>Cloudflare API token<input data-k="cloudflare.token" type="password" value="${esc(cfg.cloudflare.token)}"></label><label>Worker proxy URL<input data-k="cloudflare.workerProxyUrl" value="${esc(cfg.cloudflare.workerProxyUrl)}"></label><label>DeepSeek key<input data-k="deepseek.key" type="password" value="${esc(cfg.deepseek.key)}"></label><label>DeepSeek model<input data-k="deepseek.model" value="${esc(cfg.deepseek.model)}"></label><label>Gemini key<input data-k="gemini.key" type="password" value="${esc(cfg.gemini.key)}"></label><label>Gemini model<input data-k="gemini.model" value="${esc(cfg.gemini.model)}"></label><p>Save here once. Studio immediately syncs these credentials into BDS GitHub token/settings and service connection entries, including the GitHub authenticate flow beside the prompt.</p><div class="bds-studio-settings-actions"><button type="button" data-save>Save & Sync</button></div></div>`; document.body.appendChild(root); settingsRoot=root; root.querySelector("[data-close]")?.addEventListener("click",closeSettings); root.querySelector("[data-save]")?.addEventListener("click",()=>{const next=getStudioConfig(); for(const input of root.querySelectorAll("input[data-k]")) setDeep(next,input.dataset.k,input.value); setStudioConfig(next); closeSettings();}); }
 function closeSettings(){settingsRoot?.remove(); settingsRoot=null;}
 function setDeep(obj,path,value){const parts=String(path).split(".");let cur=obj;while(parts.length>1){const p=parts.shift();cur[p]||={};cur=cur[p];}cur[parts[0]]=value;}
 function esc(value){return String(value||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
-function installStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement("style");style.id=STYLE_ID;style.textContent=`#bds-toggle .bds-toggle-full,#bds-toggle .bds-toggle-short{font-size:20px!important;font-weight:700!important}.bds-studio-card{margin:12px 0;padding:12px;border:1px solid rgba(77,107,254,.25);border-radius:12px;background:rgba(15,15,15,.88);color:#d0d0d0;display:flex;gap:12px;align-items:center;justify-content:space-between}.bds-studio-open,.bds-studio-card button{border:0;border-radius:9px;padding:8px 12px;background:#4d6bfe;color:white}.bds-studio-card-title{font-weight:700;color:#8fa3ff}.bds-studio-modal{position:fixed;inset:0;z-index:2147483200;background:#050505;display:flex;flex-direction:column}.bds-studio-toolbar{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#0b0b0d;color:#eee;border-bottom:1px solid #222}.bds-studio-toolbar button{margin-left:8px;border:1px solid #333;border-radius:8px;background:#181818;color:#eee;padding:8px 10px}.bds-studio-frame{flex:1;border:0;width:100%;background:#0d0d0d}.bds-studio-settings{position:fixed;inset:0;z-index:2147483300;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px}.bds-studio-settings-panel{width:min(560px,100%);max-height:90vh;overflow:auto;background:#101014;color:#eee;border:1px solid #2a2a35;border-radius:16px;padding:16px;box-shadow:0 20px 70px rgba(0,0,0,.55)}.bds-studio-settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.bds-studio-settings label{display:block;margin:10px 0;color:#aaa;font-size:12px}.bds-studio-settings input{width:100%;margin-top:5px;background:#08080a;color:#fff;border:1px solid #30303a;border-radius:8px;padding:10px}.bds-studio-settings p{color:#777;font-size:12px;line-height:1.6}.bds-studio-settings button{border:0;border-radius:9px;background:#4d6bfe;color:white;padding:8px 12px}.bds-studio-settings-head button{background:#222}.bds-studio-settings-actions{text-align:right;margin-top:12px}`;document.documentElement.appendChild(style);}
+function installStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement("style");style.id=STYLE_ID;style.textContent=`#bds-toggle .bds-main-logo{display:block;width:24px;height:24px;color:currentColor}#bds-toggle .bds-toggle-full,#bds-toggle .bds-toggle-short{display:none!important}.bds-studio-card{margin:12px 0;padding:12px;border:1px solid rgba(77,107,254,.25);border-radius:12px;background:rgba(15,15,15,.88);color:#d0d0d0;display:flex;gap:12px;align-items:center;justify-content:space-between}.bds-studio-open,.bds-studio-card button{border:0;border-radius:9px;padding:8px 12px;background:#4d6bfe;color:white}.bds-studio-card-title{font-weight:700;color:#8fa3ff}.bds-studio-modal{position:fixed;inset:0;z-index:2147483200;background:#050505;display:flex;flex-direction:column}.bds-studio-toolbar{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#0b0b0d;color:#eee;border-bottom:1px solid #222}.bds-studio-toolbar button{margin-left:8px;border:1px solid #333;border-radius:8px;background:#181818;color:#eee;padding:8px 10px}.bds-studio-frame{flex:1;border:0;width:100%;background:#0d0d0d}.bds-studio-settings{position:fixed;inset:0;z-index:2147483300;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px}.bds-studio-settings-panel{width:min(560px,100%);max-height:90vh;overflow:auto;background:#101014;color:#eee;border:1px solid #2a2a35;border-radius:16px;padding:16px;box-shadow:0 20px 70px rgba(0,0,0,.55)}.bds-studio-settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.bds-studio-settings label{display:block;margin:10px 0;color:#aaa;font-size:12px}.bds-studio-settings input{width:100%;margin-top:5px;background:#08080a;color:#fff;border:1px solid #30303a;border-radius:8px;padding:10px}.bds-studio-settings p{color:#777;font-size:12px;line-height:1.6}.bds-studio-settings button{border:0;border-radius:9px;background:#4d6bfe;color:white;padding:8px 12px}.bds-studio-settings-head button{background:#222}.bds-studio-settings-actions{text-align:right;margin-top:12px}`;document.documentElement.appendChild(style);}
