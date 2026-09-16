@@ -3,6 +3,14 @@
 # ☬ Deepsick ➕ SHΞN Studio mooded apk
 
 ### یک لایه‌ی اندرویدی برای تبدیل DeepSeek به استودیوی اجرایی، ترمینال HTML و ابزارساز زنده
+<div align="center">
+**استودیوی شین ، ابزار موردنیازش را همان لحظه طراحی می‌کند — و داخل موبایل اجرا میکند!.**
+
+</div>
+
+<div align="center">
+⚙️📲
+</div>
 
 <p>
   <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android" />
