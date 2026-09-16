@@ -48,12 +48,9 @@
     }
   }
 
-  // ── Public API (called from non-Svelte code via mount.js) ──
-
   export function showToast(message, duration = 2880) {
     const id = ++toastId;
     toasts = [...toasts, { id, message }];
-
     setTimeout(() => {
       toasts = toasts.filter((t) => t.id !== id);
     }, duration);
@@ -61,35 +58,17 @@
 
   export function showLongWorkOverlay(_visible) {}
 
-  // Settings/skills/memories refresh — forwarded to Drawer
   let drawerRef = $state(null);
 
-  export function refreshSettings() {
-    if (drawerRef) drawerRef.refreshSettings();
-  }
-  export function refreshSkills() {
-    if (drawerRef) drawerRef.refreshSkills();
-  }
-  export function refreshCharacters() {
-    if (drawerRef) drawerRef.refreshCharacters();
-  }
-  export function refreshMemories() {
-    if (drawerRef) drawerRef.refreshMemories();
-  }
-  export function refreshProjects() {
-    if (drawerRef) drawerRef.refreshProjects();
-    if (appState.heroBarRef) appState.heroBarRef.refresh();
-  }
-  export function refreshSavedItems() {
-    if (drawerRef) drawerRef.refreshSavedItems();
-  }
-  export function refreshCssSnippets() {
-    if (drawerRef) drawerRef.refreshCssSnippets();
-  }
+  export function refreshSettings() { if (drawerRef) drawerRef.refreshSettings(); }
+  export function refreshSkills() { if (drawerRef) drawerRef.refreshSkills(); }
+  export function refreshCharacters() { if (drawerRef) drawerRef.refreshCharacters(); }
+  export function refreshMemories() { if (drawerRef) drawerRef.refreshMemories(); }
+  export function refreshProjects() { if (drawerRef) drawerRef.refreshProjects(); if (appState.heroBarRef) appState.heroBarRef.refresh(); }
+  export function refreshSavedItems() { if (drawerRef) drawerRef.refreshSavedItems(); }
+  export function refreshCssSnippets() { if (drawerRef) drawerRef.refreshCssSnippets(); }
 
-  export function refreshWhatsNew() {
-    whatsNewPending = appState.whatsNewPending;
-  }
+  export function refreshWhatsNew() { whatsNewPending = appState.whatsNewPending; }
 
   export function showPreviewPanel(title, content) {
     previewTitle = title;
@@ -105,29 +84,15 @@
 
   async function toggleDrawer() {
     if (drawerOpen) {
-      if (drawerRef && drawerRef.handleClose) {
-        await drawerRef.handleClose();
-      } else {
-        drawerOpen = false;
-      }
-    } else {
-      drawerOpen = true;
-    }
+      if (drawerRef && drawerRef.handleClose) await drawerRef.handleClose();
+      else drawerOpen = false;
+    } else drawerOpen = true;
   }
 
-  function closeDrawer() {
-    drawerOpen = false;
-  }
+  function closeDrawer() { drawerOpen = false; }
+  function openApiPlayground() { apiPlaygroundOpen = true; }
+  function closeApiPlayground() { apiPlaygroundOpen = false; }
 
-  function openApiPlayground() {
-    apiPlaygroundOpen = true;
-  }
-
-  function closeApiPlayground() {
-    apiPlaygroundOpen = false;
-  }
-
-  // Handle external selection mode toggle
   window.addEventListener("bds:toggleSelectionMode", () => {
     appState.selectionMode = true;
     closeDrawer();
@@ -138,9 +103,9 @@
   });
 </script>
 
-<button id="bds-toggle" type="button" onclick={toggleDrawer} aria-label="Deepsick">
-  <span class="bds-toggle-full" aria-hidden="true">BDS</span>
-  <span class="bds-toggle-short" aria-hidden="true">B</span>
+<button id="bds-toggle" type="button" onclick={toggleDrawer} aria-label="SHΞN Studio">
+  <span class="bds-toggle-full" aria-hidden="true">☬</span>
+  <span class="bds-toggle-short" aria-hidden="true">☬</span>
 </button>
 
 <Drawer bind:this={drawerRef} open={drawerOpen} onclose={closeDrawer} onopenapiplayground={openApiPlayground} />
@@ -149,12 +114,7 @@
   <ApiPlayground onclose={closeApiPlayground} />
 {/if}
 
-<DeepCodeModal
-  show={deepCodeModalOpen}
-  activeDirectory={appState.deepCode.activeDirectory}
-  fileCount={appState.deepCode.fileCount}
-  onclose={() => deepCodeModalOpen = false}
-/>
+<DeepCodeModal show={deepCodeModalOpen} activeDirectory={appState.deepCode.activeDirectory} fileCount={appState.deepCode.fileCount} onclose={() => deepCodeModalOpen = false} />
 
 <ToastStack {toasts} />
 <QuestionPanel />
@@ -168,16 +128,5 @@
 <SelectionOverlay />
 <StatusBanner />
 <AnnouncementBanner />
-<PreviewPanel
-  visible={previewVisible}
-  title={previewTitle}
-  content={previewContent}
-  onclose={hidePreviewPanel}
-/>
-
-<ConfirmDialog
-  show={confirmVisible}
-  message={confirmMessage}
-  onconfirm={() => handleConfirm(true)}
-  oncancel={() => handleConfirm(false)}
-/>
+<PreviewPanel visible={previewVisible} title={previewTitle} content={previewContent} onclose={hidePreviewPanel} />
+<ConfirmDialog show={confirmVisible} message={confirmMessage} onconfirm={() => handleConfirm(true)} oncancel={() => handleConfirm(false)} />
