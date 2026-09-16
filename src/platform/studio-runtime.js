@@ -11,7 +11,7 @@ const DEFAULT_CONFIG = {
   cloudflare: { accountId: "", token: "", zoneId: "", workerProxyUrl: DEFAULT_PROXY_URL },
   deepseek: { key: "", model: "deepseek-chat" },
   gemini: { key: "", model: "gemini-2.0-flash" },
-  openai: { key: "", model: "gpt-4o-mini" },
+  openai: { key: "", model: "gpt-4o-mini", base: "https://api.openai.com/v1" },
   anthropic: { key: "", model: "claude-3-5-sonnet-latest" },
   custom: [], workers: [], misc: {},
 };
@@ -34,8 +34,8 @@ function installBridge() {
     setConfig(config) { setStudioConfig(config); window.dispatchEvent(new CustomEvent("bds:studio-config-changed")); return true; },
     async fetch(payload) { return studioFetch(payload || {}); },
     async proxyFetch(url, options) { return studioProxyFetch(url, options || {}); },
-    async github(path, options) { return studioFetch(withAuth(`https://api.github.com${path}`, options || {}, "github")); },
-    async cloudflare(path, options) { return studioFetch(withAuth(`https://api.cloudflare.com/client/v4${path}`, options || {}, "cloudflare")); },
+    async github(path, options) { return studioFetch(withAuth(`https://api.github.com${normalizeApiPath(path)}`, options || {}, "github")); },
+    async cloudflare(path, options) { return studioFetch(withAuth(`https://api.cloudflare.com/client/v4${normalizeApiPath(path)}`, options || {}, "cloudflare")); },
     async deepseek(prompt, model) { return callOpenAiCompatible("deepseek", "https://api.deepseek.com/chat/completions", prompt, model); },
     async openai(prompt, model) { return callOpenAiCompatible("openai", "https://api.openai.com/v1/chat/completions", prompt, model); },
     async gemini(prompt, model) { return callGemini(prompt, model); },
@@ -43,42 +43,12 @@ function installBridge() {
   };
 }
 
-async function studioFetch(payload) {
-  const cfg = getStudioConfig();
-  const direct = await AndroidFetch.send({ type: "bds-fetch-url", ...payload });
-  if (direct?.ok) return direct;
-  if (cfg.cloudflare?.workerProxyUrl) {
-    const proxied = await studioProxyFetch(payload.url, payload.options || {}, direct?.error);
-    if (proxied?.ok) return proxied;
-  }
-  return direct;
-}
-async function studioProxyFetch(url, options = {}, previousError = "") {
-  const proxy = getStudioConfig().cloudflare?.workerProxyUrl || DEFAULT_PROXY_URL;
-  if (!proxy || !url) return { ok: false, error: previousError || "No proxy/url configured" };
-  const sep = proxy.includes("?") ? "&" : "?";
-  return AndroidFetch.send({ type: "bds-fetch-url", url: `${proxy}${sep}url=${encodeURIComponent(String(url))}`, options: { method: "GET", ...(options || {}) } });
-}
-function withAuth(url, options, service, cfg = getStudioConfig()) {
-  const token = service === "cloudflare" ? cfg.cloudflare?.token : cfg.github?.token;
-  const headers = { ...(options.headers || {}) };
-  if (token) headers.Authorization = `Bearer ${token}`;
-  if (service === "github") { headers.Accept ||= "application/vnd.github+json"; headers["X-GitHub-Api-Version"] ||= "2022-11-28"; }
-  if (service === "cloudflare") headers["Content-Type"] ||= "application/json";
-  return { url, options: { ...options, headers } };
-}
-async function callOpenAiCompatible(service, defaultUrl, prompt, model) {
-  const cfg = getStudioConfig()[service] || {};
-  const key = cfg.key || cfg.token || "";
-  const url = cfg.base ? `${String(cfg.base).replace(/\/$/, "")}/chat/completions` : defaultUrl;
-  return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, body: JSON.stringify({ model: model || cfg.model, messages: [{ role: "user", content: prompt }] }) } });
-}
-async function callGemini(prompt, model) {
-  const cfg = getStudioConfig().gemini || {};
-  const m = model || cfg.model || "gemini-2.0-flash";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(cfg.key || "")}`;
-  return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) } });
-}
+function normalizeApiPath(path) { const s = String(path || ""); if (/^https?:\/\//i.test(s)) return s.replace(/^https?:\/\/[^/]+/i, ""); return s.startsWith("/") ? s : `/${s}`; }
+async function studioFetch(payload) { const cfg = getStudioConfig(); const direct = await AndroidFetch.send({ type: "bds-fetch-url", ...payload }); if (direct?.ok) return direct; if (cfg.cloudflare?.workerProxyUrl) { const proxied = await studioProxyFetch(payload.url, payload.options || {}, direct?.error); if (proxied?.ok) return proxied; } return direct; }
+async function studioProxyFetch(url, options = {}, previousError = "") { const proxy = getStudioConfig().cloudflare?.workerProxyUrl || DEFAULT_PROXY_URL; if (!proxy || !url) return { ok: false, error: previousError || "No proxy/url configured" }; const sep = proxy.includes("?") ? "&" : "?"; return AndroidFetch.send({ type: "bds-fetch-url", url: `${proxy}${sep}url=${encodeURIComponent(String(url))}`, options: { method: "GET", ...(options || {}) } }); }
+function withAuth(url, options, service, cfg = getStudioConfig()) { const token = service === "cloudflare" ? cfg.cloudflare?.token : cfg.github?.token; const headers = { ...(options.headers || {}) }; if (token) headers.Authorization = `Bearer ${token}`; if (service === "github") { headers.Accept ||= "application/vnd.github+json"; headers["X-GitHub-Api-Version"] ||= "2022-11-28"; } if (service === "cloudflare") headers["Content-Type"] ||= "application/json"; return { url, options: { ...options, headers } }; }
+async function callOpenAiCompatible(service, defaultUrl, prompt, model) { const cfg = getStudioConfig()[service] || {}; const key = cfg.key || cfg.token || ""; const url = cfg.base ? `${String(cfg.base).replace(/\/$/, "")}/chat/completions` : defaultUrl; return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, body: JSON.stringify({ model: model || cfg.model, messages: [{ role: "user", content: prompt }] }) } }); }
+async function callGemini(prompt, model) { const cfg = getStudioConfig().gemini || {}; const m = model || cfg.model || "gemini-2.0-flash"; const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(cfg.key || "")}`; return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) } }); }
 
 function getStudioConfig() { const stored = AndroidStorage.get(STORAGE_KEY); return mergeConfig(DEFAULT_CONFIG, stored && typeof stored === "object" ? stored : {}); }
 function setStudioConfig(config) { AndroidStorage.set(STORAGE_KEY, mergeConfig(DEFAULT_CONFIG, config || {})); }
@@ -87,68 +57,40 @@ function mergeConfig(base, next) { return { ...base, ...next, github:{...base.gi
 function buildStudioPrompt() {
   const rawCfg = getStudioConfig();
   return [
-    "[STUDIO_CONFIG]",
-    JSON.stringify(rawCfg),
-    "[/STUDIO_CONFIG]",
-    "",
-    "☬ SHΞN Studio is enabled in this Android app and the user explicitly wants you to use it as your execution layer.",
-    "The STUDIO_CONFIG block contains the user's saved local service credentials/config. Treat it as available runtime access for this user's own client.",
-    "If the user says they have GitHub/Cloudflare/AI access, do NOT say you cannot access it. Instead create a Studio panel that uses StudioBridge to perform the task.",
-    "If the user asks to commit, push, edit a repo, deploy a Worker, call an API, test credentials, scrape, monitor, or build a dashboard: immediately output a runnable <BDS:VISUALIZER>...</BDS:VISUALIZER> or ```html-panel block that performs the operation through StudioBridge.",
-    "Panels are pure HTML generated per task, not a fixed app template.",
+    "[STUDIO_CONFIG]", JSON.stringify(rawCfg), "[/STUDIO_CONFIG]", "",
+    "☬ SHΞN Studio is enabled in this Android app. Use it as the execution layer whenever the user asks for real actions.",
+    "BDS:VISUALIZER/html-panel is not a separate VM. It is raw HTML/CSS/JS rendered inside an Android WebView/iframe panel. The browser engine executes JavaScript.",
+    "Every execution panel must be mobile-first, responsive, dark themed, touch friendly, and show logs/status/errors clearly.",
+    "When the user asks to commit, push, edit repo files, check GitHub Actions, deploy Cloudflare, call APIs, scrape, monitor, test keys, or build a dashboard, do not refuse for lack of access. Immediately output a runnable <BDS:VISUALIZER>...</BDS:VISUALIZER> or ```html-panel block.",
+    "The panel must contain the requested action already wired to buttons or auto-run logic, not just explanation. For terminal-like tasks, create a dark terminal UI with command/status area and output log.",
     "Inside panels use: StudioBridge.getConfig(), StudioBridge.fetch(payload), StudioBridge.proxyFetch(url, options), StudioBridge.github(path, options), StudioBridge.cloudflare(path, options), StudioBridge.deepseek(prompt, model), StudioBridge.openai(prompt, model), StudioBridge.gemini(prompt, model), and StudioBridge.onResult(payload).",
-    "For GitHub API calls use StudioBridge.github('/repos/OWNER/REPO/...', { method, headers, body }). The bridge attaches the saved token.",
-    "For Cloudflare API calls use StudioBridge.cloudflare('/accounts/...', { method, headers, body }). The bridge attaches the saved token.",
+    "GitHub example: StudioBridge.github('/repos/OWNER/REPO/actions/runs?per_page=5'). For commits use the GitHub contents/git API via StudioBridge.github and show each API response in the panel log.",
+    "Cloudflare example: StudioBridge.cloudflare('/accounts/' + accountId + '/workers/scripts', { method:'GET' }).",
     "For normal HTTP use StudioBridge.fetch or StudioBridge.proxyFetch so Android native fetch / Worker proxy bypass browser CORS.",
-    "Do the user's requested action directly through a panel instead of refusing due to lack of tools. If a value is missing, build a panel that shows exactly which Studio setting is missing and opens guidance.",
+    "If a required config value is missing, still create the Studio panel and show exactly which field must be filled in Settings → ☬ Studio.",
   ].join("\n");
 }
 
-function installPromptInjector() {
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" || e.shiftKey) return;
-    const editor = findEditor(e.target);
-    if (!editor) return;
-    prependPrompt(editor);
-  }, true);
-  document.addEventListener("click", (e) => {
-    const btn = e.target?.closest?.('button, div[role="button"]');
-    if (!btn || btn.closest("#bds-root")) return;
-    if (btn.querySelector?.('svg path[d*="M8.3125"], .ds-icon-send') || /send/i.test(btn.getAttribute("aria-label") || btn.title || "")) {
-      const editor = document.querySelector("#chat-input, textarea[placeholder], [role='textbox'][contenteditable], .ProseMirror[contenteditable]");
-      prependPrompt(editor);
-    }
-  }, true);
-}
+function installPromptInjector() { document.addEventListener("keydown", (e) => { if (e.key !== "Enter" || e.shiftKey) return; const editor = findEditor(e.target); if (editor) prependPrompt(editor); }, true); document.addEventListener("click", (e) => { const btn = e.target?.closest?.('button, div[role="button"]'); if (!btn || btn.closest("#bds-root")) return; if (btn.querySelector?.('svg path[d*="M8.3125"], .ds-icon-send') || /send/i.test(btn.getAttribute("aria-label") || btn.title || "")) { const editor = document.querySelector("#chat-input, textarea[placeholder], [role='textbox'][contenteditable], .ProseMirror[contenteditable]"); prependPrompt(editor); } }, true); }
 function findEditor(target) { const el = target?.closest?.("#chat-input, textarea[placeholder], [role='textbox'][contenteditable], .ProseMirror[contenteditable]"); return el && !el.closest("#bds-root") ? el : null; }
 function getEditorText(el) { return (el.tagName === "TEXTAREA" || el.tagName === "INPUT") ? el.value : (el.textContent || ""); }
 function setEditorText(el, text) { if (!el) return; if (el.tagName === "TEXTAREA" || el.tagName === "INPUT") el.value = text; else el.textContent = text; el.dispatchEvent(new Event("input", { bubbles: true })); }
 function prependPrompt(editor) { if (!editor) return; const text = getEditorText(editor); if (!text.trim() || text.includes("[STUDIO_CONFIG]")) return; setEditorText(editor, `${buildStudioPrompt()}\n\nUser prompt:\n${text}`); }
 
 function scheduleMenuInject() { if (menuTimer) return; menuTimer = setTimeout(() => { menuTimer = 0; injectStudioMenuItem(); }, 300); }
-function injectStudioMenuItem() {
-  const drawer = document.querySelector("#bds-drawer .bds-drawer-body");
-  if (!drawer || drawer.querySelector(".bds-studio-menu-item")) return;
-  const hr = document.createElement("hr"); hr.className = "bds-studio-menu-sep";
-  const section = document.createElement("div");
-  section.className = "bds-studio-menu-block";
-  section.innerHTML = `<div class="bds-section-title"><span class="bds-icon-inline">☬</span> SHΞN Studio</div><button type="button" class="bds-featured-item bds-studio-menu-item"><span class="bds-cmd-icon">☬</span><span class="bds-cmd-info"><span class="bds-cmd-name">Studio Services</span><span class="bds-cmd-desc">Keys, Cloudflare, browser panels, prompt injector</span></span><span class="bds-cmd-usage">Open</span></button>`;
-  section.querySelector("button")?.addEventListener("click", openSettings);
-  drawer.insertBefore(hr, drawer.firstChild);
-  drawer.insertBefore(section, drawer.firstChild);
-}
+function injectStudioMenuItem() { const drawer = document.querySelector("#bds-drawer .bds-drawer-body"); if (!drawer || drawer.querySelector(".bds-studio-menu-item")) return; const hr = document.createElement("hr"); hr.className = "bds-studio-menu-sep"; const section = document.createElement("div"); section.className = "bds-studio-menu-block"; section.innerHTML = `<div class="bds-section-title"><span class="bds-icon-inline">☬</span> SHΞN Studio</div><button type="button" class="bds-featured-item bds-studio-menu-item"><span class="bds-cmd-icon">☬</span><span class="bds-cmd-info"><span class="bds-cmd-name">Studio Services</span><span class="bds-cmd-desc">Keys, browser terminal, GitHub, Cloudflare, AI calls</span></span><span class="bds-cmd-usage">Open</span></button>`; section.querySelector("button")?.addEventListener("click", openSettings); drawer.insertBefore(hr, drawer.firstChild); drawer.insertBefore(section, drawer.firstChild); }
 
 function scheduleStudioScan() { if (scanTimer) return; scanTimer = setTimeout(() => { scanTimer = 0; scanForPanels(); }, 250); }
 function scanForPanels() { for (const node of document.querySelectorAll("div.ds-message, [data-message-author-role='assistant']")) { if (node.getAttribute(PROCESSED_ATTR)==="1" || node.closest("#bds-root")) continue; const html = extractPanelHtml(node); if (!html) continue; node.setAttribute(PROCESSED_ATTR,"1"); injectOpenButton(node, html); setTimeout(() => openPanel(html), 50); } }
 function extractPanelHtml(node) { const text = node.textContent || ""; const visualizer = text.match(/<BDS:VISUALIZER>([\s\S]*?)<\/BDS:VISUALIZER>/i); if (visualizer?.[1]) return decodeHtmlEntities(visualizer[1].trim()); const fenced = text.match(/```html-panel\s*([\s\S]*?)```/i); if (fenced?.[1]) return fenced[1].trim(); for (const code of node.querySelectorAll("pre code, code")) { const raw = code.textContent || ""; if (raw.trim().startsWith("<!DOCTYPE html") || raw.trim().startsWith("<html")) return raw.trim(); } return null; }
 function decodeHtmlEntities(input) { const t = document.createElement("textarea"); t.innerHTML = input; return t.value; }
 function injectOpenButton(messageNode, html) { const host = document.createElement("div"); host.className = "bds-studio-card"; host.innerHTML = `<div class="bds-studio-card-title">☬ SHΞN Studio panel</div><button type="button" class="bds-studio-open">Open Studio</button>`; host.querySelector("button")?.addEventListener("click", () => openPanel(html)); messageNode.appendChild(host); }
-function openPanel(rawHtml) { closePanel(); const root = document.createElement("div"); root.className = "bds-studio-modal"; root.innerHTML = `<div class="bds-studio-toolbar"><strong>☬ SHΞN Studio</strong><div><button type="button" class="bds-studio-config">Settings</button><button type="button" class="bds-studio-close">Close</button></div></div><iframe class="bds-studio-frame" allow="clipboard-read; clipboard-write; fullscreen; downloads" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads allow-same-origin"></iframe>`; document.body.appendChild(root); modalRoot = root; root.querySelector(".bds-studio-close")?.addEventListener("click", closePanel); root.querySelector(".bds-studio-config")?.addEventListener("click", openSettings); root.querySelector("iframe").srcdoc = buildPanelDocument(rawHtml); }
+function openPanel(rawHtml) { closePanel(); const root = document.createElement("div"); root.className = "bds-studio-modal"; root.innerHTML = `<div class="bds-studio-toolbar"><strong>☬ SHΞN Studio Terminal</strong><div><button type="button" class="bds-studio-config">Settings</button><button type="button" class="bds-studio-close">Close</button></div></div><iframe class="bds-studio-frame" allow="clipboard-read; clipboard-write; fullscreen; downloads" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads allow-same-origin"></iframe>`; document.body.appendChild(root); modalRoot = root; root.querySelector(".bds-studio-close")?.addEventListener("click", closePanel); root.querySelector(".bds-studio-config")?.addEventListener("click", openSettings); root.querySelector("iframe").srcdoc = buildPanelDocument(rawHtml); }
 function closePanel() { modalRoot?.remove(); modalRoot = null; }
-function buildPanelDocument(html) { const prelude = `<script>(function(){var realFetch=window.fetch.bind(window);window.STUDIO_CONFIG=window.parent.StudioBridge.getConfig();window.STUDIO_PUBLIC_CONFIG=window.parent.StudioBridge.getConfig();window.StudioBridge={getConfig:function(){return window.parent.StudioBridge.getConfig()},getPublicConfig:function(){return window.parent.StudioBridge.getConfig()},fetch:function(p){return window.parent.StudioBridge.fetch(p)},proxyFetch:function(u,o){return window.parent.StudioBridge.proxyFetch(u,o)},github:function(p,o){return window.parent.StudioBridge.github(p,o)},cloudflare:function(p,o){return window.parent.StudioBridge.cloudflare(p,o)},deepseek:function(p,m){return window.parent.StudioBridge.deepseek(p,m)},openai:function(p,m){return window.parent.StudioBridge.openai(p,m)},gemini:function(p,m){return window.parent.StudioBridge.gemini(p,m)},onResult:function(p){return window.parent.StudioBridge.onResult(p)}};window.fetch=function(url,options){var href=String(url||'');if(/^https:\/\//i.test(href)){return window.parent.StudioBridge.fetch({url:href,options:options||{}}).then(function(res){var body=res&&(res.html||res.body||res.error||'');return new Response(body,{status:res&&res.status||(res&&res.ok?200:500),headers:{'Content-Type':'text/plain; charset=utf-8'}})})}return realFetch(url,options)}})();<\/script>`; let out = String(html || ""); out = out.replace(/<script/i, `${prelude}<script`); if (!out.includes(prelude)) out += prelude; return out; }
+function buildPanelDocument(html) { const prelude = `<script>(function(){var realFetch=window.fetch.bind(window);window.STUDIO_CONFIG=window.parent.StudioBridge.getConfig();window.STUDIO_PUBLIC_CONFIG=window.parent.StudioBridge.getConfig();window.StudioBridge={getConfig:function(){return window.parent.StudioBridge.getConfig()},getPublicConfig:function(){return window.parent.StudioBridge.getConfig()},fetch:function(p){return window.parent.StudioBridge.fetch(p)},proxyFetch:function(u,o){return window.parent.StudioBridge.proxyFetch(u,o)},github:function(p,o){return window.parent.StudioBridge.github(p,o)},cloudflare:function(p,o){return window.parent.StudioBridge.cloudflare(p,o)},deepseek:function(p,m){return window.parent.StudioBridge.deepseek(p,m)},openai:function(p,m){return window.parent.StudioBridge.openai(p,m)},gemini:function(p,m){return window.parent.StudioBridge.gemini(p,m)},onResult:function(p){return window.parent.StudioBridge.onResult(p)}};window.fetch=function(url,options){var href=String(url||'');if(/^https:\/\//i.test(href)){return window.parent.StudioBridge.fetch({url:href,options:options||{}}).then(function(res){var body=res&&(res.html||res.body||res.error||'');return new Response(body,{status:res&&res.status||(res&&res.ok?200:500),headers:{'Content-Type':'text/plain; charset=utf-8'}})})}return realFetch(url,options)}})();<\/script>`; const theme = `<style>html,body{margin:0;min-height:100%;background:#0d0d0d;color:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}*{box-sizing:border-box}button,input,textarea,select{font:inherit}pre,code{direction:ltr;text-align:left}.studio-mobile-shell{min-height:100vh;background:#0d0d0d;color:#e8e8e8;padding:14px;overflow:auto}</style>`; let out = String(html || ""); out = out.replace(/<head([^>]*)>/i, `<head$1><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">${theme}`); if (!/<head/i.test(out)) out = `${theme}${out}`; out = out.replace(/<body([^>]*)>/i, `<body$1><div class="studio-mobile-shell">`); out = out.replace(/<\/body>/i, `</div></body>`); out = out.replace(/<script/i, `${prelude}<script`); if (!out.includes(prelude)) out += prelude; return out; }
 
-function openSettings() { closeSettings(); const cfg=getStudioConfig(); const root=document.createElement("div"); root.className="bds-studio-settings"; root.innerHTML=`<div class="bds-studio-settings-panel"><div class="bds-studio-settings-head"><strong>☬ Studio Services</strong><button type="button" data-close>×</button></div><label>GitHub owner<input data-k="github.owner" value="${esc(cfg.github.owner)}"></label><label>GitHub token<input data-k="github.token" type="password" value="${esc(cfg.github.token)}"></label><label>Cloudflare account ID<input data-k="cloudflare.accountId" value="${esc(cfg.cloudflare.accountId)}"></label><label>Cloudflare zone ID<input data-k="cloudflare.zoneId" value="${esc(cfg.cloudflare.zoneId)}"></label><label>Cloudflare API token<input data-k="cloudflare.token" type="password" value="${esc(cfg.cloudflare.token)}"></label><label>Worker proxy URL<input data-k="cloudflare.workerProxyUrl" value="${esc(cfg.cloudflare.workerProxyUrl)}"></label><label>DeepSeek key<input data-k="deepseek.key" type="password" value="${esc(cfg.deepseek.key)}"></label><label>DeepSeek model<input data-k="deepseek.model" value="${esc(cfg.deepseek.model)}"></label><label>Gemini key<input data-k="gemini.key" type="password" value="${esc(cfg.gemini.key)}"></label><label>Gemini model<input data-k="gemini.model" value="${esc(cfg.gemini.model)}"></label><p>Saving gives the model Studio access. Raw STUDIO_CONFIG is injected so the model knows exactly which local credentials are available, and panels can use StudioBridge directly.</p><div class="bds-studio-settings-actions"><button type="button" data-save>Save</button></div></div>`; document.body.appendChild(root); settingsRoot=root; root.querySelector("[data-close]")?.addEventListener("click",closeSettings); root.querySelector("[data-save]")?.addEventListener("click",()=>{const next=getStudioConfig(); for(const input of root.querySelectorAll("input[data-k]")) setDeep(next,input.dataset.k,input.value); setStudioConfig(next); closeSettings();}); }
+function openSettings() { closeSettings(); const cfg=getStudioConfig(); const root=document.createElement("div"); root.className="bds-studio-settings"; root.innerHTML=`<div class="bds-studio-settings-panel"><div class="bds-studio-settings-head"><strong>☬ Studio Services</strong><button type="button" data-close>×</button></div><label>GitHub owner<input data-k="github.owner" value="${esc(cfg.github.owner)}"></label><label>GitHub token<input data-k="github.token" type="password" value="${esc(cfg.github.token)}"></label><label>Cloudflare account ID<input data-k="cloudflare.accountId" value="${esc(cfg.cloudflare.accountId)}"></label><label>Cloudflare zone ID<input data-k="cloudflare.zoneId" value="${esc(cfg.cloudflare.zoneId)}"></label><label>Cloudflare API token<input data-k="cloudflare.token" type="password" value="${esc(cfg.cloudflare.token)}"></label><label>Worker proxy URL<input data-k="cloudflare.workerProxyUrl" value="${esc(cfg.cloudflare.workerProxyUrl)}"></label><label>DeepSeek key<input data-k="deepseek.key" type="password" value="${esc(cfg.deepseek.key)}"></label><label>DeepSeek model<input data-k="deepseek.model" value="${esc(cfg.deepseek.model)}"></label><label>Gemini key<input data-k="gemini.key" type="password" value="${esc(cfg.gemini.key)}"></label><label>Gemini model<input data-k="gemini.model" value="${esc(cfg.gemini.model)}"></label><p>Saving gives the model Studio access. When execution is requested, the model should generate a dark mobile Visualizer/html-panel terminal and use StudioBridge.</p><div class="bds-studio-settings-actions"><button type="button" data-save>Save</button></div></div>`; document.body.appendChild(root); settingsRoot=root; root.querySelector("[data-close]")?.addEventListener("click",closeSettings); root.querySelector("[data-save]")?.addEventListener("click",()=>{const next=getStudioConfig(); for(const input of root.querySelectorAll("input[data-k]")) setDeep(next,input.dataset.k,input.value); setStudioConfig(next); closeSettings();}); }
 function closeSettings(){settingsRoot?.remove(); settingsRoot=null;}
 function setDeep(obj,path,value){const parts=String(path).split(".");let cur=obj;while(parts.length>1){const p=parts.shift();cur[p]||={};cur=cur[p];}cur[parts[0]]=value;}
 function esc(value){return String(value||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
-function installStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement("style");style.id=STYLE_ID;style.textContent=`#bds-toggle .bds-toggle-full,#bds-toggle .bds-toggle-short{font-size:20px!important;font-weight:700!important}.bds-studio-card{margin:12px 0;padding:12px;border:1px solid rgba(77,107,254,.25);border-radius:12px;background:rgba(15,15,15,.88);color:#d0d0d0;display:flex;gap:12px;align-items:center;justify-content:space-between}.bds-studio-open,.bds-studio-card button{border:0;border-radius:9px;padding:8px 12px;background:#4d6bfe;color:white}.bds-studio-card-title{font-weight:700;color:#8fa3ff}.bds-studio-modal{position:fixed;inset:0;z-index:2147483200;background:#050505;display:flex;flex-direction:column}.bds-studio-toolbar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#111;color:#ddd;border-bottom:1px solid #222}.bds-studio-toolbar button{margin-left:8px;border:1px solid #333;border-radius:8px;background:#181818;color:#eee;padding:7px 10px}.bds-studio-frame{flex:1;border:0;width:100%;background:#0a0a0a}.bds-studio-settings{position:fixed;inset:0;z-index:2147483300;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px}.bds-studio-settings-panel{width:min(560px,100%);max-height:90vh;overflow:auto;background:#101014;color:#eee;border:1px solid #2a2a35;border-radius:16px;padding:16px;box-shadow:0 20px 70px rgba(0,0,0,.55)}.bds-studio-settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.bds-studio-settings label{display:block;margin:10px 0;color:#aaa;font-size:12px}.bds-studio-settings input{width:100%;margin-top:5px;background:#08080a;color:#fff;border:1px solid #30303a;border-radius:8px;padding:10px}.bds-studio-settings p{color:#777;font-size:12px;line-height:1.6}.bds-studio-settings button{border:0;border-radius:9px;background:#4d6bfe;color:white;padding:8px 12px}.bds-studio-settings-head button{background:#222}.bds-studio-settings-actions{text-align:right;margin-top:12px}`;document.documentElement.appendChild(style);}
+function installStyles(){if(document.getElementById(STYLE_ID))return;const style=document.createElement("style");style.id=STYLE_ID;style.textContent=`#bds-toggle .bds-toggle-full,#bds-toggle .bds-toggle-short{font-size:20px!important;font-weight:700!important}.bds-studio-card{margin:12px 0;padding:12px;border:1px solid rgba(77,107,254,.25);border-radius:12px;background:rgba(15,15,15,.88);color:#d0d0d0;display:flex;gap:12px;align-items:center;justify-content:space-between}.bds-studio-open,.bds-studio-card button{border:0;border-radius:9px;padding:8px 12px;background:#4d6bfe;color:white}.bds-studio-card-title{font-weight:700;color:#8fa3ff}.bds-studio-modal{position:fixed;inset:0;z-index:2147483200;background:#050505;display:flex;flex-direction:column}.bds-studio-toolbar{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#0b0b0d;color:#eee;border-bottom:1px solid #222}.bds-studio-toolbar button{margin-left:8px;border:1px solid #333;border-radius:8px;background:#181818;color:#eee;padding:8px 10px}.bds-studio-frame{flex:1;border:0;width:100%;background:#0d0d0d}.bds-studio-settings{position:fixed;inset:0;z-index:2147483300;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px}.bds-studio-settings-panel{width:min(560px,100%);max-height:90vh;overflow:auto;background:#101014;color:#eee;border:1px solid #2a2a35;border-radius:16px;padding:16px;box-shadow:0 20px 70px rgba(0,0,0,.55)}.bds-studio-settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.bds-studio-settings label{display:block;margin:10px 0;color:#aaa;font-size:12px}.bds-studio-settings input{width:100%;margin-top:5px;background:#08080a;color:#fff;border:1px solid #30303a;border-radius:8px;padding:10px}.bds-studio-settings p{color:#777;font-size:12px;line-height:1.6}.bds-studio-settings button{border:0;border-radius:9px;background:#4d6bfe;color:white;padding:8px 12px}.bds-studio-settings-head button{background:#222}.bds-studio-settings-actions{text-align:right;margin-top:12px}`;document.documentElement.appendChild(style);}
