@@ -34,8 +34,8 @@ function installBridge() {
     setConfig(config) { setStudioConfig(config); window.dispatchEvent(new CustomEvent("bds:studio-config-changed")); return true; },
     async fetch(payload) { return studioFetch(payload || {}); },
     async proxyFetch(url, options) { return studioProxyFetch(url, options || {}); },
-    async github(path, options) { return studioFetch(withAuth(`https://api.github.com${normalizeApiPath(path)}`, options || {}, "github")); },
-    async cloudflare(path, options) { return studioFetch(withAuth(`https://api.cloudflare.com/client/v4${normalizeApiPath(path)}`, options || {}, "cloudflare")); },
+    async github(path, options) { return studioFetch(withAuth("https://api.github.com" + normalizeApiPath(path), options || {}, "github")); },
+    async cloudflare(path, options) { return studioFetch(withAuth("https://api.cloudflare.com/client/v4" + normalizeApiPath(path), options || {}, "cloudflare")); },
     async deepseek(prompt, model) { return callOpenAiCompatible("deepseek", "https://api.deepseek.com/chat/completions", prompt, model); },
     async openai(prompt, model) { return callOpenAiCompatible("openai", "https://api.openai.com/v1/chat/completions", prompt, model); },
     async gemini(prompt, model) { return callGemini(prompt, model); },
@@ -43,12 +43,16 @@ function installBridge() {
   };
 }
 
-function normalizeApiPath(path) { const s = String(path || ""); if (/^https?:\/\//i.test(s)) return s.replace(/^https?:\/\/[^/]+/i, ""); return s.startsWith("/") ? s : `/${s}`; }
+function normalizeApiPath(path) {
+  const s = String(path || "");
+  if (/^https?:\/\//i.test(s)) return s.replace(/^https?:\/\/[^/]+/i, "");
+  return s.startsWith("/") ? s : `/${s}`;
+}
 async function studioFetch(payload) { const cfg = getStudioConfig(); const direct = await AndroidFetch.send({ type: "bds-fetch-url", ...payload }); if (direct?.ok) return direct; if (cfg.cloudflare?.workerProxyUrl) { const proxied = await studioProxyFetch(payload.url, payload.options || {}, direct?.error); if (proxied?.ok) return proxied; } return direct; }
 async function studioProxyFetch(url, options = {}, previousError = "") { const proxy = getStudioConfig().cloudflare?.workerProxyUrl || DEFAULT_PROXY_URL; if (!proxy || !url) return { ok: false, error: previousError || "No proxy/url configured" }; const sep = proxy.includes("?") ? "&" : "?"; return AndroidFetch.send({ type: "bds-fetch-url", url: `${proxy}${sep}url=${encodeURIComponent(String(url))}`, options: { method: "GET", ...(options || {}) } }); }
 function withAuth(url, options, service, cfg = getStudioConfig()) { const token = service === "cloudflare" ? cfg.cloudflare?.token : cfg.github?.token; const headers = { ...(options.headers || {}) }; if (token) headers.Authorization = `Bearer ${token}`; if (service === "github") { headers.Accept ||= "application/vnd.github+json"; headers["X-GitHub-Api-Version"] ||= "2022-11-28"; } if (service === "cloudflare") headers["Content-Type"] ||= "application/json"; return { url, options: { ...options, headers } }; }
 async function callOpenAiCompatible(service, defaultUrl, prompt, model) { const cfg = getStudioConfig()[service] || {}; const key = cfg.key || cfg.token || ""; const url = cfg.base ? `${String(cfg.base).replace(/\/$/, "")}/chat/completions` : defaultUrl; return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` }, body: JSON.stringify({ model: model || cfg.model, messages: [{ role: "user", content: prompt }] }) } }); }
-async function callGemini(prompt, model) { const cfg = getStudioConfig().gemini || {}; const m = model || cfg.model || "gemini-2.0-flash"; const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(cfg.key || "")}`; return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) } }); }
+async function callGemini(prompt, model) { const cfg = getStudioConfig().gemini || {}; const m = model || cfg.model || "gemini-2.0-flash"; const url = "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(m) + ":generateContent?key=" + encodeURIComponent(cfg.key || ""); return studioFetch({ url, options: { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) } }); }
 
 function getStudioConfig() { const stored = AndroidStorage.get(STORAGE_KEY); return mergeConfig(DEFAULT_CONFIG, stored && typeof stored === "object" ? stored : {}); }
 function setStudioConfig(config) { AndroidStorage.set(STORAGE_KEY, mergeConfig(DEFAULT_CONFIG, config || {})); }
